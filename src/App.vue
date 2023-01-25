@@ -4,7 +4,7 @@ import { RouterLink, RouterView } from "vue-router";
 
 <template>
   <header>
-    <nav class="fixed p-2 flex flex-row items-center justify-left gap-2">
+    <nav class="z-10 fixed p-2 flex flex-row items-center justify-left gap-2">
       <RouterLink to="/">Home</RouterLink>
       <RouterLink to="/school">School</RouterLink>
     </nav>
