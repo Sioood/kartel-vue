@@ -31,8 +31,10 @@ function getPromoId(url) {
           :to="storeApi.promoId(promotion.url)"
           class="p-2 flex flex-col m-3 items-start justify-start gap-1 whitespace-nowrap border-solid border-8"
           :class="{
-            'border-white': $route.params.id !== getPromoId(promotion.url),
-            'border-black': $route.params.id === getPromoId(promotion.url),
+            'border-white': $route.path.match(/.(school)/gm),
+            'border-black':
+              $route.path.match(/.(school).(promotion)/gm) &&
+              Number($route.params.id) === getPromoId(promotion.url),
           }"
           @click="
             (promoId = getPromoId(promotion.url)),
@@ -51,8 +53,7 @@ function getPromoId(url) {
     </ul>
     <router-view
       :promoId="promoId"
-      :promoStudents="storeApi.promoStudents"
-      class="pl-72"
+      class="pl-72 p-6"
     />
   </main>
 </template>

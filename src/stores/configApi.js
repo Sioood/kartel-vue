@@ -20,6 +20,12 @@ export const useConfigApi = defineStore("configApi", () => {
   let promotions = ref([]);
   let promoStudents = ref([]);
 
+  // Transformer en promoStudents en promo actuel
+  // let promo = ref({
+  //   promo: "",
+  //   students: "",
+  // });
+
   // Get promotions list and return to ref "promotions"
   async function getPromotions() {
     let response = await fetch(`${restUriV2}school/promotion`);
@@ -48,8 +54,39 @@ export const useConfigApi = defineStore("configApi", () => {
     );
     let data = await response.json();
 
+    // Fetch User and Artist api -> problem with getting info after display
+
+    // data.map((student) => {
+    //   // Test for info of time, in end we get "data" and not the result of getUser()
+    //   // Now we get an [Object Promise] -> with slow 3g we can see the result appear and dissapear to transfom to an [Object Promise]
+    //   student.userData = "data";
+
+    //   student.userData = getUser(student);
+    //   // console.log(student);
+    // });
+
+    // console.log(data.user);
+
+    //sort in order to have latest promotion first
+    //Sort by descending promotions
+    // const ascendingName = data.sort((a, b) => {
+    //   // console.log(a.userData, b);
+    // });
+    // console.log(ascendingName);
+
+    // data.map give undefined ???
+
     //DO sort students by order
     promoStudents.value = data;
+  }
+
+  // getUserData with is link from promotion students -> need to do the same with artist
+  async function getUser(student) {
+    let response = await fetch(student.user);
+    let data = await response.json();
+
+    student.userData = data;
+    return data;
   }
 
   return {
@@ -59,5 +96,6 @@ export const useConfigApi = defineStore("configApi", () => {
     promoId,
     getPromoStudents,
     promoStudents,
+    getUser,
   };
 });
