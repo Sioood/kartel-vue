@@ -40,32 +40,17 @@ export const useConfigApi = defineStore("configApi", () => {
     promotions.value = descendingStartingYear;
   }
 
-  // Getters promo id with url of promo gived by promotion api
-  function promoId(url) {
-    const split = url.split("/");
-    const id = split[split.length - 1];
-    // console.log(id);
-    return `/school/promotion/${id}`;
-  }
-
   async function getPromoStudents(promoId) {
     let response = await fetch(
-      `${restUriV2}school/student?artist=&user=&promotion=${promoId}`
+      `${restUriV2}school/student?artist=&user=&promotion=${promoId}&ordering=user__last_name`
     );
     let data = await response.json();
 
-    // Fetch User and Artist api -> problem with getting info after display
+    promoStudents.value = [];
 
-    // data.map((student) => {
-    //   // Test for info of time, in end we get "data" and not the result of getUser()
-    //   // Now we get an [Object Promise] -> with slow 3g we can see the result appear and dissapear to transfom to an [Object Promise]
-    //   student.userData = "data";
-
-    //   student.userData = getUser(student);
-    //   // console.log(student);
-    // });
-
-    // console.log(data.user);
+    data.map((student) => {
+      getUser(student);
+    });
 
     //sort in order to have latest promotion first
     //Sort by descending promotions
@@ -77,25 +62,66 @@ export const useConfigApi = defineStore("configApi", () => {
     // data.map give undefined ???
 
     //DO sort students by order
-    promoStudents.value = data;
   }
 
-  // getUserData with is link from promotion students -> need to do the same with artist
-  async function getUser(student) {
-    let response = await fetch(student.user);
-    let data = await response.json();
+  function sortStudents(order) {
+    //sort in order to have latest promotion first
+    //Sort by descending promotions
+    if (order === "descending") {
+      const sort = promoStudents.value.sort((a, b) =>
+        a.userData.last_name < b.userData.last_name ? 1 : -1
+      );
+      promoStudents.value = sort;
+    } else {
+      const sort = promoStudents.value.sort((a, b) =>
+        a.userData.last_name > b.userData.last_name ? 1 : -1
+      );
+      promoStudents.value = sort;
+    }
+  }
 
-    student.userData = data;
-    return data;
+  // Need to do the same with artist
+  async function getUser(student) {
+    // fetch(student.user)
+    //   .then((response) => {
+    //     if (response.ok) {
+    //       return response.json();
+    //     }
+    //     // response.json();
+
+    //     // student.userData = response.json();
+    //   })
+    //   .then((data) => {
+    //     student.userData = data;
+    //     student.userData = "test";
+    //     promoStudents.value = test;
+
+    //     return data;
+    //   });
+
+    const response = await fetch(student.user);
+    const userData = await response.json();
+    student.userData = userData;
+
+    promoStudents.value.push(student);
+    // student.userData = data;
+    // return data;
+  }
+
+  function getId(url) {
+    const split = url.split("/");
+    const id = split[split.length - 1];
+    return Number(id);
   }
 
   return {
     restUriV2,
     promotions,
     getPromotions,
-    promoId,
     getPromoStudents,
+    sortStudents,
     promoStudents,
     getUser,
+    getId,
   };
 });

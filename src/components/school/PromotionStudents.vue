@@ -1,7 +1,7 @@
 <script setup>
 import { useRouter } from "vue-router";
 
-import { defineProps, onMounted, onUpdated } from "vue";
+import { defineProps, onMounted } from "vue";
 import { useConfigApi } from "../../stores/configApi";
 
 import StudentCard from "./StudentCard.vue";
@@ -14,28 +14,9 @@ const props = defineProps({
 });
 
 onMounted(() => {
+  // storeApi.getPromoStudents(props.promoId);
   if (!props.promoId) {
     storeApi.getPromoStudents(router.currentRoute.value.params.id);
-  }
-});
-
-onUpdated(() => {
-  // BOUCLE infinie !!!!!????? -> résolue avec la condition mais faire très attention
-
-  if (
-    storeApi.promoStudents.length !== 0 &&
-    !storeApi.promoStudents[0].userData
-  ) {
-    // do the same with artist and userProfile for more informations
-    storeApi.promoStudents.map((student) => {
-      storeApi.getUser(student);
-    });
-
-    console.log(storeApi.promoStudents);
-
-    storeApi.promoStudents.sort((a, b) => {
-      console.log(a, b);
-    });
   }
 });
 </script>
@@ -48,15 +29,17 @@ onUpdated(() => {
         $route.params.id
       }}</i>
     </h2>
+    <!-- <p>{{ storeApi.promoStudents[0] }}</p> -->
+    <button @click="storeApi.sortStudents('descending')" class="p-2">
+      Sort Descending
+    </button>
+    <button @click="storeApi.sortStudents()" class="p-2">Sort Ascending</button>
     <ul v-if="storeApi.promoStudents[0]" class="grid grid-cols-5 gap-6">
-      <!-- <li >\ -->
-      <!-- {{ students }} -->
       <!-- <p>{{ storeApi.promoStudents[0] }}</p> -->
       <!-- fetch all student before and not one by one inside the card -> get an array and can iterate it -->
       <StudentCard
         v-for="student in storeApi.promoStudents"
         :key="student"
-        :userProfil="student.user"
         :student="student"
       ></StudentCard>
       <!-- </li> -->

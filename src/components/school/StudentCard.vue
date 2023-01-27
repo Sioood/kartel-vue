@@ -2,13 +2,13 @@
 import { defineProps } from "vue";
 
 const props = defineProps({
-  userProfil: String,
   student: Object,
 });
 </script>
 
 <template>
   <div>
+    <!-- <p>{{ props.student }}</p> -->
     <li
       v-if="props.student.userData"
       class="border-solid border-2 border-gray-500 rounded-md"

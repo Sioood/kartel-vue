@@ -5,19 +5,13 @@ import { onMounted, ref } from "vue";
 
 const storeApi = useConfigApi();
 
-// let apiV2 = ref(storeApi.restUriV2);
-
 let promoId = ref();
 
 onMounted(() => {
-  storeApi.getPromotions();
+  if (!storeApi.promotions[0]) {
+    storeApi.getPromotions();
+  }
 });
-
-function getPromoId(url) {
-  const split = url.split("/");
-  const id = split[split.length - 1];
-  return Number(id);
-}
 </script>
 
 <template>
@@ -28,16 +22,16 @@ function getPromoId(url) {
       <li v-for="promotion in storeApi.promotions" :key="promotion">
         <!-- {{ promotion }}         -->
         <router-link
-          :to="storeApi.promoId(promotion.url)"
+          :to="`/school/promotion/${storeApi.getId(promotion.url)}`"
           class="p-2 flex flex-col m-3 items-start justify-start gap-1 whitespace-nowrap border-solid border-8"
           :class="{
             'border-white': $route.path.match(/.(school)/gm),
             'border-black':
               $route.path.match(/.(school).(promotion)/gm) &&
-              Number($route.params.id) === getPromoId(promotion.url),
+              Number($route.params.id) === storeApi.getId(promotion.url),
           }"
           @click="
-            (promoId = getPromoId(promotion.url)),
+            (promoId = storeApi.getId(promotion.url)),
               storeApi.getPromoStudents(promoId)
           "
         >
@@ -51,10 +45,7 @@ function getPromoId(url) {
         </router-link>
       </li>
     </ul>
-    <router-view
-      :promoId="promoId"
-      class="pl-72 p-6"
-    />
+    <router-view :promoId="promoId" class="pl-72 p-6" />
   </main>
 </template>
 
