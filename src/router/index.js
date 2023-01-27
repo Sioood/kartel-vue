@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
+  // Check all needed redirects for avoid blank page
   routes: [
     {
       path: "/",
@@ -22,14 +23,14 @@ const router = createRouter({
           name: "promotion",
           component: () => import("../components/school/PromotionStudents.vue"),
         },
-        {
-          // promotion will be rendered inside School's <router-view> (Don't forget the router-view element to render children)
-          // when /school/promotion/:id is matched
-          path: "student/:id",
-          name: "student",
-          component: () => import("../components/school/StudentProfil.vue"),
-        },
       ],
+    },
+    {
+      // promotion will be rendered inside School's <router-view> (Don't forget the router-view element to render children)
+      // when /school/promotion/:id is matched
+      path: "/artist/:id",
+      name: "student",
+      component: () => import("../components/school/StudentProfil.vue"),
     },
     // {
     //   path: "/school/promotion/:id",

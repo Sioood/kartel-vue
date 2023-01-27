@@ -18,6 +18,7 @@ export const useConfigApi = defineStore("configApi", () => {
 
   // states / refs
   let promotions = ref([]);
+  let selectedPromo = ref();
   let promoStudents = ref([]);
 
   // Transformer en promoStudents en promo actuel
@@ -40,6 +41,12 @@ export const useConfigApi = defineStore("configApi", () => {
     promotions.value = descendingStartingYear;
   }
 
+  async function getSelectedPromo(promoId) {
+    let response = await fetch(`${restUriV2}school/promotion/${promoId}`);
+    let data = await response.json();
+    selectedPromo.value = data;
+  }
+
   async function getPromoStudents(promoId) {
     let response = await fetch(
       `${restUriV2}school/student?artist=&user=&promotion=${promoId}&ordering=user__last_name`
@@ -52,30 +59,22 @@ export const useConfigApi = defineStore("configApi", () => {
       getUser(student);
     });
 
-    //sort in order to have latest promotion first
-    //Sort by descending promotions
-    // const ascendingName = data.sort((a, b) => {
-    //   // console.log(a.userData, b);
-    // });
-    // console.log(ascendingName);
-
-    // data.map give undefined ???
-
-    //DO sort students by order
+    sortStudents();
   }
 
   function sortStudents(order) {
-    //sort in order to have latest promotion first
-    //Sort by descending promotions
+    // for Promotion Marguerite Duras sort invert V and Y for Yoo and Villafagne ?!
     if (order === "descending") {
       const sort = promoStudents.value.sort((a, b) =>
         a.userData.last_name < b.userData.last_name ? 1 : -1
       );
+
       promoStudents.value = sort;
     } else {
       const sort = promoStudents.value.sort((a, b) =>
         a.userData.last_name > b.userData.last_name ? 1 : -1
       );
+
       promoStudents.value = sort;
     }
   }
@@ -117,7 +116,9 @@ export const useConfigApi = defineStore("configApi", () => {
   return {
     restUriV2,
     promotions,
+    selectedPromo,
     getPromotions,
+    getSelectedPromo,
     getPromoStudents,
     sortStudents,
     promoStudents,

@@ -2,10 +2,7 @@
 
 <template>
   <main class="w-full h-screen flex flex-col items-center justify-around">
-    <label
-      for="search"
-      class="flex flex-col items-end text-xs text-gray-500 font-"
-    >
+    <label for="search" class="flex flex-col items-end text-xs text-gray-500">
       <input
         type="search"
         name="search"

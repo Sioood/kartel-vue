@@ -23,7 +23,7 @@ onMounted(() => {
         <!-- {{ promotion }}         -->
         <router-link
           :to="`/school/promotion/${storeApi.getId(promotion.url)}`"
-          class="p-2 flex flex-col m-3 items-start justify-start gap-1 whitespace-nowrap border-solid border-8"
+          class="promo__link p-2 flex flex-col m-3 items-start justify-start gap-1 whitespace-nowrap border-solid border-8"
           :class="{
             'border-white': $route.path.match(/.(school)/gm),
             'border-black':
@@ -32,7 +32,8 @@ onMounted(() => {
           }"
           @click="
             (promoId = storeApi.getId(promotion.url)),
-              storeApi.getPromoStudents(promoId)
+              storeApi.getPromoStudents(promoId),
+              storeApi.getSelectedPromo(promoId)
           "
         >
           <!-- <p>{{ promotion.url }}</p> -->
