@@ -16,6 +16,3 @@ hero:
       text: View on GitHub
       link: https://github.com/vuejs/vitepress
 ---
-
-<!-- HTML -->
-<h1 class="title">Possibility for some Html</h1>
