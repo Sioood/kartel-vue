@@ -2,6 +2,8 @@
 
 Cette page va vous aidez étape par étape à mettre en place Kartel *(et Kart)*.
 
+## Kartel
+
 ### Étape 1 : Installer toutes les dépendences
 
 ```bash
@@ -33,3 +35,5 @@ npm run build
 ```bash
 npm run docs:build
 ```
+
+## Kart

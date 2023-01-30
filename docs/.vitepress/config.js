@@ -61,12 +61,44 @@ export default {
         collapsible: true,
         collapsed: false,
       },
+      {
+        text: "Kart",
+        items: [
+          {
+            text: "API",
+            link: "/kart/api",
+            items: [
+              {
+                text: "Root",
+                link: "/kart/api#root",
+              },
+              {
+                text: "People",
+                link: "/kart/api#people",
+              },
+              {
+                text: "School",
+                link: "/kart/api#school",
+              },
+              {
+                text: "Production",
+                link: "/kart/api#production",
+              },
+            ],
+            collapsible: true,
+            collapsed: false,
+          },
+        ],
+        collapsible: true,
+        collapsed: false,
+      },
     ],
     editLink: {
       // Modify with the future repository
       pattern: "https://github.com/Sioood/kartel-vue/edit/main/docs/:path",
       text: "Edit this page on GitHub",
     },
+    socialLinks: [{ icon: "github", link: "https://github.com/Fresnoy" }],
     footer: {
       message:
         'Released under the <a href="https://www.gnu.org/licenses/">AGPL-3.0 license</a>.',
