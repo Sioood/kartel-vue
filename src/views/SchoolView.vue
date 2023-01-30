@@ -1,5 +1,4 @@
 <script setup>
-// import { useBaseUrl } from "@/stores/baseUrl";
 import { useConfigApi } from "../stores/configApi";
 import { onMounted, ref } from "vue";
 
@@ -14,10 +13,11 @@ onMounted(() => {
 });
 </script>
 
+<!-- Rename to be Student / Artist view -> Promo list only for student or hidden with button for artist -->
 <template>
-  <main class="pt10 flex">
+  <main class="pt-0 flex">
     <ul
-      class="fixed py-10 px-2 min-w-min max-w-min max-h-screen overflow-y-scroll flex flex-col"
+      class="sticky top-0 py-12 px-2 min-w-min max-h-screen overflow-y-scroll flex flex-col"
     >
       <li v-for="promotion in storeApi.promotions" :key="promotion">
         <!-- {{ promotion }}         -->
@@ -46,7 +46,7 @@ onMounted(() => {
         </router-link>
       </li>
     </ul>
-    <router-view :promoId="promoId" class="pl-72 p-6" />
+    <router-view :promoId="promoId" class="p-6" />
   </main>
 </template>
 

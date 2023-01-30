@@ -17,6 +17,9 @@ export const useConfigApi = defineStore("configApi", () => {
   const restUriV2 = "https://api.lefresnoy.net/v2/";
 
   // states / refs
+  // Au lieu de stocker les étudiants dans promos faire un autre tableau avec tout les étudiants et leur passer l'id promo
+  // Avec un .filter on peut récupérer plus facilement tout les étudiants
+  // -> pour d'autre utilisation ça évite de venir de trop loin dans l'arborescence
   let promotions = ref([]);
   let selectedPromo = ref();
   let promoStudents = ref([]);

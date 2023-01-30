@@ -1,7 +1,7 @@
 <script setup>
 import { useRouter } from "vue-router";
 
-import { defineProps, onMounted } from "vue";
+import { onMounted } from "vue";
 import { useConfigApi } from "../../stores/configApi";
 
 import StudentCard from "./StudentCard.vue";
@@ -35,14 +35,14 @@ onMounted(() => {
 
     <div class="mb-16 w-full flex items-center justify-between">
       <div class="w-max flex flex-col items-end">
-        <h1
-          class="relative p-3 text-2xl font-bold after:w-full after:h-1 after:bg-black after:dark:bg-white"
+        <h2
+          class="promo__title relative p-3 text-2xl font-bold after:w-full after:h-1 after:bg-black after:dark:bg-white"
           v-if="storeApi.selectedPromo"
         >
           {{
             `${storeApi.selectedPromo.name} — ${storeApi.selectedPromo.starting_year}-${storeApi.selectedPromo.ending_year}`
           }}
-        </h1>
+        </h2>
         <div class="w-full h-1 bg-black dark:bg-white"></div>
         <h6 class="text-xs text-gray-500 uppercase">Promotion</h6>
       </div>
@@ -67,6 +67,7 @@ onMounted(() => {
       <!-- <p>{{ storeApi.promoStudents[0] }}</p> -->
       <!-- fetch all student before and not one by one inside the card -> get an array and can iterate it -->
       <StudentCard
+        class="artist__card"
         v-for="student in storeApi.promoStudents"
         :key="student"
         :student="student"
@@ -77,4 +78,36 @@ onMounted(() => {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.promo__title {
+  overflow: hidden;
+  animation: appear 1s ease forwards;
+  transition: background 0.3s ease;
+}
+@keyframes appear {
+  from {
+    transform: translate(0, 30%);
+    opacity: 0;
+  }
+  to {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+}
+
+.artist__card {
+  overflow: hidden;
+  animation: appear 1s ease forwards;
+  transition: background 0.3s ease;
+}
+@keyframes appear {
+  from {
+    transform: translate(0, 30%);
+    opacity: 0;
+  }
+  to {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+}
+</style>
