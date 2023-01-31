@@ -1,6 +1,20 @@
 export default {
   title: "— Kartel",
   description: "Documentation de l'outil Kartel du Fresnoy",
+  head: [
+    [
+      "link",
+      { rel: "apple-touch-icon", sizes: "180x180", href: "/favicon.ico" },
+    ],
+    [
+      "link",
+      { rel: "icon", type: "ico", sizes: "32x32", href: "/favicon.ico" },
+    ],
+    [
+      "link",
+      { rel: "icon", type: "ico", sizes: "16x16", href: "/favicon.ico" },
+    ],
+  ],
   markdown: {
     lineNumbers: true,
   },
@@ -92,6 +106,12 @@ export default {
         collapsible: true,
         collapsed: false,
       },
+      {text: "Tester l'application", items: [
+        {
+          text: "Cypress",
+          link: "/test/cypress",
+        },
+      ]},
     ],
     editLink: {
       // Modify with the future repository

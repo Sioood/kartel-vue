@@ -17,19 +17,19 @@ onMounted(() => {
   // storeApi.getPromoStudents(props.promoId);
 
   if (!props.promoId) {
-    storeApi.getPromoStudents(router.currentRoute.value.params.id);
+    storeApi.getPromoStudents(router.currentRoute.value.parameters.id);
 
-    storeApi.getSelectedPromo(router.currentRoute.value.params.id);
+    storeApi.getSelectedPromo(router.currentRoute.value.parameters.id);
   }
 });
 </script>
 
 <template>
-  <div class="p-3 px-10 w-full">
+  <div class="py-14 px-10 w-full">
     <!-- <h2 class="p-3" v-if="storeApi.selectedPromo">
       <i>{{
         `This is a children of school view and is the promotion
-        ${$route.params.id} ${storeApi.selectedPromo.name}`
+        ${$route.parameters.id} ${storeApi.selectedPromo.name}`
       }}</i>
     </h2> -->
 
@@ -66,11 +66,14 @@ onMounted(() => {
     <ul v-if="storeApi.promoStudents[0]" class="grid grid-cols-5 gap-6">
       <!-- <p>{{ storeApi.promoStudents[0] }}</p> -->
       <!-- fetch all student before and not one by one inside the card -> get an array and can iterate it -->
+      <!-- :key remplacer par l'index -> (object, index) -->
+      <!-- Modèle de destructuration attendu -->
       <StudentCard
         class="artist__card"
-        v-for="student in storeApi.promoStudents"
-        :key="student"
+        v-for="(student, index) in storeApi.promoStudents"
+        :key="index"
         :student="student"
+        :data-key="index"
       ></StudentCard>
       <!-- </li> -->
     </ul>

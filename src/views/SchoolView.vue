@@ -28,7 +28,7 @@ onMounted(() => {
             'border-white': $route.path.match(/.(school)/gm),
             'border-black':
               $route.path.match(/.(school).(promotion)/gm) &&
-              Number($route.params.id) === storeApi.getId(promotion.url),
+              Number($route.parameters.id) === storeApi.getId(promotion.url),
           }"
           @click="
             (promoId = storeApi.getId(promotion.url)),
@@ -46,7 +46,7 @@ onMounted(() => {
         </router-link>
       </li>
     </ul>
-    <router-view :promoId="promoId" class="p-6" />
+    <router-view :promoId="promoId" />
   </main>
 </template>
 

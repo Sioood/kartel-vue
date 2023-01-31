@@ -1955,8 +1955,8 @@ function createDevtoolsPerformanceHook(hook) {
     emit(hook, component.appContext.app, component.uid, component, type, time);
   };
 }
-function devtoolsComponentEmit(component, event, params) {
-  emit("component:emit", component.appContext.app, component, event, params);
+function devtoolsComponentEmit(component, event, parameters) {
+  emit("component:emit", component.appContext.app, component, event, parameters);
 }
 function emit$1(instance, event, ...rawArgs) {
   if (instance.isUnmounted)

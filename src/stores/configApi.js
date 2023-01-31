@@ -68,9 +68,11 @@ export const useConfigApi = defineStore("configApi", () => {
   function sortStudents(order) {
     // for Promotion Marguerite Duras sort invert V and Y for Yoo and Villafagne ?!
     if (order === "descending") {
-      const sort = promoStudents.value.sort((a, b) =>
-        a.userData.last_name < b.userData.last_name ? 1 : -1
-      );
+      const sort = promoStudents.value.sort((a, b) => {
+        // Sort with lower or upper case for avoid bad sorting because not the same Unicode
+        console.log(a.userData.last_name.toLowerCase());
+        return a.userData.last_name < b.userData.last_name ? 1 : -1;
+      });
 
       promoStudents.value = sort;
     } else {

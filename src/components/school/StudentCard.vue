@@ -12,7 +12,7 @@ const props = defineProps({
       class="relative border-solid border-2 border-gray-500 rounded-md hover:border-black"
       :key="props.student.userData.id"
     >
-      <!-- Params Query with id Student ? User ? Artist ? all ? -->
+      <!-- parameters Query with id Student ? User ? Artist ? all ? -->
       <router-link :to="`/school/artist/${props.student.userData.id}`">
         <div class="p-2 w-full h-full capitalize">
           <p v-if="props.student.userData.first_name" class="last:font-bold">
