@@ -15,7 +15,7 @@ onMounted(() => {
 
 <!-- Rename to be Student / Artist view -> Promo list only for student or hidden with button for artist -->
 <template>
-  <main class="pt-0 flex">
+  <main class="w-full flex">
     <ul
       class="sticky top-0 py-12 px-2 min-w-min max-h-screen overflow-y-scroll flex flex-col"
     >

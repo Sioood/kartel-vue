@@ -50,6 +50,8 @@ export const useConfigApi = defineStore("configApi", () => {
     selectedPromo.value = data;
   }
 
+  // Si Click trop rapide entre les promos et donc pas le temps de finir les requêtes
+  // on obtient un mélange des promo
   async function getPromoStudents(promoId) {
     let response = await fetch(
       `${restUriV2}school/student?artist=&user=&promotion=${promoId}&ordering=user__last_name`

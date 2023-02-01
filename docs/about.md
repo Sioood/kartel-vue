@@ -4,7 +4,7 @@ Le Fresnoy - Studio national des arts contemporains est une institution de forma
 
 
 
-# Kartel <Badge type="warning" text="beta" />
+# Kartel <Badge type="tip" text="*3.0.0" /><Badge type="warning" text="alpha" />
 
 ## Qu'est-ce que Kartel ?
 

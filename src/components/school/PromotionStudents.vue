@@ -25,7 +25,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="py-14 px-10 w-full">
+  <div class="py-12 px-10 w-full">
     <!-- <h2 class="p-3" v-if="storeApi.selectedPromo">
       <i>{{
         `This is a children of school view and is the promotion
@@ -50,13 +50,13 @@ onMounted(() => {
       <div class="my-6 flex justify-end gap-3 text-sm">
         <button
           @click="storeApi.sortStudents()"
-          class="p-1 border-solid border-2 border-gray-500 rounded-md hover:bg-gray-100"
+          class="p-2 bg-black text-white"
         >
           Sort Ascending
         </button>
         <button
           @click="storeApi.sortStudents('descending')"
-          class="p-1 border-solid border-2 border-gray-500 rounded-md hover:bg-gray-100"
+          class="p-2 bg-black text-white"
         >
           Sort Descending
         </button>

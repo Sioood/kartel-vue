@@ -5,7 +5,7 @@
 @tailwind components;
 @tailwind utilities;
 
-body{
+body {
   max-width: 100vw;
 }
 
@@ -25,7 +25,6 @@ body{
 ::-webkit-scrollbar-thumb {
   background: #888;
   border: solid white 3px;
-
 }
 
 /* Handle on hover */
@@ -33,9 +32,20 @@ body{
   background: #555;
 }
 
-/* #app {
-  padding: 1rem;
-} */
+body, html {
+  position: relative;
+}
+
+#app {
+  position: relative;
+  min-height: 100vh;
+  /* padding: 7rem; */
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  justify-content: center;
+  gap: 2rem;
+}
 
 /* #app {
   max-width: 1280px;
