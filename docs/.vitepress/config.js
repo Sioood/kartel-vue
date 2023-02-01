@@ -98,6 +98,18 @@ export default {
                 text: "Production",
                 link: "/kart/api#production",
               },
+              {
+                text: "Diffusion",
+                link: "/kart/api#diffusion",
+              },
+              {
+                text: "Commons",
+                link: "/kart/api#commons",
+              },
+              {
+                text: "Assets",
+                link: "/kart/api#assets",
+              },
             ],
             collapsible: true,
             collapsed: false,

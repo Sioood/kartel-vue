@@ -28,7 +28,7 @@ onMounted(() => {
             'border-white': $route.path.match(/.(school)/gm),
             'border-black':
               $route.path.match(/.(school).(promotion)/gm) &&
-              Number($route.parameters.id) === storeApi.getId(promotion.url),
+              Number($route.params.id) === storeApi.getId(promotion.url),
           }"
           @click="
             (promoId = storeApi.getId(promotion.url)),

@@ -17,9 +17,9 @@ onMounted(() => {
   // storeApi.getPromoStudents(props.promoId);
 
   if (!props.promoId) {
-    storeApi.getPromoStudents(router.currentRoute.value.parameters.id);
+    storeApi.getPromoStudents(router.currentRoute.value.params.id);
 
-    storeApi.getSelectedPromo(router.currentRoute.value.parameters.id);
+    storeApi.getSelectedPromo(router.currentRoute.value.params.id);
   }
 });
 </script>
@@ -29,7 +29,7 @@ onMounted(() => {
     <!-- <h2 class="p-3" v-if="storeApi.selectedPromo">
       <i>{{
         `This is a children of school view and is the promotion
-        ${$route.parameters.id} ${storeApi.selectedPromo.name}`
+        ${$route.params.id} ${storeApi.selectedPromo.name}`
       }}</i>
     </h2> -->
 

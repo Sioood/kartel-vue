@@ -1,4 +1,8 @@
 <script setup>
+import { useConfigApi } from "../../stores/configApi";
+
+const storeApi = useConfigApi();
+
 const props = defineProps({
   student: Object,
 });
@@ -12,8 +16,13 @@ const props = defineProps({
       class="relative border-solid border-2 border-gray-500 rounded-md hover:border-black"
       :key="props.student.userData.id"
     >
+      <!-- <p>{{ storeApi.getId(props.student.url) }}</p> -->
       <!-- parameters Query with id Student ? User ? Artist ? all ? -->
-      <router-link :to="`/school/artist/${props.student.userData.id}`">
+      <router-link
+        :to="`/school/artist/${storeApi.getId(
+          props.student.artist
+        )}?student=${storeApi.getId(props.student.url)}`"
+      >
         <div class="p-2 w-full h-full capitalize">
           <p v-if="props.student.userData.first_name" class="last:font-bold">
             {{ props.student.userData.first_name }}
