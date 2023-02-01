@@ -1,6 +1,6 @@
 # kartel-vue
 
-
+```
      _____                                            
   __| __  |__  ____    _____    __    ______  ____    
  |  |/ /     ||    \  |     | _|  |_ |   ___||    |   
@@ -8,7 +8,7 @@
  |__|\__\  __||__|\__\|__|\__\ |__|  |______||______| 
     |_____|                                           
                                                       
-
+```
 
 This template should help get you started developing with Vue 3 in Vite.
 
