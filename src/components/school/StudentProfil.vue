@@ -72,69 +72,95 @@ onMounted(() => {
 </script>
 
 <template>
-  <main class="p-10">
-    <h2 class="font-bold">Artist Profile</h2>
-    <p>{{ artist }}</p>
-    <h2 class="font-bold">Student Profile</h2>
-    <p>{{ student }}</p>
-    <h2 class="font-bold">User Profile</h2>
-    <p>{{ user }}</p>
-    <!-- <p>{{ storeApi.promoStudents }}</p> -->
-    <div class="flex flex-col gap-10">
-      <div class="w-max flex flex-col items-end">
-        <h2
-          class="promo__title relative p-3 text-2xl font-bold after:w-full after:h-1 after:bg-black after:dark:bg-white"
-          v-if="user"
-        >
-          {{ `${user.first_name} ${user.last_name}` }}
-        </h2>
-        <div class="w-full h-1 bg-black dark:bg-white"></div>
-        <h6 class="text-xs text-gray-500 uppercase">Artist</h6>
-      </div>
+  <!-- Student profile can be a component for artworks to -->
+  <!-- Need 2 differents system because artworks and media is not the same importance and not the same amount of info -->
+  <!-- Need to pass props before initialization ? -->
+  <!-- like title, subtitle, desc/bio fr & en, Artworks / Medias -->
+  <!-- and another component can be create for media selected -->
 
-      <div class="w-1/2 flex flex-col items-end" v-if="artist">
-        <div class="p-4 w-full bg-gray-100">
-          {{ bio.data }}
+  <!-- max h-screen ?? -> overflow scroll for component ? -->
+  <main class="pt-12 pr-20 pb-10 w-full h-full flex justify-between gap-10">
+    <div class="px-10 py-5 h-full w-1/2 max-w-md shadow-border">
+      <!-- <p>{{ storeApi.promoStudents }}</p> -->
+      <div class="flex flex-col gap-10">
+        <div class="w-max flex flex-col items-start">
+          <h1
+            class="capitalize relative py-2 text-3xl font-bold after:block after:mt-2 after:w-1/2 after:h-2 after:bg-black after:dark:bg-white"
+          >
+            General info
+          </h1>
         </div>
-        <div class="w-full h-1 bg-black dark:bg-white"></div>
-        <div class="w-full flex justify-between">
-          <div class="flex gap-2 font-bold">
-            <!-- Underline only the selected (with class function and ref) -->
-            <button
-              :class="{
-                underline: bio.lang === 'fr',
-              }"
-              @click="
-                bio.lang = 'fr';
-                bio.data = artist.bio_fr;
-              "
-            >
-              FR
-            </button>
-            <button
-              :class="{
-                underline: bio.lang === 'en',
-              }"
-              @click="
-                bio.lang = 'en';
-                bio.data = artist.bio_en;
-              "
-            >
-              EN
-            </button>
+
+        <div class="w-max flex flex-col items-end">
+          <h2
+            class="capitalize relative text-2xl font-bold after:block after:w-full after:h-1 after:bg-black after:dark:bg-white"
+            v-if="artist && artist.nickname"
+          >
+            {{ artist.nickname }}
+          </h2>
+          <h2
+            class="capitalize relative text-2xl font-bold after:block after:w-full after:h-1 after:bg-black after:dark:bg-white"
+            v-else-if="user && !artist.nickname"
+          >
+            {{ `${user.first_name} ${user.last_name}` }}
+          </h2>
+          <h6 class="text-xs text-gray uppercase">Artist</h6>
+        </div>
+
+        <div class="w-full flex flex-col items-end text-sm" v-if="artist">
+          <div class="p-4 w-full bg-gray-extralightest dark:bg-black-light">
+            {{ bio.data }}
           </div>
-          <h6 class="text-xs text-gray-500 uppercase">Description</h6>
+          <div class="w-full h-1 bg-black dark:bg-white"></div>
+          <div class="w-full flex justify-between">
+            <div class="flex gap-2 font-bold">
+              <!-- Underline only the selected (with dynamic class and ref) -->
+              <button
+                :class="{
+                  underline: bio.lang === 'fr',
+                }"
+                @click="
+                  bio.lang = 'fr';
+                  bio.data = artist.bio_fr;
+                "
+              >
+                FR
+              </button>
+              <button
+                :class="{
+                  underline: bio.lang === 'en',
+                }"
+                @click="
+                  bio.lang = 'en';
+                  bio.data = artist.bio_en;
+                "
+              >
+                EN
+              </button>
+            </div>
+            <h6 class="text-xs text-gray uppercase">Description</h6>
+          </div>
         </div>
-      </div>
 
-      <div class="w-1/2">
-        <div class="flex items-end justify-between">
-          <h2 class="text-2xl font-bold uppercase">Oeuvres</h2>
-          <h2 class="text-xs text-gray-500">Sélectionner</h2>
+        <div
+          class="w-full after:block after:w-full after:h-1 after:bg-black after:dark:bg-white"
+        >
+          <div class="flex items-end justify-between">
+            <h2 class="p-2 text-2xl font-bold uppercase">Oeuvres</h2>
+            <h6 class="text-xs text-gray">Sélectionner</h6>
+          </div>
+          <!-- Component Media -->
         </div>
-        <div class="w-full h-1 bg-black dark:bg-white"></div>
-        <!-- Component Media -->
       </div>
+    </div>
+
+    <div class="p-2 w-full text-sm">
+      <h2 class="font-bold">Artist Profile</h2>
+      <p>{{ artist }}</p>
+      <h2 class="font-bold">Student Profile</h2>
+      <p>{{ student }}</p>
+      <h2 class="font-bold">User Profile</h2>
+      <p>{{ user }}</p>
     </div>
   </main>
 </template>

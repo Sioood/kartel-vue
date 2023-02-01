@@ -25,7 +25,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="py-14 px-10 w-full">
+  <div class="py-12 px-10 w-full shadow-border overflow-scroll">
     <!-- <h2 class="p-3" v-if="storeApi.selectedPromo">
       <i>{{
         `This is a children of school view and is the promotion
@@ -36,27 +36,27 @@ onMounted(() => {
     <div class="mb-16 w-full flex items-center justify-between">
       <div class="w-max flex flex-col items-end">
         <h2
-          class="promo__title relative p-3 text-2xl font-bold after:w-full after:h-1 after:bg-black after:dark:bg-white"
+          class="promo__title relative text-2xl font-bold after:block after:w-full after:h-1 after:bg-black after:dark:bg-white"
           v-if="storeApi.selectedPromo"
         >
           {{
             `${storeApi.selectedPromo.name} — ${storeApi.selectedPromo.starting_year}-${storeApi.selectedPromo.ending_year}`
           }}
         </h2>
-        <div class="w-full h-1 bg-black dark:bg-white"></div>
-        <h6 class="text-xs text-gray-500 uppercase">Promotion</h6>
+        <!-- <div class="w-full h-1 bg-black dark:bg-white"></div> -->
+        <h6 class="text-xs text-gray uppercase">Promotion</h6>
       </div>
 
       <div class="my-6 flex justify-end gap-3 text-sm">
         <button
           @click="storeApi.sortStudents()"
-          class="p-1 border-solid border-2 border-gray-500 rounded-md hover:bg-gray-100"
+          class="p-2 bg-black dark:bg-white text-white dark:text-black"
         >
           Sort Ascending
         </button>
         <button
           @click="storeApi.sortStudents('descending')"
-          class="p-1 border-solid border-2 border-gray-500 rounded-md hover:bg-gray-100"
+          class="p-2 bg-black dark:bg-white text-white dark:text-black"
         >
           Sort Descending
         </button>

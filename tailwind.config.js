@@ -4,26 +4,42 @@ module.exports = {
   content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
   // Need to give Font size too
   theme: {
-    // colors: {
-    //   blue: {
-    //     light: "#85d7ff",
-    //     DEFAULT: "#1fb6ff",
-    //     dark: "#009eeb",
-    //   },
-    //   pink: {
-    //     light: "#ff7ce5",
-    //     DEFAULT: "#ff49db",
-    //     dark: "#ff16d1",
-    //   },
-    //   gray: {
-    //     darkest: "#1f2d3d",
-    //     dark: "#3c4858",
-    //     DEFAULT: "#c0ccda",
-    //     light: "#e0e6ed",
-    //     lightest: "#f9fafc",
-    //   },
-    // },
-    extend: {},
+    extend: {
+      colors: {
+        black: {
+          DEFAULT: "rgb(0, 0, 0)",
+          mode: "rgb(18, 18, 18)",
+          light: "rgb(33, 33, 33)",
+          lightest: "rgb(66, 66, 66)",
+          extralight: "rgb(216, 216, 216)",
+          extralightest: "rgb(238, 238, 238)",
+        },
+        gray: {
+          darkest: "rgb(51, 51, 51)",
+          dark: "rgb(74, 74, 74)",
+          DEFAULT: "rgb(128, 128, 128)",
+          light: "rgb(155, 155, 155)",
+          lightest: "rgb(191, 191, 191)",
+          extralight: "rgb(216, 216, 216)",
+          extralightest: "rgb(238, 238, 238)",
+        },
+        blue: {
+          DEFAULT: "rgb(51, 122, 183)",
+        },
+        green: {
+          DEFAULT: "rgb(184, 233, 134)",
+        },
+        orange: {
+          DEFAULT: "rgb(255, 165, 0)",
+        },
+        red: {
+          DEFAULT: "rgb(220, 65, 84)",
+        },
+      },
+      boxShadow: {
+        border: "0 0px 6px -1px rgba(0,0,0,0.5)",
+      },
+    },
   },
   plugins: [],
 };
