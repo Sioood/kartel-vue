@@ -72,11 +72,18 @@ onMounted(() => {
 </script>
 
 <template>
-  <main class="pt-28 pr-20 w-full flex justify-between gap-10">
-    <div class="px-10 py-5 w-1/2 shadow-[0_0px_6px_-1px_rgba(0,0,0,0.5)]">
+  <!-- Student profile can be a component for artworks to -->
+  <!-- Need 2 differents system because artworks and media is not the same importance and not the same amount of info -->
+  <!-- Need to pass props before initialization ? -->
+  <!-- like title, subtitle, desc/bio fr & en, Artworks / Medias -->
+  <!-- and another component can be create for media selected -->
+
+  <!-- max h-screen ?? -> overflow scroll for component ? -->
+  <main class="pt-12 pr-20 pb-10 w-full h-full flex justify-between gap-10">
+    <div class="px-10 py-5 h-full w-1/2 max-w-md shadow-border">
       <!-- <p>{{ storeApi.promoStudents }}</p> -->
       <div class="flex flex-col gap-10">
-        <div class="mb-5 w-max flex flex-col items-start">
+        <div class="w-max flex flex-col items-start">
           <h1
             class="capitalize relative py-2 text-3xl font-bold after:w-full after:h-1 after:bg-black after:dark:bg-white"
           >
@@ -102,7 +109,7 @@ onMounted(() => {
           <h6 class="text-xs text-gray uppercase">Artist</h6>
         </div>
 
-        <div class="w-full flex flex-col items-end" v-if="artist">
+        <div class="w-full flex flex-col items-end text-sm" v-if="artist">
           <div class="p-4 w-full bg-gray-extralightest">
             {{ bio.data }}
           </div>
@@ -140,7 +147,7 @@ onMounted(() => {
         <div class="w-full">
           <div class="flex items-end justify-between">
             <h2 class="p-2 text-2xl font-bold uppercase">Oeuvres</h2>
-            <h2 class="text-xs text-gray">Sélectionner</h2>
+            <h6 class="text-xs text-gray">Sélectionner</h6>
           </div>
           <div class="w-full h-1 bg-black dark:bg-white"></div>
           <!-- Component Media -->
@@ -148,7 +155,7 @@ onMounted(() => {
       </div>
     </div>
 
-    <div class="p-2 w-1/2">
+    <div class="p-2 w-full text-sm">
       <h2 class="font-bold">Artist Profile</h2>
       <p>{{ artist }}</p>
       <h2 class="font-bold">Student Profile</h2>

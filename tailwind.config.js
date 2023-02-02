@@ -32,6 +32,9 @@ module.exports = {
           DEFAULT: "rgb(220, 65, 84)",
         },
       },
+      boxShadow: {
+        border: "0 0px 6px -1px rgba(0,0,0,0.5)",
+      },
     },
   },
   plugins: [],
