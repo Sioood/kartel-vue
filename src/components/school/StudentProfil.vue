@@ -99,11 +99,11 @@ onMounted(() => {
             {{ `${user.first_name} ${user.last_name}` }}
           </h2>
           <div class="w-full h-1 bg-black dark:bg-white"></div>
-          <h6 class="text-xs text-gray-500 uppercase">Artist</h6>
+          <h6 class="text-xs text-gray uppercase">Artist</h6>
         </div>
 
         <div class="w-full flex flex-col items-end" v-if="artist">
-          <div class="p-4 w-full bg-gray-100">
+          <div class="p-4 w-full bg-gray-extralightest">
             {{ bio.data }}
           </div>
           <div class="w-full h-1 bg-black dark:bg-white"></div>
@@ -133,14 +133,14 @@ onMounted(() => {
                 EN
               </button>
             </div>
-            <h6 class="text-xs text-gray-500 uppercase">Description</h6>
+            <h6 class="text-xs text-gray uppercase">Description</h6>
           </div>
         </div>
 
         <div class="w-full">
           <div class="flex items-end justify-between">
             <h2 class="p-2 text-2xl font-bold uppercase">Oeuvres</h2>
-            <h2 class="text-xs text-gray-500">Sélectionner</h2>
+            <h2 class="text-xs text-gray">Sélectionner</h2>
           </div>
           <div class="w-full h-1 bg-black dark:bg-white"></div>
           <!-- Component Media -->

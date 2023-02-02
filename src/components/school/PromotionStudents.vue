@@ -44,7 +44,7 @@ onMounted(() => {
           }}
         </h2>
         <div class="w-full h-1 bg-black dark:bg-white"></div>
-        <h6 class="text-xs text-gray-500 uppercase">Promotion</h6>
+        <h6 class="text-xs text-gray uppercase">Promotion</h6>
       </div>
 
       <div class="my-6 flex justify-end gap-3 text-sm">

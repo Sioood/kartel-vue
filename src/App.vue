@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { RouterLink, RouterView } from "vue-router";
 
 let navigation = ref({
@@ -8,6 +8,37 @@ let navigation = ref({
     { name: "Home", path: "/" },
     { name: "School", path: "/school/" },
   ],
+});
+
+let theme = ref();
+
+function switchTheme(mode) {
+  document.documentElement.classList.toggle("dark");
+
+  if (mode === "dark" || mode === "light") {
+    localStorage.theme = `${mode}`;
+
+    mode === "dark" ? (theme.value = "🌒") : (theme.value = "🌖");
+  }
+
+  if (mode === "toggle") {
+    localStorage.theme === "dark"
+      ? ((localStorage.theme = "light"), (theme.value = "🌖"))
+      : ((localStorage.theme = "dark"), (theme.value = "🌒"));
+  }
+}
+
+onMounted(() => {
+  if (!localStorage.theme) {
+    window.matchMedia("(prefers-color-scheme: dark)")
+      ? switchTheme("dark")
+      : switchTheme("light");
+  } else {
+    localStorage.theme === "dark"
+      ? (document.documentElement.classList.add("dark"), (theme.value = "🌒"))
+      : (document.documentElement.classList.remove("dark"),
+        (theme.value = "🌖"));
+  }
 });
 </script>
 
@@ -18,19 +49,19 @@ let navigation = ref({
       class="z-10 fixed top-0 left-0 p-3 w-full flex flex-row items-center justify-left gap-2 bg-white shadow-lg shadow-white after:bg-black after:absolute after:bottom-0 after:left-0 after:w-1/2 after:h-1"
     >
     </nav> -->
-    <nav class="w-min flex flex-row items-start justify-start gap-4">
+    <nav class="mr-3 w-min flex flex-row items-center justify-start">
       <div class="p-3 flex flex-row-reverse items-center justify-start gap-3">
         <button
-          class="p-0 w-12 h-12 flex flex-row gap-1 items-center justify-center hover:bg-gray-100"
+          class="p-0 w-12 h-12 flex flex-row gap-1 items-center justify-center hover:bg-gray-extralightest"
           @click="
             navigation.open === false
               ? (navigation.open = true)
               : (navigation.open = false)
           "
         >
-          <span class="block w-1 h-1 bg-black"></span
-          ><span class="block w-1 h-1 bg-black"></span
-          ><span class="block w-1 h-1 bg-black"></span>
+          <span class="block w-1 h-1 bg-green"></span>
+          <span class="block w-1 h-1 bg-orange"></span>
+          <span class="block w-1 h-1 bg-red"></span>
         </button>
 
         <div v-if="navigation.open === true" class="flex flex-row gap-4">
@@ -43,6 +74,12 @@ let navigation = ref({
           >
         </div>
       </div>
+      <button
+        @click="switchTheme('toggle')"
+        class="w-12 h-12 hover:bg-gray-extralightest"
+      >
+        {{ theme }}
+      </button>
     </nav>
   </header>
 

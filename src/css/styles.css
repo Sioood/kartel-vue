@@ -36,6 +36,11 @@ body, html {
   position: relative;
 }
 
+.dark {
+  background: #121212;
+  color: white;
+}
+
 #app {
   position: relative;
   min-height: 100vh;
