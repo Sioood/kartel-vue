@@ -85,32 +85,30 @@ onMounted(() => {
       <div class="flex flex-col gap-10">
         <div class="w-max flex flex-col items-start">
           <h1
-            class="capitalize relative py-2 text-3xl font-bold after:w-full after:h-1 after:bg-black after:dark:bg-white"
+            class="capitalize relative py-2 text-3xl font-bold after:block after:mt-2 after:w-1/2 after:h-2 after:bg-black after:dark:bg-white"
           >
             General info
           </h1>
-          <div class="w-1/2 h-2 bg-black dark:bg-white"></div>
         </div>
 
         <div class="w-max flex flex-col items-end">
           <h2
-            class="capitalize relative p-2 text-2xl font-bold after:w-full after:h-1 after:bg-black after:dark:bg-white"
+            class="capitalize relative text-2xl font-bold after:block after:w-full after:h-1 after:bg-black after:dark:bg-white"
             v-if="artist && artist.nickname"
           >
             {{ artist.nickname }}
           </h2>
           <h2
-            class="capitalize relative p-2 text-2xl font-bold after:w-full after:h-1 after:bg-black after:dark:bg-white"
+            class="capitalize relative text-2xl font-bold after:block after:w-full after:h-1 after:bg-black after:dark:bg-white"
             v-else-if="user && !artist.nickname"
           >
             {{ `${user.first_name} ${user.last_name}` }}
           </h2>
-          <div class="w-full h-1 bg-black dark:bg-white"></div>
           <h6 class="text-xs text-gray uppercase">Artist</h6>
         </div>
 
         <div class="w-full flex flex-col items-end text-sm" v-if="artist">
-          <div class="p-4 w-full bg-gray-extralightest">
+          <div class="p-4 w-full bg-gray-extralightest dark:bg-black-light">
             {{ bio.data }}
           </div>
           <div class="w-full h-1 bg-black dark:bg-white"></div>
@@ -144,12 +142,13 @@ onMounted(() => {
           </div>
         </div>
 
-        <div class="w-full">
+        <div
+          class="w-full after:block after:w-full after:h-1 after:bg-black after:dark:bg-white"
+        >
           <div class="flex items-end justify-between">
             <h2 class="p-2 text-2xl font-bold uppercase">Oeuvres</h2>
             <h6 class="text-xs text-gray">Sélectionner</h6>
           </div>
-          <div class="w-full h-1 bg-black dark:bg-white"></div>
           <!-- Component Media -->
         </div>
       </div>

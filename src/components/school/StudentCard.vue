@@ -13,7 +13,7 @@ const props = defineProps({
     <!-- <p>{{ props.student }}</p> -->
     <li
       v-if="props.student.userData"
-      class="relative border-solid border-2 border-gray rounded-md hover:border-black"
+      class="relative border-solid border-2 border-gray hover:border-black dark:hover:border-gray-extralightest"
       :key="props.student.userData.id"
     >
       <!-- <p>{{ storeApi.getId(props.student.url) }}</p> -->

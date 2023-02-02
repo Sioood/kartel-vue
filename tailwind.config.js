@@ -9,6 +9,10 @@ module.exports = {
         black: {
           DEFAULT: "rgb(0, 0, 0)",
           mode: "rgb(18, 18, 18)",
+          light: "rgb(33, 33, 33)",
+          lightest: "rgb(66, 66, 66)",
+          extralight: "rgb(216, 216, 216)",
+          extralightest: "rgb(238, 238, 238)",
         },
         gray: {
           darkest: "rgb(51, 51, 51)",
