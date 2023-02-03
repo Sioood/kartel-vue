@@ -2,6 +2,8 @@
 import { useConfigApi } from "../stores/configApi";
 import { onMounted, ref } from "vue";
 
+import UnderlineTitle from "@/components/ui/UnderlineTitle.vue";
+
 const storeApi = useConfigApi();
 
 let promoId = ref();
@@ -19,13 +21,16 @@ onMounted(() => {
     <div
       class="sticky top-0 py-2 px-2 flex flex-col justify-between gap-4 shadow-border"
     >
-      <div class="p-2 w-full flex flex-col items-start">
-        <h1 class="capitalize relative py-2 text-xl font-bold">Promotions</h1>
-        <div class="w-full h-1 bg-black dark:bg-white"></div>
-        <div class="w-full flex flex-col items-end">
-          <h6 class="text-xs text-gray">Sélectionner</h6>
-        </div>
-      </div>
+      <UnderlineTitle
+        class="p-2 [&:nth-child(1)>:nth-child(1)]:w-full"
+        title="Promotions"
+        subTitle="Sélectionner"
+        :uppercase="false"
+        :half="false"
+        :underlineSize="1"
+        :fontSize="3"
+      ></UnderlineTitle>
+
       <ul class="min-w-min overflow-y-scroll">
         <li
           v-for="promotion in storeApi.promotions"
@@ -47,12 +52,13 @@ onMounted(() => {
                 storeApi.getSelectedPromo(promoId)
             "
           >
-            <!-- <p>{{ promotion.url }}</p> -->
-            <p
-              class="relative whitespace-nowrap after:block after:w-full after:h-1 after:bg-black after:dark:bg-white"
-            >
-              {{ `${promotion.starting_year}-${promotion.ending_year}` }}
-            </p>
+            <UnderlineTitle
+              :title="`${promotion.starting_year}-${promotion.ending_year}`"
+              :uppercase="false"
+              :half="false"
+              :underlineSize="1"
+              :fontSize="5"
+            ></UnderlineTitle>
             <p class="pl-5">{{ promotion.name }}</p>
           </router-link>
         </li>

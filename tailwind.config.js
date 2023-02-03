@@ -39,6 +39,15 @@ module.exports = {
       boxShadow: {
         border: "0 0px 6px -1px rgba(0,0,0,0.5)",
       },
+      animation: {
+        shake: "shake 3s linear infinite",
+      },
+      keyframes: {
+        shake: {
+          "10%, 30%, 50%, 70%, 90%": { transform: "rotate(20deg)" },
+          "0%, 20%, 40%, 60%, 80%, 100%": { transform: "rotate(-20deg)" },
+        },
+      },
     },
   },
   plugins: [],

@@ -5,6 +5,8 @@ import { onMounted } from "vue";
 import { useConfigApi } from "../../stores/configApi";
 
 import StudentCard from "./StudentCard.vue";
+import AppButton from "@/components/ui/AppButton.vue";
+import UnderlineTitle from "@/components/ui/UnderlineTitle.vue";
 
 const router = useRouter();
 const storeApi = useConfigApi();
@@ -34,32 +36,26 @@ onMounted(() => {
     </h2> -->
 
     <div class="mb-16 w-full flex items-center justify-between">
-      <div class="w-max flex flex-col items-end">
-        <h2
-          class="promo__title relative text-2xl font-bold after:block after:w-full after:h-1 after:bg-black after:dark:bg-white"
-          v-if="storeApi.selectedPromo"
-        >
-          {{
-            `${storeApi.selectedPromo.name} — ${storeApi.selectedPromo.starting_year}-${storeApi.selectedPromo.ending_year}`
-          }}
-        </h2>
-        <!-- <div class="w-full h-1 bg-black dark:bg-white"></div> -->
-        <h6 class="text-xs text-gray uppercase">Promotion</h6>
-      </div>
+      <UnderlineTitle
+        class="promo__title"
+        v-if="storeApi.selectedPromo"
+        :title="`${storeApi.selectedPromo.name} — ${storeApi.selectedPromo.starting_year}-${storeApi.selectedPromo.ending_year}`"
+        subTitle="Promotion"
+        :uppercase="true"
+        :half="false"
+        :underlineSize="1"
+        :fontSize="2"
+      ></UnderlineTitle>
 
       <div class="my-6 flex justify-end gap-3 text-sm">
-        <button
+        <AppButton
           @click="storeApi.sortStudents()"
-          class="p-2 bg-black dark:bg-white text-white dark:text-black"
-        >
-          Sort Ascending
-        </button>
-        <button
+          text="Sort Ascending"
+        ></AppButton>
+        <AppButton
           @click="storeApi.sortStudents('descending')"
-          class="p-2 bg-black dark:bg-white text-white dark:text-black"
-        >
-          Sort Descending
-        </button>
+          text="Sort Descending"
+        ></AppButton>
       </div>
     </div>
 

@@ -4,6 +4,8 @@ import { useRouter } from "vue-router";
 import { ref, onMounted } from "vue";
 import { useConfigApi } from "../../stores/configApi";
 
+import UnderlineTitle from "@/components/ui/UnderlineTitle.vue";
+
 const router = useRouter();
 const storeApi = useConfigApi();
 
@@ -83,29 +85,33 @@ onMounted(() => {
     <div class="px-10 py-5 h-full w-1/2 max-w-md shadow-border">
       <!-- <p>{{ storeApi.promoStudents }}</p> -->
       <div class="flex flex-col gap-10">
-        <div class="w-max flex flex-col items-start">
-          <h1
-            class="capitalize relative py-2 text-3xl font-bold after:block after:mt-2 after:w-1/2 after:h-2 after:bg-black after:dark:bg-white"
-          >
-            General info
-          </h1>
-        </div>
+        <UnderlineTitle
+          class="w-max"
+          title="General Info"
+          :half="true"
+          :underlineSize="2"
+          :fontSize="1"
+        ></UnderlineTitle>
 
-        <div class="w-max flex flex-col items-end">
-          <h2
-            class="capitalize relative text-2xl font-bold after:block after:w-full after:h-1 after:bg-black after:dark:bg-white"
-            v-if="artist && artist.nickname"
-          >
-            {{ artist.nickname }}
-          </h2>
-          <h2
-            class="capitalize relative text-2xl font-bold after:block after:w-full after:h-1 after:bg-black after:dark:bg-white"
-            v-else-if="user && !artist.nickname"
-          >
-            {{ `${user.first_name} ${user.last_name}` }}
-          </h2>
-          <h6 class="text-xs text-gray uppercase">Artist</h6>
-        </div>
+        <UnderlineTitle
+          class="w-max"
+          v-if="artist && artist.nickname"
+          :title="artist.nickname"
+          subTitle="Artist"
+          :uppercase="true"
+          :underlineSize="1"
+          :fontSize="2"
+        ></UnderlineTitle>
+
+        <UnderlineTitle
+          class="w-max"
+          v-else-if="user && !artist.nickname"
+          :title="`${user.first_name} ${user.last_name}`"
+          subTitle="Artist"
+          :uppercase="true"
+          :underlineSize="1"
+          :fontSize="2"
+        ></UnderlineTitle>
 
         <div class="w-full flex flex-col items-end text-sm" v-if="artist">
           <div class="p-4 w-full bg-gray-extralightest dark:bg-black-light">
