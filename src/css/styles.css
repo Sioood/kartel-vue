@@ -32,11 +32,12 @@ body {
   background: #555;
 }
 
-body, html {
+body,
+html {
   position: relative;
 }
 
-.dark {
+.dark{
   background: #121212;
   color: white;
 }

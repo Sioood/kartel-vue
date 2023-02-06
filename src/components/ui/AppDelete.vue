@@ -26,7 +26,7 @@ let validation = ref(false);
     ></button>
 
     <h5
-      class="uppercase font-bold"
+      class="uppercase font-bold text-black"
       :class="{
         invisible: validation === false,
         visible: validation === true,

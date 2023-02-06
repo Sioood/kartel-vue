@@ -1,3 +1,7 @@
+/* import from kartel but if we want to move the docs anywhere we need to reinstall tailwinds and other dependencies... */
+
+@import url(../../../src/css/styles.css);
+
 :root {
   --vp-c-brand: rgb(173, 162, 255);
   --vp-c-brand-light: rgb(218, 198, 255);
@@ -6,4 +10,9 @@
   --vp-c-brand-darker: rgb(138, 127, 218);
 
   --vp-c-sponsor: rgb(173, 162, 255);
+}
+
+.dark{
+  background: #121212;
+  color: white;
 }

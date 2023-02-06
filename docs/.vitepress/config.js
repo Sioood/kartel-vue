@@ -76,6 +76,29 @@ export default {
         collapsed: false,
       },
       {
+        text: "Kartel",
+        items: [
+          {
+            text: "UI",
+            link: "/kartel/ui",
+            items: [
+              {
+                text: "Buttons",
+                link: "/kartel/ui#buttons-et-inputs",
+              },
+              {
+                text: "Divers",
+                link: "/kartel/ui#divers",
+              },
+            ],
+            collapsible: true,
+            collapsed: false,
+          },
+        ],
+        collapsible: true,
+        collapsed: false,
+      },
+      {
         text: "Kart",
         items: [
           {
@@ -118,12 +141,15 @@ export default {
         collapsible: true,
         collapsed: false,
       },
-      {text: "Tester l'application", items: [
-        {
-          text: "Cypress",
-          link: "/test/cypress",
-        },
-      ]},
+      {
+        text: "Tester l'application",
+        items: [
+          {
+            text: "Cypress",
+            link: "/test/cypress",
+          },
+        ],
+      },
     ],
     editLink: {
       // Modify with the future repository

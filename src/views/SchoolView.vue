@@ -24,7 +24,7 @@ onMounted(() => {
       <UnderlineTitle
         class="p-2 [&:nth-child(1)>:nth-child(1)]:w-full"
         title="Promotions"
-        subTitle="Sélectionner"
+        subtitle="Sélectionner"
         :uppercase="false"
         :half="false"
         :underlineSize="1"

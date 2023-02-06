@@ -1,7 +1,10 @@
 <script setup>
 defineProps({
-  title: String,
-  subTitle: String,
+  title: {
+    type: String,
+    required: true,
+  },
+  subtitle: String,
   uppercase: Boolean,
   half: Boolean,
   underlineSize: Number,
@@ -85,7 +88,7 @@ defineProps({
       {{ title }}
     </h6>
     <h6 class="text-xs text-gray" :class="{ uppercase: uppercase === true }">
-      {{ subTitle }}
+      {{ subtitle }}
     </h6>
   </div>
 </template>

@@ -1,11 +1,16 @@
 <script setup>
 defineProps({
-  text: String,
+  text: {
+    type: String,
+    required: true,
+  },
 });
 </script>
 
 <template>
-  <button class="py-2 px-4 bg-black dark:bg-white text-white dark:text-dark">
+  <button
+    class="py-2 px-4 w-min bg-black dark:bg-white text-white dark:text-black"
+  >
     {{ text }}
   </button>
 </template>
