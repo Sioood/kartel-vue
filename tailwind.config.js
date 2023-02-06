@@ -36,6 +36,9 @@ module.exports = {
           DEFAULT: "rgb(220, 65, 84)",
         },
       },
+      borderWidth: {
+        0.5: "0.5px",
+      },
       boxShadow: {
         border: "0 0px 6px -1px rgba(0,0,0,0.5)",
       },

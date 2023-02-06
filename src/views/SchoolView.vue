@@ -31,13 +31,12 @@ onMounted(() => {
         :fontSize="3"
       ></UnderlineTitle>
 
-      <ul class="min-w-min overflow-y-scroll">
+      <ul class="min-w-min overflow-y-scroll divide-y">
         <li
           v-for="promotion in storeApi.promotions"
           :key="storeApi.getId(promotion.url)"
         >
           <!-- {{ promotion }}         -->
-          <hr />
           <router-link
             :to="`/school/promotion/${storeApi.getId(promotion.url)}`"
             class="promo__link p-2 flex flex-col m-3 items-start justify-start gap-1 whitespace-nowrap"

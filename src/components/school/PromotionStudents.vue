@@ -4,7 +4,7 @@ import { useRouter } from "vue-router";
 import { onMounted } from "vue";
 import { useConfigApi } from "../../stores/configApi";
 
-import StudentCard from "./StudentCard.vue";
+import StudentCard from "../../pages/school/StudentCard.vue";
 import AppButton from "@/components/ui/AppButton.vue";
 import UnderlineTitle from "@/components/ui/UnderlineTitle.vue";
 

@@ -21,7 +21,7 @@ const router = createRouter({
           // when /school/promotion/:id is matched
           path: "promotion/:id",
           name: "promotion",
-          component: () => import("../pages/school/PromotionStudents.vue"),
+          component: () => import("../components/school/PromotionStudents.vue"),
         },
       ],
     },
@@ -38,6 +38,18 @@ const router = createRouter({
       path: "/school/artist/:id",
       name: "student",
       component: () => import("../pages/school/StudentProfil.vue"),
+      children: [
+        {
+          path: "/school/artist/:id",
+          name: "navigation",
+          component: () => import("../components/ProfileNavigation.vue"),
+        },
+        // {
+        //   path: "/artwork/:id",
+        //   name: "navigation",
+        //   component: () => import(""),
+        // },
+      ],
     },
     // {
     //   path: "/school/promotion/:id",

@@ -1,6 +1,9 @@
 /* import from kartel but if we want to move the docs anywhere we need to reinstall tailwinds and other dependencies... */
 
-@import url(../../../src/css/styles.css);
+/* @import url(../../../src/css/styles.css); */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   --vp-c-brand: rgb(173, 162, 255);

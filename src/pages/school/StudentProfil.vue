@@ -5,6 +5,7 @@ import { ref, onMounted } from "vue";
 import { useConfigApi } from "../../stores/configApi";
 
 import UnderlineTitle from "@/components/ui/UnderlineTitle.vue";
+import ArtworkCard from "@/components/artwork/ArtworkCard.vue";
 
 const router = useRouter();
 const storeApi = useConfigApi();
@@ -22,6 +23,8 @@ onMounted(() => {
   // With too much query and params we have too much possibility of missing information
   // Need to redirect if one is missing, or just get the Student (User might be better) which have all the urls
   // For now router is setup to redirect "/artist/" to "/school/"
+
+  //Need to have only one params because query can disappear and lost data
   const artistId = router.currentRoute.value.params.id;
   const studentId = router.currentRoute.value.query.student;
 
@@ -81,8 +84,10 @@ onMounted(() => {
   <!-- and another component can be create for media selected -->
 
   <!-- max h-screen ?? -> overflow scroll for component ? -->
-  <main class="pt-12 pr-20 pb-10 w-full h-full flex justify-between gap-10">
-    <div class="px-10 py-5 h-full w-1/2 max-w-md shadow-border">
+  <main
+    class="pt-12 pr-20 pb-10 w-full min-h-screen flex justify-between gap-10"
+  >
+    <div class="pl-8 pr-6 py-5 w-1/2 max-w-md shadow-border">
       <!-- <p>{{ storeApi.promoStudents }}</p> -->
       <div class="flex flex-col gap-10">
         <UnderlineTitle
@@ -148,25 +153,34 @@ onMounted(() => {
           </div>
         </div>
 
-        <div
-          class="w-full after:block after:w-full after:h-1 after:bg-black after:dark:bg-white"
-        >
-          <div class="flex items-end justify-between">
-            <h2 class="p-2 text-2xl font-bold uppercase">Oeuvres</h2>
-            <h6 class="text-xs text-gray">Sélectionner</h6>
+        <div>
+          <div
+            class="mb-2 w-full after:block after:w-full after:h-1 after:bg-black after:dark:bg-white"
+          >
+            <div class="flex items-end justify-between">
+              <h2 class="p-2 text-2xl font-bold uppercase">Oeuvres</h2>
+              <h6 class="text-xs text-gray">Sélectionner</h6>
+            </div>
           </div>
-          <!-- Component Media -->
+          <div class="grid grid-cols-4 gap-2">
+            <!-- set ring active with router id -->
+            <ArtworkCard v-for="(el, index) in 8" :key="index" :index="index" />
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="p-2 w-full text-sm">
-      <h2 class="font-bold">Artist Profile</h2>
-      <p>{{ artist }}</p>
-      <h2 class="font-bold">Student Profile</h2>
-      <p>{{ student }}</p>
-      <h2 class="font-bold">User Profile</h2>
-      <p>{{ user }}</p>
+    <div class="w-full flex flex-col">
+      <RouterView />
+
+      <div class="hidden p-2 w-full text-sm">
+        <h2 class="font-bold">Artist Profile</h2>
+        <p>{{ artist }}</p>
+        <h2 class="font-bold">Student Profile</h2>
+        <p>{{ student }}</p>
+        <h2 class="font-bold">User Profile</h2>
+        <p>{{ user }}</p>
+      </div>
     </div>
   </main>
 </template>
