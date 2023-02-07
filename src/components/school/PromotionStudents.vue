@@ -4,7 +4,7 @@ import { useRouter } from "vue-router";
 import { onMounted } from "vue";
 import { useConfigApi } from "../../stores/configApi";
 
-import StudentCard from "../../pages/school/StudentCard.vue";
+import StudentCard from "./StudentCard.vue";
 import AppButton from "@/components/ui/AppButton.vue";
 import UnderlineTitle from "@/components/ui/UnderlineTitle.vue";
 
@@ -42,7 +42,6 @@ onMounted(() => {
         :title="`${storeApi.selectedPromo.name} — ${storeApi.selectedPromo.starting_year}-${storeApi.selectedPromo.ending_year}`"
         subtitle="Promotion"
         :uppercase="true"
-        :half="false"
         :underlineSize="1"
         :fontSize="2"
       ></UnderlineTitle>

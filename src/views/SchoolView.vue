@@ -26,7 +26,6 @@ onMounted(() => {
         title="Promotions"
         subtitle="Sélectionner"
         :uppercase="false"
-        :half="false"
         :underlineSize="1"
         :fontSize="3"
       ></UnderlineTitle>
@@ -54,7 +53,6 @@ onMounted(() => {
             <UnderlineTitle
               :title="`${promotion.starting_year}-${promotion.ending_year}`"
               :uppercase="false"
-              :half="false"
               :underlineSize="1"
               :fontSize="5"
             ></UnderlineTitle>

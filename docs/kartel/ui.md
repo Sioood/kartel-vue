@@ -73,7 +73,7 @@ text: {
 ### Titre souligné
 
 ```vue
-<UnderlineTitle title="Titre du composant"  :half="true" :underlineSize="2" :fontSize="1" />
+<UnderlineTitle title="Titre du composant"   :underlineSize="2" :fontSize="1" />
 
 <UnderlineTitle title="Un autre title" subtitle="subtitle" :uppercase="true" :fontSize="2" />
 ```
@@ -88,7 +88,6 @@ text: {
   },
   subtitle: String, // Peut être vide si nécessaire
   uppercase: Boolean, // True si subtitle uppercase
-  half: Boolean, // True si l'underline doit faire la moitié
   underlineSize: Number, // Taille de l'underline (1, 2)
   fontSize: Number, // Number correspond au taille de header existant en html.
   // Default h6
@@ -100,7 +99,7 @@ La surcouche de style VitePress change la couleur et la marge...
 :::
 
 <WrapperPreview>
-<UnderlineTitle title="Titre du composant"  :half="true" :underlineSize="2" :fontSize="1" />
+<UnderlineTitle title="Titre du composant"   :underlineSize="2" :fontSize="1" />
 
 <UnderlineTitle title="Un autre title" subtitle="subtitle" :uppercase="true" :fontSize="2" />
 </WrapperPreview>

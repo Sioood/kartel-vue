@@ -17,10 +17,8 @@ defineProps({
   <div class="flex flex-col items-end">
     <h1
       v-if="fontSize === 1"
-      class="text-3xl font-bold after:block after:bg-black after:dark:bg-white"
+      class="text-3xl font-bold after:w-20 after:block after:bg-black after:dark:bg-white"
       :class="{
-        'after:w-full': half !== true,
-        'after:w-1/2': half === true,
         'after:h-1': underlineSize !== 2,
         'after:h-2': underlineSize === 2,
       }"
@@ -29,10 +27,8 @@ defineProps({
     </h1>
     <h2
       v-if="fontSize === 2"
-      class="text-2xl font-bold after:block after:bg-black after:dark:bg-white"
+      class="text-2xl font-bold after:w-20 after:block after:bg-black after:dark:bg-white"
       :class="{
-        'after:w-full': half !== true,
-        'after:w-1/2': half === true,
         'after:h-1': underlineSize !== 2,
         'after:h-2': underlineSize === 2,
       }"
@@ -41,10 +37,8 @@ defineProps({
     </h2>
     <h3
       v-else-if="fontSize === 3"
-      class="text-xl font-bold after:block after:bg-black after:dark:bg-white"
+      class="text-xl font-bold after:w-20 after:block after:bg-black after:dark:bg-white"
       :class="{
-        'after:w-full': half !== true,
-        'after:w-1/2': half === true,
         'after:h-1': underlineSize !== 2,
         'after:h-2': underlineSize === 2,
       }"
@@ -53,10 +47,8 @@ defineProps({
     </h3>
     <h4
       v-else-if="fontSize === 4"
-      class="text-lg font-bold after:block after:bg-black after:dark:bg-white"
+      class="text-lg font-bold after:w-20 after:block after:bg-black after:dark:bg-white"
       :class="{
-        'after:w-full': half !== true,
-        'after:w-1/2': half === true,
         'after:h-1': underlineSize !== 2,
         'after:h-2': underlineSize === 2,
       }"
@@ -65,10 +57,8 @@ defineProps({
     </h4>
     <h5
       v-else-if="fontSize === 5"
-      class="text-base font-bold after:block after:bg-black after:dark:bg-white"
+      class="text-base font-bold after:w-20 after:block after:bg-black after:dark:bg-white"
       :class="{
-        'after:w-full': half !== true,
-        'after:w-1/2': half === true,
         'after:h-1': underlineSize !== 2,
         'after:h-2': underlineSize === 2,
       }"
@@ -77,19 +67,17 @@ defineProps({
     </h5>
     <h6
       v-else-if="fontSize > 5 || !fontSize"
-      class="text-sm font-bold after:block after:bg-black after:dark:bg-white"
+      class="text-sm font-bold after:w-20 after:block after:bg-black after:dark:bg-white"
       :class="{
-        'after:w-full': half !== true,
-        'after:w-1/2': half === true,
         'after:h-1': underlineSize !== 2,
         'after:h-2': underlineSize === 2,
       }"
     >
       {{ title }}
     </h6>
-    <h6 class="text-xs text-gray" :class="{ uppercase: uppercase === true }">
+    <!-- <h6 class="text-xs text-gray" :class="{ uppercase: uppercase === true }">
       {{ subtitle }}
-    </h6>
+    </h6> -->
   </div>
 </template>
 

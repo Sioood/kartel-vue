@@ -7,6 +7,7 @@ const props = defineProps({
 });
 </script>
 
+<!-- Change the name with MediaCard might be better for reuse -->
 <template>
   <router-link to="">
     <div

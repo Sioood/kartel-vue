@@ -8,12 +8,7 @@ import UnderlineTitle from "@/components/ui/UnderlineTitle.vue";
   >
     <details class="group">
       <summary class="group relative flex items-center gap-3 cursor-pointer">
-        <UnderlineTitle
-          title="Profile"
-          :half="true"
-          :underlineSize="1"
-          :fontSize="2"
-        />
+        <UnderlineTitle title="Profile" :underlineSize="1" :fontSize="2" />
         <div
           class="relative invisible group-hover:visible group-open:visible w-5 h-5 border-0.5 border-gray rounded"
         >
@@ -52,12 +47,7 @@ import UnderlineTitle from "@/components/ui/UnderlineTitle.vue";
     </details>
     <details class="group">
       <summary class="relative flex items-center gap-3 cursor-pointer">
-        <UnderlineTitle
-          title="Artworks"
-          :half="true"
-          :underlineSize="1"
-          :fontSize="2"
-        />
+        <UnderlineTitle title="Artworks" :underlineSize="1" :fontSize="2" />
         <div
           class="relative invisible group-hover:visible group-open:visible w-5 h-5 border-0.5 border-gray rounded"
         >
@@ -72,7 +62,7 @@ import UnderlineTitle from "@/components/ui/UnderlineTitle.vue";
       <ul class="p-4 flex flex-col gap-4">
         <li>
           <a href="#">
-            <h3 class="text-xl font-bold">Une Oeuvre avec du</h3>
+            <h3 class="text-xl font-bold">Une Oeuvre</h3>
             <h6 class="text-sm text-gray font-medium">Type - 2000</h6>
           </a>
         </li>
@@ -129,12 +119,7 @@ import UnderlineTitle from "@/components/ui/UnderlineTitle.vue";
     </details>
     <details class="group">
       <summary class="relative flex items-center gap-3 cursor-pointer">
-        <UnderlineTitle
-          title="Guide"
-          :half="true"
-          :underlineSize="1"
-          :fontSize="2"
-        />
+        <UnderlineTitle title="Guide" :underlineSize="1" :fontSize="2" />
         <div
           class="relative invisible group-hover:visible group-open:visible w-5 h-5 border-0.5 border-gray rounded"
         >

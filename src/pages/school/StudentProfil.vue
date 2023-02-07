@@ -5,6 +5,7 @@ import { ref, onMounted } from "vue";
 import { useConfigApi } from "../../stores/configApi";
 
 import UnderlineTitle from "@/components/ui/UnderlineTitle.vue";
+import UiDescription from "@/components/ui/UiDescription.vue";
 import ArtworkCard from "@/components/artwork/ArtworkCard.vue";
 
 const router = useRouter();
@@ -93,7 +94,6 @@ onMounted(() => {
         <UnderlineTitle
           class="w-max"
           title="General Info"
-          :half="true"
           :underlineSize="2"
           :fontSize="1"
         ></UnderlineTitle>
@@ -118,41 +118,13 @@ onMounted(() => {
           :fontSize="2"
         ></UnderlineTitle>
 
-        <div class="w-full flex flex-col items-end text-sm" v-if="artist">
-          <div class="p-4 w-full bg-gray-extralightest dark:bg-black-light">
-            {{ bio.data }}
-          </div>
-          <div class="w-full h-1 bg-black dark:bg-white"></div>
-          <div class="w-full flex justify-between">
-            <div class="flex gap-2 font-bold">
-              <!-- Underline only the selected (with dynamic class and ref) -->
-              <button
-                :class="{
-                  underline: bio.lang === 'fr',
-                }"
-                @click="
-                  bio.lang = 'fr';
-                  bio.data = artist.bio_fr;
-                "
-              >
-                FR
-              </button>
-              <button
-                :class="{
-                  underline: bio.lang === 'en',
-                }"
-                @click="
-                  bio.lang = 'en';
-                  bio.data = artist.bio_en;
-                "
-              >
-                EN
-              </button>
-            </div>
-            <h6 class="text-xs text-gray uppercase">Description</h6>
-          </div>
-        </div>
+        <UiDescription
+          v-if="artist"
+          :desc_fr="artist.bio_fr"
+          :desc_en="artist.bio_en"
+        />
 
+        <!-- Can be component to, props Title (Oeuvres or Média) -->
         <div>
           <div
             class="mb-2 w-full after:block after:w-full after:h-1 after:bg-black after:dark:bg-white"

@@ -51,16 +51,12 @@ const router = createRouter({
         // },
       ],
     },
-    // {
-    //   path: "/school/promotion/:id",
-    //   name: "promotion",
-    //   component: () => import("../components/PromotionStudents.vue"),
-    // },
-    // {
-    //   path: "/school/promotion/:id",
-    //   name: "promotion",
-    //   component: () => import("../views/SchoolView.vue"),
-    // },
+    // For visualisation but need to be children of artist and artwork
+    {
+      path: "/media",
+      name: "media",
+      component: () => import("../components/MediaDetails.vue"),
+    },
   ],
 });
 
