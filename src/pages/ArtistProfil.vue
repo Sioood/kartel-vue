@@ -124,7 +124,7 @@ onMounted(() => {
             <ArtworkCard v-for="(el, index) in 8" :key="index" :index="index" />
           </div>
         </div>
-        <div class="w-1/2shadow-border">
+        <div class="shadow-border">
           <h2 class="font-bold">artist</h2>
           <p>{{ artist }}</p>
 
