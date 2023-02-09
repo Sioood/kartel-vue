@@ -9,7 +9,7 @@ const props = defineProps({
 
 let bio = ref({
   lang: "fr",
-  data: props.desc_fr,
+  data: !props.desc_fr && props.desc_en ? props.desc_en : props.desc_fr,
 });
 </script>
 
@@ -25,6 +25,7 @@ let bio = ref({
       <div class="flex gap-2 font-bold">
         <!-- Underline only the selected (with dynamic class and ref) -->
         <button
+          v-if="props.desc_fr"
           :class="{
             underline: bio.lang === 'fr',
           }"
@@ -36,6 +37,7 @@ let bio = ref({
           FR
         </button>
         <button
+          v-if="props.desc_en"
           :class="{
             underline: bio.lang === 'en',
           }"

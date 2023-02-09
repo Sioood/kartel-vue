@@ -15,7 +15,7 @@ module.exports = {
           extralightest: "rgb(238, 238, 238)",
         },
         gray: {
-          darkest: "rgb(51, 51, 51)",
+          darkest: "rgb(61, 61, 61)",
           dark: "rgb(74, 74, 74)",
           DEFAULT: "rgb(128, 128, 128)",
           light: "rgb(155, 155, 155)",

@@ -27,7 +27,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="py-12 px-10 w-full shadow-border overflow-scroll">
+  <div class="py-2 px-10 w-full overflow-scroll">
     <!-- <h2 class="p-3" v-if="storeApi.selectedPromo">
       <i>{{
         `This is a children of school view and is the promotion

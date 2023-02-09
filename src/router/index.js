@@ -35,7 +35,7 @@ const router = createRouter({
     {
       // promotion will be rendered inside School's <router-view> (Don't forget the router-view element to render children)
       // when /school/promotion/:id is matched
-      path: "/school/artist/:id",
+      path: "/school/student/:id",
       name: "student",
       component: () => import("../pages/school/StudentProfil.vue"),
       children: [
@@ -50,6 +50,16 @@ const router = createRouter({
         //   component: () => import(""),
         // },
       ],
+    },
+    {
+      path: "/artist/:id",
+      name: "artist",
+      component: () => import("../pages/ArtistProfil.vue"),
+    },
+    {
+      path: "/artwork/:id",
+      name: "artwork",
+      component: () => import("../pages/ArtworkPage.vue"),
     },
     // For visualisation but need to be children of artist and artwork
     {

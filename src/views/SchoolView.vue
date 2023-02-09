@@ -17,10 +17,8 @@ onMounted(() => {
 
 <!-- Rename to be Student / Artist view -> Promo list only for student or hidden with button for artist -->
 <template>
-  <main class="h-screen pt-12 pr-20 pb-10 w-full flex gap-10">
-    <div
-      class="sticky top-0 py-2 px-2 flex flex-col justify-between gap-4 shadow-border"
-    >
+  <main class="h-screen pr-20 pb-10 w-full flex divide-x">
+    <div class="sticky top-0 py-2 px-2 flex flex-col justify-between gap-4">
       <UnderlineTitle
         class="p-2 [&:nth-child(1)>:nth-child(1)]:w-full"
         title="Promotions"
