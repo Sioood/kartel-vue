@@ -15,6 +15,7 @@ const storeApi = useConfigApi();
 let artwork = ref();
 let authors = ref();
 let authorsName = ref();
+// ref Object Galleries ?
 let processGalleries = ref([]);
 let inSituGalleries = ref([]);
 
@@ -25,9 +26,13 @@ async function getArtwork(id) {
 
   getAuthors(data.authors[0]);
 
+  console.log(data.process_galleries);
+
   data.process_galleries.forEach((el) => {
     getGallery(el, processGalleries.value);
   });
+
+  console.log(data.in_situ_galleries);
 
   data.in_situ_galleries.forEach((el) => {
     getGallery(el, inSituGalleries.value);
@@ -57,25 +62,36 @@ async function getUser(url) {
 // Error If mulitple media we get only the last media, need forEach somewhere maybe
 // or push()
 async function getGallery(url, output) {
+  console.log("getGallery url", url);
   let response = await fetch(url);
   let data = await response.json();
+
+  data.mediaData = [];
+
+  // Check index of data.media for push in galleries only when all media is here
+  // prevent multipushing and duplicate medias
+  let index = 1;
 
   data.media.forEach((el) => {
     getMedia(el, data, output);
   });
 
   async function getMedia(url, galleryData, output) {
+    console.log("getMedia", url);
     let response = await fetch(url);
     let data = await response.json();
 
-    // Push() here instead of force data
-    galleryData.mediaData = data;
-    output.push(galleryData);
+    galleryData.mediaData.push(data);
+
+    if (index === galleryData.media.length) {
+      output.push(galleryData);
+    } else {
+      index++;
+    }
   }
 }
 
 function removePreprod(url) {
-  console.log(url);
   return url.replace("preprod.", "");
 }
 
@@ -127,7 +143,7 @@ onMounted(() => {
     </div>
 
     <div
-      class="pl-8 pr-6 py-5 sticky top-16 w-2/5 h-screen overflow-x-scroll flex flex-col gap-6"
+      class="pl-8 pr-6 pt-5 pb-40 sticky top-16 w-2/5 h-screen overflow-x-scroll flex flex-col gap-6"
     >
       <UnderlineTitle
         class="w-max"
@@ -153,9 +169,17 @@ onMounted(() => {
       <ul class="grid grid-cols-2 gap-3">
         <li v-for="gallery in processGalleries" :key="gallery">
           <UiMedia
-            :url="removePreprod(gallery.mediaData.picture)"
-            :title="`${gallery.mediaData.label} : (${gallery.description})`"
+            v-for="media in gallery.mediaData"
+            :key="media"
+            :url="removePreprod(media.picture)"
+            :title="`${media.label} : (${gallery.description})`"
           />
+          <!-- <UiMedia
+            v-for="media in gallery.mediaData"
+            :key="media"
+            :url="removePreprod(media.picture)"
+            :title="`${media.label} : (${gallery.description})`"
+          /> -->
         </li>
       </ul>
 
@@ -167,11 +191,15 @@ onMounted(() => {
         :underlineSize="1"
         :fontSize="2"
       />
-      <ul class="grid grid-cols-2 gap-3">
-        <li v-for="gallery in inSituGalleries" :key="gallery">
+      <ul
+        v-for="gallery in inSituGalleries"
+        :key="gallery"
+        class="grid grid-cols-2 gap-3"
+      >
+        <li v-for="media in gallery.mediaData" :key="media">
           <UiMedia
-            :url="removePreprod(gallery.mediaData.picture)"
-            :title="`${gallery.mediaData.label} : (${gallery.description})`"
+            :url="removePreprod(media.picture)"
+            :title="`${media.label} : (${gallery.description})`"
           />
         </li>
       </ul>
