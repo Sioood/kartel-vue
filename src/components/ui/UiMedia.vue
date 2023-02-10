@@ -6,6 +6,10 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  medium: {
+    type: String,
+    required: true,
+  },
   title: {
     type: String,
   },
@@ -18,26 +22,38 @@ const open = ref(false);
 <!-- set for img if preview but it can be a video watch out -->
 <template>
   <div class="flex flex-col items-end">
-    <Teleport to="body">
+    <Teleport v-if="open" to="body">
       <div
-        v-if="open"
-        class="z-50 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-10 w-full h-screen flex justify-center bg-black/[.5]"
+        @click="open = false"
+        class="z-40 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-black/[.5]"
+      ></div>
+      <div
+        class="z-50 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2/3 h-screen flex items-center justify-center overflow-y-scroll"
       >
-        <div class="max-w-max h-5/6 flex flex-col items-center gap-3">
-          <div
-            class="px-4 py-2 w-full flex items-center justify-between text-white"
-          >
-            <h2 class="text-2xl font-medium capitalize">{{ props.title }}</h2>
+        <div
+          class="h-full max-w-max flex flex-col items-center justify-center gap-3 bg-gray-extralightest border"
+        >
+          <div class="px-4 py-2 w-full flex items-center justify-between gap-3">
+            <h2 class="w-3/4 text-2xl font-medium">
+              {{ props.title }}
+            </h2>
             <button @click="open = false" class="px-4 py-2 border">
               Close
             </button>
           </div>
           <!-- Can be a video, need to make a condition and check for a preview -->
           <img
-            class="h-full object-cover aspect-video"
+            v-if="!props.medium"
+            class="w-full h-full object-cover aspect-video"
             :src="props.url"
             :alt="props.title"
           />
+          <video
+            v-else
+            class="w-full h-full object-cover aspect-video"
+            controls
+            :src="props.medium"
+          ></video>
         </div>
       </div>
     </Teleport>

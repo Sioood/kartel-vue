@@ -17,6 +17,7 @@ let authors = ref();
 let authorsName = ref();
 let galleries = ref({});
 let genres = ref([]);
+let events = ref([]);
 
 async function getArtwork(id) {
   let response = await fetch(`${storeApi.restUriV2}production/artwork/${id}`);
@@ -54,6 +55,8 @@ async function getArtwork(id) {
   getGalleries();
 
   getGenres(data.genres);
+
+  getDiffusions(data.diffusion);
 }
 
 // Work for only 1 authors for now
@@ -104,17 +107,35 @@ async function getGallery(url, output) {
   }
 }
 
-async function getGenres(data) {
+function getGenres(data) {
   data.forEach((genre) => {
     async function getGenre(genre) {
       let response = await fetch(genre);
       let data = await response.json();
 
       genres.value.push(data);
-      console.log(genres.value);
     }
     getGenre(genre);
   });
+}
+
+function getDiffusions(diffusions) {
+  diffusions.forEach((diffusion) => {
+    getDiffusion(diffusion);
+  });
+
+  async function getDiffusion(diffusion) {
+    let response = await fetch(diffusion);
+    let data = await response.json();
+    getEvent(data.event);
+
+    async function getEvent(event) {
+      let response = await fetch(event);
+      let data = await response.json();
+
+      events.value.push(data);
+    }
+  }
 }
 
 // Need to remove this and all element using this function for Prod
@@ -154,6 +175,19 @@ onMounted(() => {
           —
           {{ artwork.production_date.split("-")[0] }}
         </h3>
+      </section>
+
+      <section class="flex flex-col gap-6">
+        <UnderlineTitle
+          class="w-max"
+          :title="!events[2] ? 'Diffusion' : 'Diffusions'"
+          :underlineSize="1"
+          :fontSize="2"
+        />
+
+        <ul v-for="event in events" :key="event.title">
+          <li>— {{ event.title }}</li>
+        </ul>
       </section>
 
       <section class="flex flex-col gap-6">
@@ -199,10 +233,14 @@ onMounted(() => {
       </section>
     </div>
 
+    <!-- Set to scroll indepentently but can scroll with the entire page -->
     <div
       class="pl-8 pr-6 pt-5 pb-40 sticky top-16 w-2/5 h-screen overflow-x-scroll flex flex-col gap-6"
     >
-      <div v-if="genres[0]" class="mb-10 flex flex-col gap-6">
+      <div
+        v-if="genres[0] && genres[0].label !== '.'"
+        class="mb-10 flex flex-col gap-6"
+      >
         <UnderlineTitle
           class="w-max"
           title="Genres"
@@ -240,6 +278,7 @@ onMounted(() => {
           <li v-for="media in gallery.mediaData" :key="media">
             <UiMedia
               :url="removePreprod(media.picture)"
+              :medium="media.medium_url"
               :title="`${media.label} : (${gallery.description})`"
             />
           </li>
@@ -262,6 +301,7 @@ onMounted(() => {
           <li v-for="media in gallery.mediaData" :key="media">
             <UiMedia
               :url="removePreprod(media.picture)"
+              :medium="media.medium_url"
               :title="`${media.label} : (${gallery.description})`"
             />
           </li>
@@ -284,6 +324,7 @@ onMounted(() => {
           <li v-for="media in gallery.mediaData" :key="media">
             <UiMedia
               :url="removePreprod(media.picture)"
+              :medium="media.medium_url"
               :title="`${media.label} : (${gallery.description})`"
             />
           </li>
@@ -306,6 +347,7 @@ onMounted(() => {
           <li v-for="media in gallery.mediaData" :key="media">
             <UiMedia
               :url="removePreprod(media.picture)"
+              :medium="media.medium_url"
               :title="`${media.label} : (${gallery.description})`"
             />
           </li>
@@ -328,6 +370,7 @@ onMounted(() => {
           <li v-for="media in gallery.mediaData" :key="media">
             <UiMedia
               :url="removePreprod(media.picture)"
+              :medium="media.medium_url"
               :title="`${media.label} : (${gallery.description})`"
             />
           </li>

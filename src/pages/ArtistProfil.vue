@@ -18,6 +18,7 @@ let user = ref();
 
 let bio = ref([]);
 
+// Get more info when authentified via userProfile api
 onMounted(() => {
   const artistId = router.currentRoute.value.params.id;
 
@@ -33,14 +34,11 @@ onMounted(() => {
   getArtist(artistId);
 
   async function getArtwork(id) {
-    console.log("hello");
     let response = await fetch(
       `${storeApi.restUriV2}production/artwork?authors=${id}`
     );
     let data = await response.json();
-    console.log(data);
     artwork.value = data;
-    console.log("hello");
   }
   getArtwork(artistId);
 
@@ -60,6 +58,11 @@ onMounted(() => {
   }
   getStudent(artistId);
 });
+
+// Need to remove this and all element using this function for Prod
+function removePreprod(url) {
+  return url.replace("preprod.", "");
+}
 </script>
 
 <template>
@@ -108,39 +111,11 @@ onMounted(() => {
           :desc_fr="artist.bio_fr"
           :desc_en="artist.bio_en"
         />
-
-        <!-- Can be component to, props Title (Oeuvres or Média) -->
-        <div>
-          <div
-            class="mb-2 w-full after:block after:w-full after:h-1 after:bg-black after:dark:bg-white"
-          >
-            <div class="flex items-end justify-between">
-              <h2 class="p-2 text-2xl font-bold uppercase">Oeuvres</h2>
-              <h6 class="text-xs text-gray">Sélectionner</h6>
-            </div>
-          </div>
-          <div class="grid grid-cols-4 gap-2">
-            <!-- set ring active with router id -->
-            <ArtworkCard v-for="(el, index) in 8" :key="index" :index="index" />
-          </div>
-        </div>
-        <div class="shadow-border">
-          <h2 class="font-bold">artist</h2>
-          <p>{{ artist }}</p>
-
-          <h2 class="font-bold">artwork</h2>
-          <p>{{ artwork }}</p>
-
-          <h2 class="font-bold">user</h2>
-          <p>{{ user }}</p>
-
-          <h2 class="font-bold">student</h2>
-          <p>{{ student }}</p>
-        </div>
       </div>
     </div>
 
     <div
+      v-if="artwork"
       class="pl-8 pr-6 py-5 sticky top-16 w-2/5 h-screen overflow-x-scroll flex flex-col gap-6"
     >
       <UnderlineTitle
@@ -152,8 +127,13 @@ onMounted(() => {
         :fontSize="2"
       />
       <ul class="grid grid-cols-2 gap-3">
+        <!-- {{ artwork }} -->
         <li v-for="artwork in artwork" :key="artwork.url">
-          <ArtworkCard :url="artwork.picture" :title="artwork.title" />
+          <ArtworkCard
+            :url="artwork.url"
+            :picture="removePreprod(artwork.picture)"
+            :title="artwork.title"
+          />
         </li>
       </ul>
     </div>

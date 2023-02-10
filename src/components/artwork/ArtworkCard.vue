@@ -1,9 +1,16 @@
 <script setup>
+import { useConfigApi } from "@/stores/configApi";
+const storeApi = useConfigApi();
+
 // define props like url of img media and url artwork
 
 // props for now but query artwork id in the future
 const props = defineProps({
   url: {
+    type: String,
+    required: true,
+  },
+  picture: {
     type: String,
     required: true,
   },
@@ -17,14 +24,18 @@ const props = defineProps({
 <!-- Change the name with MediaCard might be better for reuse -->
 <!-- set for img if preview but it can be a video watch out -->
 <template>
-  <router-link to="" class="flex flex-col items-end">
+  <router-link
+    :to="`/artwork/${storeApi.getId(props.url)}`"
+    class="flex flex-col items-end"
+  >
+    <!-- {{ storeApi.getId(props.url) }} -->
     <div
       :class="{ 'ring-8': props.index === 1 }"
       class="w-full aspect-video object-cover bg-gray-extralightest hover:ring-8 ring-inset ring-black"
     >
       <img
         class="object-cover aspect-video"
-        :src="props.url"
+        :src="props.picture"
         :alt="props.title"
       />
     </div>
