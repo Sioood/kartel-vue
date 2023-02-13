@@ -140,7 +140,9 @@ function getDiffusions(diffusions) {
 
 // Need to remove this and all element using this function for Prod
 function removePreprod(url) {
-  return url.replace("preprod.", "");
+  if (url) {
+    return url.replace("preprod.", "");
+  }
 }
 
 onMounted(() => {

@@ -61,7 +61,10 @@ onMounted(() => {
 
 // Need to remove this and all element using this function for Prod
 function removePreprod(url) {
-  return url.replace("preprod.", "");
+  console.log(artwork);
+  if (url) {
+    return url.replace("preprod.", "");
+  }
 }
 </script>
 

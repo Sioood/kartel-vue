@@ -9,20 +9,16 @@ const props = defineProps({
 </script>
 
 <template>
-  <div>
+  <li>
     <!-- <p>{{ props.student }}</p> -->
-    <li
+    <div
       v-if="props.student.userData"
-      class="relative border-solid border-2 border-gray hover:border-black dark:hover:border-gray-extralightest"
+      class="relative h-full border-solid border-2 border-gray hover:border-black dark:hover:border-gray-extralightest"
       :key="props.student.userData.id"
     >
       <!-- <p>{{ storeApi.getId(props.student.url) }}</p> -->
       <!-- parameters Query with id Student ? User ? Artist ? all ? -->
-      <router-link
-        :to="`/school/artist/${storeApi.getId(
-          props.student.artist
-        )}?student=${storeApi.getId(props.student.url)}`"
-      >
+      <router-link :to="`/artist/${storeApi.getId(props.student.artist)}`">
         <div class="p-2 w-full h-full capitalize">
           <p v-if="props.student.userData.first_name" class="last:font-bold">
             {{ props.student.userData.first_name }}
@@ -34,8 +30,8 @@ const props = defineProps({
           </p>
         </div>
       </router-link>
-    </li>
-  </div>
+    </div>
+  </li>
 </template>
 
 <style scoped></style>

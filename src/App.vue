@@ -8,10 +8,11 @@ import UiLink from "@/components/ui/UiLink.vue";
 let navigation = ref({
   open: false,
   children: [
-    { name: "School", path: "/school/" },
+    { name: "School", path: "/school/promotion/4" },
     { name: "Artist", path: "/artist/710" },
     { name: "Artwork", path: "/artwork/1" },
     { name: "Média", path: "/media/" },
+    { name: "Student profil", path: "/school/artist/447?student=13" },
   ],
 });
 
@@ -55,9 +56,9 @@ onMounted(() => {
     >
     </nav> -->
     <nav
-      class="px-6 py-1 flex flex-row items-center justify-between gap-3 bg-white shadow-lg shadow-white"
+      class="px-6 py-1 flex flex-row flex-wrap items-center justify-between gap-3 bg-white shadow-lg shadow-white"
     >
-      <div class="flex flex-row items-center justify-start gap-3">
+      <div class="flex flex-row flex-wrap items-center justify-start gap-3">
         <!-- <button
           class="p-0 w-12 h-12 flex flex-row gap-1 items-center justify-center hover:bg-gray-extralightest"
           @click="
@@ -99,7 +100,7 @@ onMounted(() => {
   </header>
 
   <div class="w-full flex gap-8">
-    <RouterLink class="sticky top-0" to="/">
+    <RouterLink class="sticky top-0 hidden md:block" to="/">
       <img
         class="m-4"
         src="https://kartel.lefresnoy.net/images/candidature/fresnoy-bandeau.jpg"

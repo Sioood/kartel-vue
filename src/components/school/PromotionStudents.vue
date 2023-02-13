@@ -11,23 +11,23 @@ import UnderlineTitle from "@/components/ui/UnderlineTitle.vue";
 const router = useRouter();
 const storeApi = useConfigApi();
 
-const props = defineProps({
-  promoId: Number,
-});
+const props = defineProps(["promoId"]);
 
 onMounted(() => {
-  // storeApi.getPromoStudents(props.promoId);
+  const routerPromoId = router.currentRoute.value.params.id;
 
-  if (!props.promoId) {
-    storeApi.getPromoStudents(router.currentRoute.value.params.id);
-
-    storeApi.getSelectedPromo(router.currentRoute.value.params.id);
+  if (props.promoId) {
+    storeApi.getPromoStudents(props.promoId);
+    storeApi.getSelectedPromo(props.promoId);
+  } else {
+    storeApi.getPromoStudents(routerPromoId);
+    storeApi.getSelectedPromo(routerPromoId);
   }
 });
 </script>
 
 <template>
-  <div class="py-2 px-10 w-full overflow-scroll">
+  <div class="py-4 px-10 w-full flex flex-col gap-10 md:overflow-y-scroll">
     <!-- <h2 class="p-3" v-if="storeApi.selectedPromo">
       <i>{{
         `This is a children of school view and is the promotion
@@ -35,7 +35,7 @@ onMounted(() => {
       }}</i>
     </h2> -->
 
-    <div class="mb-16 w-full flex items-center justify-between">
+    <div class="w-full flex flex-wrap items-center justify-between gap-3">
       <UnderlineTitle
         class="promo__title"
         v-if="storeApi.selectedPromo"
@@ -58,7 +58,7 @@ onMounted(() => {
       </div>
     </div>
 
-    <ul v-if="storeApi.promoStudents[0]" class="grid grid-cols-5 gap-6">
+    <ul v-if="storeApi.promoStudents[0]" class="grid grid-cols-fluid gap-6">
       <!-- <p>{{ storeApi.promoStudents[0] }}</p> -->
       <!-- fetch all student before and not one by one inside the card -> get an array and can iterate it -->
       <!-- :key remplacer par l'index -> (object, index) -->

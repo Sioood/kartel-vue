@@ -36,6 +36,9 @@ module.exports = {
           DEFAULT: "rgb(220, 65, 84)",
         },
       },
+      gridTemplateColumns: {
+        fluid: "repeat(auto-fit, minmax(8rem, 1fr))",
+      },
       borderWidth: {
         0.5: "0.5px",
       },

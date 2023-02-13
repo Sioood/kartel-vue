@@ -136,7 +136,7 @@ onMounted(() => {
           </div>
           <div class="grid grid-cols-4 gap-2">
             <!-- set ring active with router id -->
-            <ArtworkCard v-for="(el, index) in 8" :key="index" :index="index" />
+            <ArtworkCard v-for="(el, index) in 8" :key="index" url="url" picture="picture" title="title"  />
           </div>
         </div>
       </div>
