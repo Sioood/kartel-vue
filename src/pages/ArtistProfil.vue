@@ -30,6 +30,7 @@ onMounted(() => {
     bio.value.lang = "fr";
     bio.value.data = data.bio_fr;
     getUser(storeApi.getId(data.user));
+    console.log(data);
   }
   getArtist(artistId);
 

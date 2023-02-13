@@ -45,7 +45,7 @@ onMounted(() => {
           :fontSize="3"
         ></UnderlineTitle>
 
-        <label for="" class="w-max flex flex-col items-end">
+        <label for="" class="w-max flex flex-col items-end md:hidden">
           <div class="after:block after:w-full after:h-1 after:bg-black">
             <select
               v-model="promoSelected"
@@ -86,11 +86,7 @@ onMounted(() => {
                 $route.path.match(/.(school).(promotion)/gm) &&
                 Number($route.params.id) === storeApi.getId(promotion.url),
             }"
-            @click="
-              (promoId = storeApi.getId(promotion.url)),
-                storeApi.getPromoStudents(promoId),
-                storeApi.getSelectedPromo(promoId)
-            "
+            @click="promoId = storeApi.getId(promotion.url)"
           >
             <UnderlineTitle
               :title="`${promotion.starting_year}-${promotion.ending_year}`"
@@ -104,7 +100,7 @@ onMounted(() => {
       </ul>
     </div>
     <!-- Key reload everytime a changement occur -->
-    <router-view :promoId="promoId" :key="promoId" />
+    <router-view v-if="promoId" :promoId="promoId" :key="promoId" />
   </main>
 </template>
 

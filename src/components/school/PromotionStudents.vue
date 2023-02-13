@@ -1,5 +1,5 @@
 <script setup>
-import { useRouter } from "vue-router";
+// import { useRouter } from "vue-router";
 
 import { onMounted } from "vue";
 import { useConfigApi } from "../../stores/configApi";
@@ -8,22 +8,22 @@ import StudentCard from "./StudentCard.vue";
 import AppButton from "@/components/ui/AppButton.vue";
 import UnderlineTitle from "@/components/ui/UnderlineTitle.vue";
 
-const router = useRouter();
+// const router = useRouter();
 const storeApi = useConfigApi();
 
 const props = defineProps(["promoId"]);
 
 onMounted(() => {
-  const routerPromoId = router.currentRoute.value.params.id;
+  // const routerPromoId = router.currentRoute.value.params.id;
 
   if (props.promoId) {
+    console.log(true);
     storeApi.getPromoStudents(props.promoId);
     storeApi.getSelectedPromo(props.promoId);
-  } else {
-    storeApi.getPromoStudents(routerPromoId);
-    storeApi.getSelectedPromo(routerPromoId);
   }
 });
+
+console.log(null);
 </script>
 
 <template>
