@@ -7,7 +7,7 @@ import { useConfigApi } from "@/stores/configApi";
 import UnderlineTitle from "@/components/ui/UnderlineTitle.vue";
 import UiLink from "@/components/ui/UiLink.vue";
 import UiDescription from "@/components/ui/UiDescription.vue";
-import UiMedia from "@/components/ui/UiMedia.vue";
+import ArtworkGallery from "@/components/artwork/ArtworkGallery.vue";
 
 const router = useRouter();
 const storeApi = useConfigApi();
@@ -240,7 +240,11 @@ onMounted(() => {
       class="pl-8 pr-6 pt-5 pb-40 sticky top-16 w-2/5 h-screen overflow-x-scroll flex flex-col gap-6"
     >
       <div
-        v-if="genres[0] && genres[0].label !== '.'"
+        v-if="
+          genres[0] &&
+          genres.length === 1 &&
+          genres[0].label.replaceAll(/.| [ ]/g, '') !== ''
+        "
         class="mb-10 flex flex-col gap-6"
       >
         <UnderlineTitle
@@ -254,7 +258,7 @@ onMounted(() => {
         <div v-for="genre in genres" :key="genre" class="w-full flex flex-col">
           <div class="p-2 flex gap-1">
             <h6
-              v-if="genre.label !== '.'"
+              v-if="genre.label.replaceAll(/.| [ ]/g, '') !== ''"
               class="px-2 py-1 bg-gray-extralight text-xs font-medium rounded"
             >
               {{ genre.label }}
@@ -264,120 +268,35 @@ onMounted(() => {
         </div>
       </div>
 
-      <div v-if="galleries.teaserGalleries[0]" class="flex flex-col gap-6">
-        <UnderlineTitle
-          class="w-max"
-          title="Teaser"
-          :uppercase="true"
-          :underlineSize="1"
-          :fontSize="2"
-        />
-        <ul
-          v-for="gallery in galleries.teaserGalleries"
-          :key="gallery"
-          class="grid grid-cols-2 gap-3"
-        >
-          <li v-for="media in gallery.mediaData" :key="media">
-            <UiMedia
-              :url="removePreprod(media.picture)"
-              :medium="media.medium_url"
-              :title="`${media.label} : (${gallery.description})`"
-            />
-          </li>
-        </ul>
-      </div>
+      <ArtworkGallery
+        v-if="galleries.teaserGalleries[0]"
+        :galleries="galleries.teaserGalleries"
+        title="Teaser"
+      />
 
-      <div v-if="galleries.inSituGalleries[0]" class="flex flex-col gap-6">
-        <UnderlineTitle
-          class="w-max"
-          title="In Situ"
-          :uppercase="true"
-          :underlineSize="1"
-          :fontSize="2"
-        />
-        <ul
-          v-for="gallery in galleries.inSituGalleries"
-          :key="gallery"
-          class="grid grid-cols-2 gap-3"
-        >
-          <li v-for="media in gallery.mediaData" :key="media">
-            <UiMedia
-              :url="removePreprod(media.picture)"
-              :medium="media.medium_url"
-              :title="`${media.label} : (${gallery.description})`"
-            />
-          </li>
-        </ul>
-      </div>
+      <ArtworkGallery
+        v-if="galleries.inSituGalleries[0]"
+        :galleries="galleries.inSituGalleries"
+        title="In Situ"
+      />
 
-      <div v-if="galleries.processGalleries[0]" class="flex flex-col gap-6">
-        <UnderlineTitle
-          class="w-max"
-          title="Processus"
-          :uppercase="true"
-          :underlineSize="1"
-          :fontSize="2"
-        />
-        <ul
-          v-for="gallery in galleries.processGalleries"
-          :key="gallery"
-          class="grid grid-cols-2 gap-3"
-        >
-          <li v-for="media in gallery.mediaData" :key="media">
-            <UiMedia
-              :url="removePreprod(media.picture)"
-              :medium="media.medium_url"
-              :title="`${media.label} : (${gallery.description})`"
-            />
-          </li>
-        </ul>
-      </div>
+      <ArtworkGallery
+        v-if="galleries.processGalleries[0]"
+        :galleries="galleries.processGalleries"
+        title="Process"
+      />
 
-      <div v-if="galleries.pressGalleries[0]" class="flex flex-col gap-6">
-        <UnderlineTitle
-          class="w-max"
-          title="Press"
-          :uppercase="true"
-          :underlineSize="1"
-          :fontSize="2"
-        />
-        <ul
-          v-for="gallery in galleries.pressGalleries"
-          :key="gallery"
-          class="grid grid-cols-2 gap-3"
-        >
-          <li v-for="media in gallery.mediaData" :key="media">
-            <UiMedia
-              :url="removePreprod(media.picture)"
-              :medium="media.medium_url"
-              :title="`${media.label} : (${gallery.description})`"
-            />
-          </li>
-        </ul>
-      </div>
+      <ArtworkGallery
+        v-if="galleries.pressGalleries[0]"
+        :galleries="galleries.pressGalleries"
+        title="Press"
+      />
 
-      <div v-if="galleries.mediationGalleries[0]" class="flex flex-col gap-6">
-        <UnderlineTitle
-          class="w-max"
-          title="Médiation"
-          :uppercase="true"
-          :underlineSize="1"
-          :fontSize="2"
-        />
-        <ul
-          v-for="gallery in galleries.mediationGalleries"
-          :key="gallery"
-          class="grid grid-cols-2 gap-3"
-        >
-          <li v-for="media in gallery.mediaData" :key="media">
-            <UiMedia
-              :url="removePreprod(media.picture)"
-              :medium="media.medium_url"
-              :title="`${media.label} : (${gallery.description})`"
-            />
-          </li>
-        </ul>
-      </div>
+      <ArtworkGallery
+        v-if="galleries.mediationGalleries[0]"
+        :galleries="galleries.mediationGalleries"
+        title="Médiation"
+      />
     </div>
   </main>
 </template>

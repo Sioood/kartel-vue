@@ -59,7 +59,7 @@ export const useConfigApi = defineStore("configApi", () => {
   // on obtient un mélange des promo
   async function getPromoStudents(promoId) {
     let response = await fetch(
-      `${restUriV2}school/student?artist=&user=&promotion=${promoId}&ordering=user__last_name`
+      `${restUriV2}school/student?&promotion=${promoId}&ordering=user__last_name`
     );
     let data = await response.json();
 
