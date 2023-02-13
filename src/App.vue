@@ -100,7 +100,7 @@ onMounted(() => {
   </header>
 
   <div class="w-full flex gap-8">
-    <RouterLink class="sticky top-0 hidden md:block" to="/">
+    <RouterLink class="sticky top-0 hidden lg:block" to="/">
       <img
         class="m-4"
         src="https://kartel.lefresnoy.net/images/candidature/fresnoy-bandeau.jpg"

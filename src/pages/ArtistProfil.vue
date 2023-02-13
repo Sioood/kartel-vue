@@ -18,6 +18,8 @@ let user = ref();
 
 let bio = ref([]);
 
+let responsive = ref(false);
+
 // Get more info when authentified via userProfile api
 onMounted(() => {
   const artistId = router.currentRoute.value.params.id;
@@ -78,68 +80,92 @@ function removePreprod(url) {
 
   <!-- max h-screen ?? -> overflow scroll for component ? -->
   <main
-    class="pt-2 pr-20 pb-2 w-full min-h-screen flex justify-between gap-10 divide-x"
+    class="pt-2 lg:pr-20 pb-2 w-full min-h-screen flex flex-col gap-1 md:gap-5 divide-y md:divide-y-0"
   >
-    <div class="pl-8 pr-6 py-5 w-3/5">
-      <!-- <p>{{ storeApi.promoStudents }}</p> -->
-      <div class="flex flex-col gap-10">
-        <UnderlineTitle
-          class="w-max"
-          title="General Info"
-          :underlineSize="2"
-          :fontSize="1"
-        ></UnderlineTitle>
-
-        <UnderlineTitle
-          class="w-max"
-          v-if="artist && artist.nickname"
-          :title="`''${artist.nickname}''`"
-          subtitle="Artist"
-          :uppercase="true"
-          :underlineSize="1"
-          :fontSize="2"
-        ></UnderlineTitle>
-
-        <UnderlineTitle
-          class="w-max"
-          v-else-if="user && !artist.nickname"
-          :title="`${user.first_name} ${user.last_name}`"
-          subtitle="Artist"
-          :uppercase="true"
-          :underlineSize="1"
-          :fontSize="2"
-        ></UnderlineTitle>
-
-        <UiDescription
-          v-if="artist"
-          :desc_fr="artist.bio_fr"
-          :desc_en="artist.bio_en"
-        />
-      </div>
+    <div class="w-full flex justify-around md:hidden divide-x">
+      <h2
+        @click="responsive = false"
+        class="px-6 py-3 w-full text-xl font-bold hover:bg-gray-extralightest after:block after:w-full after:h-1 after:bg-black cursor-pointer"
+        :class="{ 'bg-gray-extralightest': responsive === false }"
+      >
+        À propos
+      </h2>
+      <h2
+        @click="responsive = true"
+        class="px-6 py-3 w-full text-xl font-bold hover:bg-gray-extralightest after:block after:w-full after:h-1 after:bg-black cursor-pointer"
+        :class="{ 'bg-gray-extralightest': responsive === true }"
+      >
+        Média
+      </h2>
     </div>
-
     <div
-      v-if="artwork"
-      class="pl-8 pr-6 py-5 sticky top-16 w-2/5 h-screen overflow-x-scroll flex flex-col gap-6"
+      class="pt-2 pb-2 w-full min-h-screen flex justify-between gap-10 divide-x"
     >
-      <UnderlineTitle
-        class="w-max"
-        title="Oeuvres"
-        subtitle="Artist"
-        :uppercase="true"
-        :underlineSize="1"
-        :fontSize="2"
-      />
-      <ul class="grid grid-cols-2 gap-3">
-        <!-- {{ artwork }} -->
-        <li v-for="artwork in artwork" :key="artwork.url">
-          <ArtworkCard
-            :url="artwork.url"
-            :picture="removePreprod(artwork.picture)"
-            :title="artwork.title"
+      <div
+        class="pl-8 pr-6 py-5 md:w-3/5 md:flex"
+        :class="{ flex: responsive === false, hidden: responsive === true }"
+      >
+        <!-- <p>{{ storeApi.promoStudents }}</p> -->
+        <div class="flex flex-col gap-10">
+          <UnderlineTitle
+            class="w-max"
+            title="General Info"
+            :underlineSize="2"
+            :fontSize="1"
+          ></UnderlineTitle>
+
+          <UnderlineTitle
+            class="w-max"
+            v-if="artist && artist.nickname"
+            :title="`''${artist.nickname}''`"
+            subtitle="Artist"
+            :uppercase="true"
+            :underlineSize="1"
+            :fontSize="2"
+          ></UnderlineTitle>
+
+          <UnderlineTitle
+            class="w-max"
+            v-else-if="user && !artist.nickname"
+            :title="`${user.first_name} ${user.last_name}`"
+            subtitle="Artist"
+            :uppercase="true"
+            :underlineSize="1"
+            :fontSize="2"
+          ></UnderlineTitle>
+
+          <UiDescription
+            v-if="artist"
+            :desc_fr="artist.bio_fr"
+            :desc_en="artist.bio_en"
           />
-        </li>
-      </ul>
+        </div>
+      </div>
+
+      <div
+        v-if="artwork"
+        class="pl-8 pr-6 py-5 sticky top-16 md:w-2/5 h-screen overflow-x-scroll md:flex flex-col gap-6"
+        :class="{ flex: responsive === true, hidden: responsive === false }"
+      >
+        <UnderlineTitle
+          class="w-max"
+          title="Oeuvres"
+          subtitle="Artist"
+          :uppercase="true"
+          :underlineSize="1"
+          :fontSize="2"
+        />
+        <ul class="grid grid-cols-2 gap-3">
+          <!-- {{ artwork }} -->
+          <li v-for="artwork in artwork" :key="artwork.url">
+            <ArtworkCard
+              :url="artwork.url"
+              :picture="removePreprod(artwork.picture)"
+              :title="artwork.title"
+            />
+          </li>
+        </ul>
+      </div>
     </div>
   </main>
 </template>
