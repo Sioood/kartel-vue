@@ -8,6 +8,7 @@ import UnderlineTitle from "@/components/ui/UnderlineTitle.vue";
 import UiLink from "@/components/ui/UiLink.vue";
 import UiDescription from "@/components/ui/UiDescription.vue";
 import ArtworkGallery from "@/components/artwork/ArtworkGallery.vue";
+import CreditsSection from "@/components/artwork/CreditsSection.vue";
 
 const router = useRouter();
 const storeApi = useConfigApi();
@@ -179,7 +180,7 @@ onMounted(() => {
         </h3>
       </section>
 
-      <section class="flex flex-col gap-6">
+      <section v-if="events[0]" class="flex flex-col gap-6">
         <UnderlineTitle
           class="w-max"
           :title="!events[2] ? 'Diffusion' : 'Diffusions'"
@@ -192,7 +193,10 @@ onMounted(() => {
         </ul>
       </section>
 
-      <section class="flex flex-col gap-6">
+      <section
+        v-if="artwork.description_fr || artwork.description_en"
+        class="flex flex-col gap-6"
+      >
         <UnderlineTitle
           class="w-max"
           title="Description"
@@ -206,7 +210,15 @@ onMounted(() => {
         />
       </section>
 
-      <section class="flex flex-col gap-6">
+      <section
+        v-if="
+          artwork.credits_fr ||
+          artwork.credits_en ||
+          artwork.collaborators[0] ||
+          artwork.partners[0]
+        "
+        class="flex flex-col gap-6"
+      >
         <UnderlineTitle
           class="w-max"
           title="Crédits"
@@ -214,15 +226,18 @@ onMounted(() => {
           :fontSize="2"
         />
 
-        <!-- credits may be a categorie with credits, collaborator, partners... -->
-        <!-- can be a components -->
-        <UiDescription
-          :desc_fr="artwork.credits_fr"
-          :desc_en="artwork.credits_en"
+        <CreditsSection
+          :collaborators="artwork.collaborators"
+          :partners="artwork.partners"
+          :credits_fr="artwork.credits_fr"
+          :credits_en="artwork.credits_en"
         />
       </section>
 
-      <section class="flex flex-col gap-6">
+      <section
+        v-if="artwork.thanks_fr || artwork.thanks_en"
+        class="flex flex-col gap-6"
+      >
         <UnderlineTitle
           class="w-max"
           title="Remerciement"
