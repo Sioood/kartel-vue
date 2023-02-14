@@ -14,7 +14,7 @@ defineProps({
 </script>
 
 <template>
-  <div class="flex flex-col items-end">
+  <div class="w-max flex flex-col items-end">
     <h1
       v-if="fontSize === 1"
       class="text-3xl font-bold after:w-20 after:block after:bg-black after:dark:bg-white"
