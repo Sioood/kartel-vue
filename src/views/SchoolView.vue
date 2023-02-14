@@ -100,7 +100,7 @@ onMounted(() => {
       </ul>
     </div>
     <!-- Key reload everytime a changement occur -->
-    <router-view v-if="promoId" :promoId="promoId" :key="promoId" />
+    <router-view v-if="promoId" :promoId="promoId" />
   </main>
 </template>
 
