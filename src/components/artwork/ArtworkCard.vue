@@ -5,6 +5,7 @@ const storeApi = useConfigApi();
 // define props like url of img media and url artwork
 
 // props for now but query artwork id in the future
+// Condition if id is alone refetch artwork info
 const props = defineProps({
   url: {
     type: String,

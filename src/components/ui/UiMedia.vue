@@ -52,6 +52,7 @@ const open = ref(false);
             v-else
             class="w-full h-full object-cover aspect-video"
             controls
+            autoplay
             :src="props.medium"
           ></video>
         </div>

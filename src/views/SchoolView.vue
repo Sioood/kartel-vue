@@ -34,7 +34,7 @@ onMounted(() => {
   <main
     class="h-screen md:pr-20 pb-10 w-full flex flex-col md:flex-row md:divide-x divide-y"
   >
-    <div class="sticky top-0 py-2 px-2 flex flex-col justify-between gap-4">
+    <div class="md:sticky top-0 py-2 px-2 flex flex-col justify-between gap-4">
       <div class="p-2 flex flex-col gap-3">
         <UnderlineTitle
           class="[&:nth-child(1)>:nth-child(1)]:w-full"

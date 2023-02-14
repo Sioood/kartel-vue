@@ -214,6 +214,8 @@ onMounted(() => {
           :fontSize="2"
         />
 
+        <!-- credits may be a categorie with credits, collaborator, partners... -->
+        <!-- can be a components -->
         <UiDescription
           :desc_fr="artwork.credits_fr"
           :desc_en="artwork.credits_en"
@@ -239,6 +241,7 @@ onMounted(() => {
     <div
       class="pl-8 pr-6 pt-5 pb-40 sticky top-16 w-2/5 h-screen overflow-x-scroll flex flex-col gap-6"
     >
+      <!-- vérfifier la length du mot, si moins de 3 lettres c'est pas un mot exploitable -->
       <div
         v-if="
           genres[0] &&
