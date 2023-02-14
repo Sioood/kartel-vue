@@ -114,27 +114,27 @@ onUnmounted(() => {
               ? (navigation.open = true)
               : (navigation.open = false)
           "
-          class="relative aspect-square w-7 flex flex-col"
+          class="group relative aspect-square w-7 flex flex-col"
         >
           <span
-            class="block w-full h-1 bg-gray-lightest"
+            class="group-hover:mb-0 transition-all block w-full h-1 bg-gray-lightest"
             :class="{
               'mb-0.5': navigation.open === false,
-              absolute: navigation.open === true,
+              // absolute: navigation.open === true,
             }"
           ></span>
           <span
-            class="block w-full h-1 bg-black"
+            class="group-hover:mb-0.5 transition-all block w-full h-1 bg-black"
             :class="{
               'mb-1': navigation.open === false,
-              absolute: navigation.open === true,
+              // absolute: navigation.open === true,
             }"
           ></span>
           <span
-            class="block w-full h-1 bg-black"
+            class="group-hover:mb-0.5 transition-all block w-full h-1 bg-black"
             :class="{
               'mb-1': navigation.open === false,
-              absolute: navigation.open === true,
+              // absolute: navigation.open === true,
             }"
           ></span>
           <span class="block w-full h-1 bg-black"></span>
@@ -148,6 +148,10 @@ onUnmounted(() => {
           flex: navigation.open === true,
         }"
       >
+        <!-- search might be better at the top because the dropdown results can be on top -->
+        <div class="w-full flex justify-end">
+          <UiSearch />
+        </div>
         <ul class="flex flex-col justify-center gap-2">
           <li v-for="(item, index) in navigation.children" :key="index">
             <RouterLink
@@ -163,9 +167,7 @@ onUnmounted(() => {
             </RouterLink>
           </li>
         </ul>
-        <div>
-          <UiSearch />
-        </div>
+        <div></div>
       </div>
     </nav>
     <hr />
