@@ -180,7 +180,8 @@ onUnmounted(() => {
       />
     </RouterLink>
 
-    <RouterView />
+    <!-- key detect changement and reload component if is the same route with a different id (component is already mounted) -->
+    <RouterView :key="$route.path" />
   </div>
 </template>
 
