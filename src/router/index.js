@@ -57,6 +57,11 @@ const router = createRouter({
       component: () => import("../pages/ArtistProfil.vue"),
     },
     {
+      path: "/artworks",
+      name: "artworks",
+      component: () => import("../views/ArtworkView.vue"),
+    },
+    {
       path: "/artwork/:id",
       name: "artwork",
       component: () => import("../pages/ArtworkPage.vue"),
