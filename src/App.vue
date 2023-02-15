@@ -88,7 +88,11 @@ onUnmounted(() => {
           :to="item.path"
           >{{ item.name }}
         </RouterLink> -->
-        <img src="./assets/logo-Fresnoy-transparent.png" alt="" class="h-7" />
+        <img
+          src="./assets/logo-Fresnoy-transparent.png"
+          alt=""
+          class="h-7 lg:hidden"
+        />
 
         <li v-for="(item, index) in navigation.children" :key="index">
           <UiLink :url="item.path" :text="item.name" />
@@ -177,10 +181,10 @@ onUnmounted(() => {
     <hr />
   </header>
 
-  <div class="mt-12 w-full flex gap-8">
+  <div class="mt-16 w-full flex gap-8">
     <RouterLink class="sticky top-0 hidden lg:block" to="/">
       <img
-        class="m-4"
+        class="m-4 sticky top-20"
         src="https://kartel.lefresnoy.net/images/candidature/fresnoy-bandeau.jpg"
         alt=""
       />
