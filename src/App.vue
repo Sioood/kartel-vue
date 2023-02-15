@@ -11,7 +11,8 @@ let navigation = ref({
   children: [
     { name: "School", path: "/school/promotion/4" },
     { name: "Artist", path: "/artist/710" },
-    { name: "Artwork", path: "/artwork/1" },
+    { name: "Artworks", path: "/artworks" },
+    { name: "Artwork 1", path: "/artwork/1" },
     { name: "Média", path: "/media/" },
     { name: "Student profil", path: "/school/artist/447?student=13" },
   ],

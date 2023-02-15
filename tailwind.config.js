@@ -38,6 +38,7 @@ module.exports = {
       },
       gridTemplateColumns: {
         fluid: "repeat(auto-fit, minmax(8rem, 1fr))",
+        "fluid-14": "repeat(auto-fit, minmax(14rem, 1fr))",
       },
       borderWidth: {
         0.5: "0.5px",
