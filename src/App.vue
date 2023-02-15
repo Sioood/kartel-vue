@@ -88,6 +88,8 @@ onUnmounted(() => {
           :to="item.path"
           >{{ item.name }}
         </RouterLink> -->
+        <img src="./assets/logo-Fresnoy-transparent.png" alt="" class="h-7" />
+
         <li v-for="(item, index) in navigation.children" :key="index">
           <UiLink :url="item.path" :text="item.name" />
         </li>
@@ -108,7 +110,8 @@ onUnmounted(() => {
       class="md:hidden p-2 flex flex-col bg-white"
       :class="{ 'h-screen': navigation.open === true }"
     >
-      <div class="flex flex-row-reverse">
+      <div class="flex flex-row justify-between">
+        <img src="./assets/logo-Fresnoy-transparent.png" alt="" class="h-7" />
         <button
           @click="
             navigation.open === false
