@@ -116,7 +116,7 @@ function removePreprod(url) {
             <select
               name="date"
               id="date"
-              class="w-full after:block after:w-10 after:h-1 after:bg-black cursor-pointer"
+              class="px-2 w-full after:block after:w-10 after:h-1 after:bg-black cursor-pointer"
               @change="onChangeYear(year)"
               v-model="year"
             >

@@ -1,13 +1,3 @@
-* {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 1em;
-  font: inherit;
-  text-decoration: none;
-  box-sizing: border-box;
-}
-
 body {
   line-height: 1;
 }
@@ -27,4 +17,14 @@ input[type="search"]::-webkit-search-cancel-button,
 input[type="search"]::-webkit-search-results-button,
 input[type="search"]::-webkit-search-results-decoration {
   display: none;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 1em;
+  font: inherit;
+  text-decoration: none;
+  box-sizing: border-box;
 }
