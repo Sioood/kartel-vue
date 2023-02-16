@@ -38,6 +38,18 @@ npm run dev
 npm run build
 ```
 
+### Run Vitepress Documentation
+
+```sh
+npm run docs:devs # or `npm run test:unit` for headless testing
+```
+
+### Build the Documentation 
+
+```sh
+npm run docs:build # or `npm run test:unit` for headless testing
+```
+
 ### Run Headed Component Tests with [Cypress Component Testing](https://on.cypress.io/component)
 
 ```sh
