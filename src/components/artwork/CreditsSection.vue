@@ -14,13 +14,11 @@ const props = defineProps([
 let collaborators = ref([]);
 let partners = ref([]);
 
+// sort by task label to regroup by label
+
 async function getOrganizationData(url) {
-  console.log(url);
   let response = await fetch(url);
   let data = await response.json();
-
-  // console.log(data);
-  // type.value.push(data);
   return data;
 }
 
@@ -85,28 +83,21 @@ onMounted(() => {
       </li>
     </ul>
 
-    <ul v-if="partners[0]" class="flex flex-col gap-3">
+    <ul v-if="partners[0]" class="pl-6 flex flex-col gap-3">
       <UnderlineTitle title="Partenaires" :fontSize="3" />
       <li
         v-for="partner in partners"
         :key="partner.url"
-        class="flex flex-col gap-3"
+        class="pl-2 flex flex-col gap-1"
       >
-        <img
-          v-if="partner.organization.picture"
-          class="w-full"
-          :src="partner.organization.picture"
-          :alt="partner.organization.picture"
-        />
+        <h5 class="text-base font-medium text-gray-dark">
+          — {{ partner.task.label }}
+        </h5>
         <h4
           class="text-lg font-medium after:block after:w-20 after:h-1 after:bg-black"
         >
           {{ partner.organization.name }}
         </h4>
-        <h5 class="text-base font-medium text-gray-dark">
-          {{ partner.task.label }}
-        </h5>
-        <p>{{ partner.organization.description }}</p>
       </li>
     </ul>
   </div>
