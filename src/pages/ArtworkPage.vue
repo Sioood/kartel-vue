@@ -160,7 +160,19 @@ onMounted(() => {
   >
     <div class="pl-8 pr-6 py-5 w-3/5 flex flex-col gap-10">
       <section class="flex flex-col gap-6">
-        <img :src="removePreprod(artwork.picture)" alt="" />
+        <img
+          :src="`${storeApi.mediaService}?url=${removePreprod(
+            artwork.picture
+          )}&w=1000&fmt=jpg`"
+          :srcset="`${storeApi.mediaService}?url=${removePreprod(
+            artwork.picture
+          )}&w=500&fmt=jpg 500w,
+          ${storeApi.mediaService}?url=${removePreprod(
+            artwork.picture
+          )}&w=1000&fmt=jpg 1000w`"
+          :alt="`preview picture of ${artwork.title}`"
+          sizes="100vw"
+        />
         <UnderlineTitle
           class="w-max"
           :title="artwork.title"
