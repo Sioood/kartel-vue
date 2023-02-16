@@ -38,6 +38,7 @@ async function getArtworks(productionYear) {
   let response = await fetch(
     `${storeApi.restUriV2}production/artwork?${params.productionYear}&page_size=20&page=${offset.value}`
   );
+
   let data = await response.json();
   console.log(data);
   data.forEach((artwork) => {

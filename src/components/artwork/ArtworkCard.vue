@@ -32,12 +32,12 @@ const props = defineProps({
     <!-- {{ storeApi.getId(props.url) }} -->
     <div
       :class="{ 'ring-8': props.index === 1 }"
-      class="w-full aspect-video object-cover bg-gray-extralightest hover:ring-8 ring-inset ring-black"
+      class="w-full aspect-video object-cover bg-gray-extralightest"
     >
       <img
-        class="object-cover aspect-video"
-        :src="props.picture"
+        class="w-full object-cover aspect-video"
         :alt="props.title"
+        :src="`${storeApi.mediaService}?url=${props.picture}&w=300&fmt=jpg`"
       />
     </div>
     <span class="block w-full h-1 bg-black"></span>
