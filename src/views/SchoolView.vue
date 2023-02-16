@@ -42,7 +42,7 @@ onMounted(() => {
           subtitle="Sélectionner"
           :uppercase="false"
           :underlineSize="1"
-          :fontSize="3"
+          :fontSize="1"
         ></UnderlineTitle>
 
         <label for="" class="w-max flex flex-col items-end md:hidden">

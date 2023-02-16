@@ -2,15 +2,19 @@
 import { useRouter } from "vue-router";
 
 import { ref, onMounted } from "vue";
+import { useConfigApi } from "../stores/configApi";
 
 import UnderlineTitle from "@/components/ui/UnderlineTitle.vue";
 import ArtworkCard from "@/components/artwork/ArtworkCard.vue";
 
 const router = useRouter();
+const storeApi = useConfigApi();
 
 let artworks = ref([]);
 let watcher = ref();
 let load = ref(false);
+
+//  get header for get next
 let offset = ref(1);
 
 let years = ref([]);
@@ -32,7 +36,7 @@ async function getArtworks(productionYear) {
   }
 
   let response = await fetch(
-    `http://preprod.api.lefresnoy.net/v2/production/artwork?${params.productionYear}&page_size=20&page=${offset.value}`
+    `${storeApi.restUriV2}production/artwork?${params.productionYear}&page_size=20&page=${offset.value}`
   );
   let data = await response.json();
   console.log(data);

@@ -15,8 +15,8 @@ export const useConfigApi = defineStore("configApi", () => {
 
   // config api
   // const restUriV2 = "https://api.lefresnoy.net/v2/";
-  // const restUriV2 = "http://127.0.0.1:8000/v2/";
-  const restUriV2 = "http://preprod.api.lefresnoy.net/v2/";
+  const restUriV2 = "http://127.0.0.1:8000/v2/";
+  // const restUriV2 = "http://preprod.api.lefresnoy.net/v2/";
 
   // Donner un autre url pour les médias car pas accès en local
   // const mediaService = "http://127.0.0.1:8000/v2/";
