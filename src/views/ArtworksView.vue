@@ -1,14 +1,14 @@
 <script setup>
+import config from "@/config";
+
 import { useRouter } from "vue-router";
 
 import { ref, onMounted } from "vue";
-import { useConfigApi } from "../stores/configApi";
 
 import UnderlineTitle from "@/components/ui/UnderlineTitle.vue";
 import ArtworkCard from "@/components/artwork/ArtworkCard.vue";
 
 const router = useRouter();
-const storeApi = useConfigApi();
 
 let artworks = ref([]);
 let watcher = ref();
@@ -36,7 +36,7 @@ async function getArtworks(productionYear) {
   }
 
   let response = await fetch(
-    `${storeApi.restUriV2}production/artwork?${params.productionYear}&page_size=20&page=${offset.value}`
+    `${config.rest_uri_v2}production/artwork?${params.productionYear}&page_size=20&page=${offset.value}`
   );
 
   let data = await response.json();
@@ -137,7 +137,6 @@ function removePreprod(url) {
     </div>
     <span class="my-3 w-full h-0.5 block bg-gray-extralight"></span>
     <ul class="grid grid-cols-fluid-14 gap-3">
-      <!-- {{ artwork }} -->
       <li v-for="artwork in artworks" :key="artwork.url">
         <ArtworkCard
           :url="artwork.url"

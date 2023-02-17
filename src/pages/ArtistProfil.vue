@@ -1,4 +1,6 @@
 <script setup>
+import config from "@/config";
+
 import { useRouter } from "vue-router";
 
 import { ref, onMounted } from "vue";
@@ -25,7 +27,7 @@ onMounted(() => {
   const artistId = router.currentRoute.value.params.id;
 
   async function getArtist(id) {
-    let response = await fetch(`${storeApi.restUriV2}people/artist/${id}`);
+    let response = await fetch(`${config.rest_uri_v2}people/artist/${id}`);
     let data = await response.json();
     artist.value = data;
 
@@ -38,7 +40,7 @@ onMounted(() => {
 
   async function getArtwork(id) {
     let response = await fetch(
-      `${storeApi.restUriV2}production/artwork?authors=${id}`
+      `${config.rest_uri_v2}production/artwork?authors=${id}`
     );
     let data = await response.json();
     artwork.value = data;
@@ -46,7 +48,7 @@ onMounted(() => {
   getArtwork(artistId);
 
   async function getUser(id) {
-    let response = await fetch(`${storeApi.restUriV2}people/user/${id}`);
+    let response = await fetch(`${config.rest_uri_v2}people/user/${id}`);
     let data = await response.json();
 
     user.value = data;
@@ -54,7 +56,7 @@ onMounted(() => {
 
   async function getStudent(id) {
     let response = await fetch(
-      `${storeApi.restUriV2}school/student?artist=${id}`
+      `${config.rest_uri_v2}school/student?artist=${id}`
     );
     let data = await response.json();
     student.value = data;

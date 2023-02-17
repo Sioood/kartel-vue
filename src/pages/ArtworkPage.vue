@@ -1,4 +1,6 @@
 <script setup>
+import config from "@/config";
+
 import { useRouter } from "vue-router";
 
 import { ref, onMounted } from "vue";
@@ -21,7 +23,7 @@ let genres = ref([]);
 let events = ref([]);
 
 async function getArtwork(id) {
-  let response = await fetch(`${storeApi.restUriV2}production/artwork/${id}`);
+  let response = await fetch(`${config.rest_uri_v2}production/artwork/${id}`);
   let data = await response.json();
   artwork.value = data;
 
@@ -161,15 +163,15 @@ onMounted(() => {
     <div class="pl-8 pr-6 py-5 w-3/5 flex flex-col gap-10">
       <section class="flex flex-col gap-6">
         <img
-          :src="`${storeApi.mediaService}?url=${removePreprod(
+          :src="`${config.media_service}?url=${removePreprod(
             artwork.picture
-          )}&w=1000&fmt=jpg`"
-          :srcset="`${storeApi.mediaService}?url=${removePreprod(
+          )}&mode=adapt&w=1000&fmt=jpg`"
+          :srcset="`${config.media_service}?url=${removePreprod(
             artwork.picture
-          )}&w=500&fmt=jpg 500w,
-          ${storeApi.mediaService}?url=${removePreprod(
+          )}&mode=adapt&w=500&fmt=jpg 500w,
+          ${config.media_service}?url=${removePreprod(
             artwork.picture
-          )}&w=1000&fmt=jpg 1000w`"
+          )}&mode=adapt&w=1000&fmt=jpg 1000w`"
           :alt="`preview picture of ${artwork.title}`"
           sizes="100vw"
         />
