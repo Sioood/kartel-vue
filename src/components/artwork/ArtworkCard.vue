@@ -1,4 +1,6 @@
 <script setup>
+import config from "@/config";
+
 import { useConfigApi } from "@/stores/configApi";
 const storeApi = useConfigApi();
 
@@ -37,7 +39,7 @@ const props = defineProps({
       <img
         class="w-full object-cover aspect-video"
         :alt="props.title"
-        :src="`${storeApi.mediaService}?url=${props.picture}&w=300&fmt=jpg`"
+        :src="`${config.media_service}?url=${props.picture}&mode=adapt&w=300&fmt=jpg`"
       />
     </div>
     <span class="block w-full h-1 bg-black"></span>

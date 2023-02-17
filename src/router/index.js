@@ -59,7 +59,7 @@ const router = createRouter({
     {
       path: "/artworks",
       name: "artworks",
-      component: () => import("../views/ArtworkView.vue"),
+      component: () => import("../views/ArtworksView.vue"),
     },
     {
       path: "/artwork/:id",

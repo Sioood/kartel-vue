@@ -1,4 +1,6 @@
 <script setup>
+import config from "@/config";
+
 import { ref } from "vue";
 
 const props = defineProps({
@@ -45,7 +47,7 @@ const open = ref(false);
           <img
             v-if="!props.medium"
             class="w-full h-full object-cover aspect-video"
-            :src="props.url"
+            :src="`${config.media_service}?url=${props.url}&mode=adapt&w=1000&fmt=jpg`"
             :alt="props.title"
           />
           <video
@@ -65,7 +67,7 @@ const open = ref(false);
     >
       <img
         class="object-cover aspect-video"
-        :src="props.url"
+        :src="`${config.media_service}?url=${props.url}&mode=adapt&w=300&fmt=jpg`"
         :alt="props.title"
       />
     </div>

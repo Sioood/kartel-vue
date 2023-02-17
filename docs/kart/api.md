@@ -474,6 +474,14 @@ Student Autocomplete Search List
 https://api.lefresnoy.net/v2/production/artwork
 ```
 
+### Parameters
+
+Rechercher des artworks selon ses ou son auteur.
+
+```
+authors={artist_id}
+```
+
 ### Expected output
 
 ```json
@@ -523,6 +531,57 @@ https://api.lefresnoy.net/v2/production/artwork
     "type": "Installation"
   }
 ]
+```
+
+---
+
+<br/><br/>
+
+### Artwork list and filters
+
+### Input request
+
+```GET
+http://preprod.api.lefresnoy.net/v2/production/artwork?production_year=2022&page_size=3&page=5
+```
+
+### Headers
+
+:::warning
+Il faut récupérer les headers avec ''
+:::
+
+_next_ et _previous_ servent d'offset et de repère pour de futures requêtes en fonction de la page actuelle.
+Si _next_ ou _previous_ ne sont pas défini, cela veut dire que la page est soit la première soit la dernière.
+
+```json
+headers:{
+  "count": Number,
+  "next": "URL",
+  "previous": "URL",
+}
+```
+
+### Parameters
+
+:::tip
+Plus de paramètres peuvent être ajouter au fur et à mesure de l'évolution des besoins de filtre et de recherche
+:::
+
+Si _production_year_ n'est pas précisé, c'est une liste de tous les artworks qui en résulte.
+_page_size_ et _page_ sont obligatoires
+
+```
+?production_year={year}
+page_size={Number}
+page={Number}
+```
+
+### Expected output
+
+```json
+// 🟢 200 - Result
+
 ```
 
 ---
@@ -1180,6 +1239,7 @@ https://api.lefresnoy.net/v2/assets/medium
 ```
 
 ### Expected output
+
 :::warning
 Pas de réponse. <br/>
 Besoin de préciser l'assets voulu dans l'url de la requête.

@@ -1,4 +1,6 @@
 <script setup>
+import config from "@/config";
+
 import { useRouter } from "vue-router";
 
 import { ref, onMounted } from "vue";
@@ -31,14 +33,14 @@ onMounted(() => {
 
   // can combine both function with more function parameters...
   async function getStudent(id) {
-    let response = await fetch(`${storeApi.restUriV2}school/student/${id}`);
+    let response = await fetch(`${config.rest_uri_v2}school/student/${id}`);
     let data = await response.json();
 
     student.value = data;
 
     // Function if we get only Student for exemple and want to retrieve more info (User & Artist)
     async function getUser(id) {
-      let response = await fetch(`${storeApi.restUriV2}people/user/${id}`);
+      let response = await fetch(`${config.rest_uri_v2}people/user/${id}`);
       let data = await response.json();
 
       user.value = data;
@@ -49,7 +51,7 @@ onMounted(() => {
   }
 
   async function getArtist(id) {
-    let response = await fetch(`${storeApi.restUriV2}people/artist/${id}`);
+    let response = await fetch(`${config.rest_uri_v2}people/artist/${id}`);
     let data = await response.json();
     artist.value = data;
 
