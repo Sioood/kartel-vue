@@ -24,7 +24,6 @@ let year = ref();
 // update params if filters change
 // if the filters change reset artworks
 async function getArtworks(productionYear) {
-  console.log(productionYear);
   load.value = false;
 
   let params = {
@@ -40,7 +39,7 @@ async function getArtworks(productionYear) {
   );
 
   let data = await response.json();
-  console.log(data);
+
   data.forEach((artwork) => {
     artworks.value.push(artwork);
   });
@@ -73,8 +72,6 @@ getYears();
 
 const handleObserver = (entries) => {
   entries.forEach((entry) => {
-    console.log(entry);
-
     if (load.value && entry.isIntersecting) {
       getArtworks(year.value);
     }
@@ -131,12 +128,12 @@ function removePreprod(url) {
               </option>
             </select>
           </div>
-          <h6 class="text-sm font-medium text-gray">Date de production</h6>
+          <h6 class="pl-4 text-xs text-gray">Date de production</h6>
         </label>
       </div>
     </div>
     <span class="my-3 w-full h-0.5 block bg-gray-extralight"></span>
-    <ul class="grid grid-cols-fluid-14 gap-3">
+    <ul class="pb-12 grid grid-cols-fluid-14 gap-3">
       <li v-for="artwork in artworks" :key="artwork.url">
         <ArtworkCard
           :url="artwork.url"
