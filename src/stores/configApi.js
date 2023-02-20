@@ -33,7 +33,9 @@ export const useConfigApi = defineStore("configApi", () => {
   }
 
   async function getSelectedPromo(promoId) {
-    let response = await fetch(`${config.rest_uri_v2}school/promotion/${promoId}`);
+    let response = await fetch(
+      `${config.rest_uri_v2}school/promotion/${promoId}`
+    );
     let data = await response.json();
     selectedPromo.value = data;
   }

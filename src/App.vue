@@ -66,7 +66,7 @@ onUnmounted(() => {
     >
     </nav> -->
     <nav
-      class="px-6 py-1 hidden md:flex flex-row flex-wrap items-center justify-between gap-3 bg-white shadow-lg shadow-white"
+      class="px-6 py-1 hidden lg:flex flex-row flex-wrap items-center justify-between gap-3 bg-white shadow-lg shadow-white"
     >
       <ul class="flex flex-row flex-wrap items-center justify-start gap-3">
         <!-- <button
@@ -111,7 +111,7 @@ onUnmounted(() => {
     </nav>
 
     <nav
-      class="md:hidden p-2 flex flex-col bg-white"
+      class="lg:hidden p-2 flex flex-col bg-white"
       :class="{ 'h-screen': navigation.open === true }"
     >
       <div class="flex flex-row justify-between">
