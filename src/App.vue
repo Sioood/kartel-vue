@@ -1,9 +1,12 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted, onUnmounted, watch } from "vue";
 import { RouterLink, RouterView } from "vue-router";
+import { useRouter } from "vue-router";
 
 import UiSearch from "@/components/ui/UiSearch.vue";
 import UiLink from "@/components/ui/UiLink.vue";
+
+const router = useRouter();
 
 // if true block the scroll
 let navigation = ref({
@@ -16,6 +19,10 @@ let navigation = ref({
     { name: "Média", path: "/media/" },
     { name: "Student profil", path: "/school/artist/447?student=13" },
   ],
+});
+
+watch(router.currentRoute, () => {
+  navigation.value.open = false;
 });
 
 let theme = ref();
