@@ -1,13 +1,13 @@
 # kartel-vue
 
 ```
-     _____                                            
-  __| __  |__  ____    _____    __    ______  ____    
- |  |/ /     ||    \  |     | _|  |_ |   ___||    |   
- |     \     ||     \ |     \|_    _||   ___||    |_  
- |__|\__\  __||__|\__\|__|\__\ |__|  |______||______| 
-    |_____|                                           
-                                                      
+     _____
+  __| __  |__  ____    _____    __    ______  ____
+ |  |/ /     ||    \  |     | _|  |_ |   ___||    |
+ |     \     ||     \ |     \|_    _||   ___||    |_
+ |__|\__\  __||__|\__\|__|\__\ |__|  |______||______|
+    |_____|
+
 ```
 
 This template should help get you started developing with Vue 3 in Vite.
@@ -44,10 +44,16 @@ npm run build
 npm run docs:devs # or `npm run test:unit` for headless testing
 ```
 
-### Build the Documentation 
+### Build the Documentation
 
 ```sh
 npm run docs:build # or `npm run test:unit` for headless testing
+```
+
+## If you use WSL you might be get more dependencies to run cypress
+
+```sh
+apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
 ```
 
 ### Run Headed Component Tests with [Cypress Component Testing](https://on.cypress.io/component)
