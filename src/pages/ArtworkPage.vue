@@ -295,7 +295,7 @@ onMounted(() => {
 
       <!-- Set to scroll indepentently but can scroll with the entire page -->
       <div
-        class="pl-8 pr-6 pt-5 pb-40 sticky top-16 lg:w-2/5 h-screen overflow-x-scroll flex flex-col gap-6"
+        class="pl-8 pr-6 pt-5 pb-40 sticky top-16 lg:w-2/5 h-screen overflow-x-scroll lg:flex flex-col gap-6"
         :class="{ flex: responsive === true, hidden: responsive === false }"
       >
         <!-- vérfifier la length du mot, si moins de 3 lettres c'est pas un mot exploitable -->
