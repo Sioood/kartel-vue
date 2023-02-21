@@ -43,6 +43,20 @@ function switchTheme(mode) {
   }
 }
 
+// watch if responsive menu is open to handle the scroll
+// prevent user to scroll to far of the point when he click on the menu
+watch(navigation.value, () => {
+  function handleScroll() {
+    const body = document.body;
+    if (navigation.value.open === true) {
+      body.style.overflow = "hidden";
+    } else {
+      body.style.overflow = "visible";
+    }
+  }
+  handleScroll();
+});
+
 onMounted(() => {
   if (!localStorage.theme) {
     window.matchMedia("(prefers-color-scheme: dark)")
@@ -67,7 +81,7 @@ onUnmounted(() => {
 
 <template>
   <!-- Make a nav component like a burger menu -->
-  <header class="z-10 w-full fixed top-0">
+  <header class="z-50 w-full fixed top-0">
     <!-- <nav
       class="z-10 fixed top-0 left-0 p-3 w-full flex flex-row items-center justify-left gap-2 bg-white shadow-lg shadow-white after:bg-black after:absolute after:bottom-0 after:left-0 after:w-1/2 after:h-1"
     >
@@ -80,8 +94,8 @@ onUnmounted(() => {
           class="p-0 w-12 h-12 flex flex-row gap-1 items-center justify-center hover:bg-gray-extralightest"
           @click="
             navigation.open === false
-              ? (navigation.open = true)
-              : (navigation.open = false)
+              ? (navigation.open = true, disableScroll())
+              : (navigation.open = false,enab;eScroll())
           "
         >
           <span class="block w-1 h-1 bg-green"></span>
@@ -194,7 +208,7 @@ onUnmounted(() => {
     <hr />
   </header>
 
-  <div class="mt-12 md:mt-16 w-full flex gap-8">
+  <div class="mt-12 lg:mt-16 w-full flex gap-8">
     <RouterLink class="sticky top-0 hidden lg:block" to="/">
       <img
         class="m-4 sticky top-20"

@@ -15,7 +15,7 @@ const props = defineProps({
 <template>
   <div v-if="props.extern !== true">
     <RouterLink
-      class="link relative mx-2 p-2 flex flex-col items-center font-medium h-"
+      class="link relative mx-2 p-2 flex flex-col items-center font-medium"
       :to="props.url"
       >{{ props.text }}
     </RouterLink>

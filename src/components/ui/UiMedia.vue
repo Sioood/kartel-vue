@@ -66,7 +66,7 @@ const open = ref(false);
       class="w-full aspect-video object-cover bg-gray-extralightest cursor-pointer"
     >
       <img
-        class="object-cover aspect-video"
+        class="w-full h-full object-cover aspect-video"
         :src="`${config.media_service}?url=${props.url}&mode=adapt&w=300&fmt=jpg`"
         :alt="props.title"
       />

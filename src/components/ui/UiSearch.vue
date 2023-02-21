@@ -106,7 +106,7 @@ function search(input) {
   <div class="relative flex flex-col items-center">
     <label
       for="search"
-      class="p-1 w-max flex flex-col items-end text-xs text-gray-500"
+      class="p-1 flex flex-col items-end text-xs text-gray-500"
     >
       <input
         v-model="input"
