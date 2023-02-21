@@ -81,7 +81,7 @@ onUnmounted(() => {
 
 <template>
   <!-- Make a nav component like a burger menu -->
-  <header class="z-50 w-full fixed top-0">
+  <header class="z-30 w-full fixed top-0">
     <!-- <nav
       class="z-10 fixed top-0 left-0 p-3 w-full flex flex-row items-center justify-left gap-2 bg-white shadow-lg shadow-white after:bg-black after:absolute after:bottom-0 after:left-0 after:w-1/2 after:h-1"
     >
