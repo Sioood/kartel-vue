@@ -1,12 +1,12 @@
+import config from "../../../src/config";
+
 describe("Students", () => {
   it("intercept request of students", () => {
     //get url path by config !!!
 
     // intercept any request of /v2/school/promotion
-    cy.intercept("https://api.lefresnoy.net/v2/school/student*").as("students");
-    cy.intercept("https://api.lefresnoy.net/v2/people/user/*").as(
-      "studentUser"
-    );
+    cy.intercept(`${config.rest_uri_v2}school/student*`).as("students");
+    cy.intercept(`${config.rest_uri_v2}people/user/*`).as("studentUser");
 
     cy.visit("/school");
 
