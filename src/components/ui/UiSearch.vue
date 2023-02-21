@@ -132,8 +132,8 @@ function search(input) {
       "
       class="absolute bottom-0 translate-y-full p-4 pb-0 box-content w-full max-h-96 overflow-x-scroll flex-col gap-10 bg-white"
       :class="{
-        hidden: result.open === false,
-        flex: result.open === true,
+        hidden: result.open === false || hiddenInput() === true,
+        flex: result.open === true && hiddenInput() === false,
       }"
     >
       <h4
