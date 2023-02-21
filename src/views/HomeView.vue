@@ -3,8 +3,8 @@ import UiSearch from "@/components/ui/UiSearch.vue";
 </script>
 
 <template>
-  <main class="pl-52 w-full h-screen flex flex-col items-center justify-around">
-    <UiSearch />
+  <main class="lg:pl-52 w-full flex flex-col items-center">
+    <UiSearch class="lg:top-1/3 top-full" />
   </main>
 </template>
 

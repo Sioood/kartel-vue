@@ -107,7 +107,7 @@ onUnmounted(() => {
         <!-- </div> -->
       </ul>
 
-      <UiSearch />
+      <UiSearch v-if="router.currentRoute.value.path !== '/'" />
 
       <button
         @click="switchTheme('toggle')"
@@ -121,8 +121,14 @@ onUnmounted(() => {
       class="lg:hidden p-2 flex flex-col bg-white"
       :class="{ 'h-screen': navigation.open === true }"
     >
-      <div class="flex flex-row justify-between">
-        <img src="./assets/logo-Fresnoy-transparent.png" alt="" class="h-7" />
+      <div class="h-10 flex flex-row items-center justify-between">
+        <RouterLink class="h-3/4" to="/">
+          <img
+            class="h-full"
+            src="./assets/logo-Fresnoy-transparent.png"
+            alt=""
+          />
+        </RouterLink>
         <button
           @click="
             navigation.open === false
@@ -188,7 +194,7 @@ onUnmounted(() => {
     <hr />
   </header>
 
-  <div class="mt-16 w-full flex gap-8">
+  <div class="mt-12 md:mt-16 w-full flex gap-8">
     <RouterLink class="sticky top-0 hidden lg:block" to="/">
       <img
         class="m-4 sticky top-20"
