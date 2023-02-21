@@ -15,7 +15,7 @@ const props = defineProps({
 <template>
   <div v-if="props.extern !== true">
     <RouterLink
-      class="overflow-hidden p-2 flex flex-col font-medium after:block after:w-full after:h-0.5 after:bg-black after:transition-all hover:after:translate-x-1/2"
+      class="link relative mx-2 p-2 flex flex-col items-center font-medium h-"
       :to="props.url"
       >{{ props.text }}
     </RouterLink>
@@ -24,4 +24,68 @@ const props = defineProps({
   <a v-else :href="props.url"></a>
 </template>
 
-<style scoped></style>
+<style scoped>
+/* after:block after:w-full after:h-0.5 
+ after:bg-black after:transition-all hover:after:translate-x-1/2
+  */
+
+.link::after {
+  content: "";
+  position: absolute;
+  bottom: 0.3rem;
+  width: 100%;
+  height: 0.125rem;
+  display: block;
+  background: #000;
+  animation: link-out 1s forwards;
+}
+.link:hover::after {
+  animation: link-in 1s forwards;
+  /* animation-fill-mode: forwards; */
+}
+
+.router-link-active::after {
+  animation: link-in 1s forwards;
+}
+
+@keyframes link-in {
+  0% {
+    right: 0;
+    width: 100%;
+  }
+  50% {
+    bottom: 0.3rem;
+    width: 0.25rem;
+    height: 0.125rem;
+    transform: translateY(0%);
+  }
+  100% {
+    right: 0;
+    bottom: 50%;
+    width: 0.25rem;
+    height: 0.25rem;
+    transform: translateY(75%);
+  }
+}
+
+@keyframes link-out {
+  0% {
+    right: 0;
+    bottom: 50%;
+    width: 0.25rem;
+    height: 0.25rem;
+    transform: translateY(75%);
+  }
+  50% {
+    bottom: 0.3rem;
+    width: 0.25rem;
+    height: 0.125rem;
+    transform: translateY(0%);
+  }
+
+  100% {
+    right: 0;
+    width: 100%;
+  }
+}
+</style>
