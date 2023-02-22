@@ -476,12 +476,12 @@ https://api.lefresnoy.net/v2/production/artwork
 
 ### Parameters
 
-Si vous avez besoin de sortir une certaine liste d'artwork en fonction de filtres, avec un offset et un nombre d'artwork maximum.
+Filtrer les artworks par un artiste spécifique.
 ```
 ?authors={Artist id}
 ```
 
-Si vous avez besoin de sortir une certaine liste d'artwork en fonction de filtres, avec un offset et un nombre d'artwork maximum.
+Si vous avez besoin de sortir une certaine liste d'artworks en fonction de filtres, avec un offset et un nombre d'artwork maximum.
 ```
 ?production_year={Number(Year)}
 &page_size={Number}
