@@ -25,16 +25,18 @@ let students = ref([]);
 // too big condition function to be placed in html
 // condition for hide the no result message
 function hiddenInput() {
-  console.log(Object.keys(artworks.value).length);
   if (input.value) {
     let value = input.value.match(/\w/g) ? false : true;
     if (value === true) {
       return value;
-    } else if (
-      value === false &&
-      (Object.keys(artworks.value).length === 0 || !students.value[0])
-    ) {
-      return false;
+    }
+
+    if (value === false) {
+      if (Object.keys(artworks.value).length === 0 || !students.value[0]) {
+        return true;
+      } else {
+        return false;
+      }
     } else {
       return true;
     }
