@@ -482,6 +482,13 @@ Rechercher des artworks selon ses ou son auteur.
 authors={artist_id}
 ```
 
+Si vous avez besoin de sortir une certaine liste d'artworks en fonction de filtres, avec un offset et un nombre d'artwork maximum.
+```
+?production_year={Number(Year)}
+&page_size={Number}
+&page={Number}
+```
+
 ### Expected output
 
 ```json
@@ -1244,3 +1251,109 @@ https://api.lefresnoy.net/v2/assets/medium
 Pas de réponse. <br/>
 Besoin de préciser l'assets voulu dans l'url de la requête.
 :::
+
+---
+
+<br/><br/>
+
+## Recherche
+
+### Artwork
+
+### Input request
+
+```GET
+http://preprod.api.lefresnoy.net/v2/production/artwork-search
+```
+
+### Parameters
+
+```GET
+?q={something}
+```
+
+### Expected output
+
+```json
+// 🟢 200 - Result
+[
+  {
+    "url": "https://api.lefresnoy.net/v2/production/installation/1286",
+    "collaborators": [],
+    "partners": [
+      {
+        "organization": "https://api.lefresnoy.net/v2/people/organization/1",
+        "task": "https://api.lefresnoy.net/v2/people/organization-staff/2"
+      },
+      {
+        "organization": "https://api.lefresnoy.net/v2/people/organization/211",
+        "task": "https://api.lefresnoy.net/v2/people/organization-staff/1"
+      }
+    ],
+    "diffusion": ["https://api.lefresnoy.net/v2/diffusion/diffusion/889"],
+    "award": [],
+    "title": "10:10",
+    "former_title": null,
+    "subtitle": null,
+    "updated_on": "2020-10-20T10:36:14.066555+02:00",
+    "picture": "https://api.lefresnoy.net/media/production/installation/2020/09/olivier_bemer_10h10_05_q2d_b3A.tif",
+    "description_short_fr": "",
+    "description_short_en": "",
+    "description_fr": "",
+    "description_en": "",
+    "production_date": "2020-01-01",
+    "credits_fr": "",
+    "credits_en": "",
+    "thanks_fr": "",
+    "thanks_en": "",
+    "copyright_fr": "",
+    "copyright_en": "",
+    "technical_description": "",
+    "websites": [],
+    "process_galleries": [],
+    "mediation_galleries": [],
+    "in_situ_galleries": ["https://api.lefresnoy.net/v2/assets/gallery/3602"],
+    "press_galleries": ["https://api.lefresnoy.net/v2/assets/gallery/3768"],
+    "teaser_galleries": [],
+    "authors": ["https://api.lefresnoy.net/v2/people/artist/1616"],
+    "beacons": [],
+    "genres": ["https://api.lefresnoy.net/v2/production/installation-genre/2"],
+    "type": "Installation"
+  }
+]
+```
+
+---
+
+<br/><br/>
+
+### Student
+
+### Input request
+
+```GET
+http://preprod.api.lefresnoy.net/v2/school/student-search
+```
+
+### Parameters
+
+```GET
+?q={something}
+```
+
+### Expected output
+
+```json
+// 🟢 200 - Result
+[
+  {
+    "url": "https://api.lefresnoy.net/v2/school/student/1",
+    "number": "",
+    "graduate": false,
+    "promotion": "https://api.lefresnoy.net/v2/school/promotion/1",
+    "user": "https://api.lefresnoy.net/v2/people/user/1",
+    "artist": "https://api.lefresnoy.net/v2/people/artist/1"
+  }
+]
+
+```
