@@ -1,6 +1,6 @@
 # Getting started
 
-Cette page va vous aidez étape par étape à mettre en place Kartel *(et Kart)*.
+Cette page va vous aidez étape par étape à mettre en place Kartel _(et Kart)_.
 
 ## Kartel
 
@@ -9,17 +9,30 @@ Cette page va vous aidez étape par étape à mettre en place Kartel *(et Kart)*
 ```sh
 $ npm install
 ```
+
 ## Config
+
 ### Étape 2
+
 ::: tip
-Mettre à jour la configuration et tout les liens vers l'API.
+Mettre à jour la configuration et tout les liens vers l'API en remplacant par les votres (http://127.0.0.1:5173/:port, localhost:port, preprod...).
 :::
-```
-// src/stores/configApi.js (pour le moment)
-Exemple à founir et où le modifier.
+
+```json
+//src/config.js
+
+{
+  "api_url": "http://127.0.0.1:5173/",
+  "rest_uri_v2": "http://127.0.0.1:5173/v2/",
+  "rest_uri": "http://127.0.0.1:5173/v1/",
+  "media_service": "http://127.0.0.1:8888/",
+  "reset_password_uri": "http://127.0.0.1:5173/account/reset_password/",
+  "ame_rest_uri": "http://ame.127.0.0.1:5173/plugins/api_search/"
+}
 ```
 
 ## Développement
+
 ### Étape 3 : Mettre en place l'application en mode développeur
 
 ```sh
@@ -33,6 +46,7 @@ $ npm run docs:dev
 ```
 
 ## Build
+
 ### Étape 4 : Build l'application
 
 ```sh
@@ -44,5 +58,9 @@ $ npm run build
 ```sh
 $ npm run docs:build
 ```
+
+## Effectuer des tests
+
+### Voir la page [cypress](../test/cypress.md)
 
 ## Kart

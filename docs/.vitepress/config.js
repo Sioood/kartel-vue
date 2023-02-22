@@ -55,22 +55,22 @@ export default {
             text: "Getting Started",
             link: "/getting-started/getting-started",
           },
-          {
-            text: "Folder",
-            items: [
-              { text: "Folder file", link: "/folder/folder-file" },
-              {
-                text: "Subfolder",
-                items: [
-                  { text: "Sub file", link: "/folder/subfolder/sub-file" },
-                ],
-                collapsible: true,
-                collapsed: false,
-              },
-            ],
-            collapsible: true,
-            collapsed: false,
-          },
+          // {
+          //   text: "Folder",
+          //   items: [
+          //     { text: "Folder file", link: "/folder/folder-file" },
+          //     {
+          //       text: "Subfolder",
+          //       items: [
+          //         { text: "Sub file", link: "/folder/subfolder/sub-file" },
+          //       ],
+          //       collapsible: true,
+          //       collapsed: false,
+          //     },
+          //   ],
+          //   collapsible: true,
+          //   collapsed: false,
+          // },
         ],
         collapsible: true,
         collapsed: false,
