@@ -33,7 +33,7 @@ function hiddenInput() {
 
     if (value === false) {
       if (Object.keys(artworks.value).length === 0 || !students.value[0]) {
-        return true;
+        return false;
       } else {
         return false;
       }
@@ -135,14 +135,17 @@ function search(input) {
       class="absolute bottom-0 translate-y-full p-4 pb-0 box-content w-full max-h-96 overflow-x-scroll flex-col gap-10 bg-white"
       :class="{
         hidden: result.open === false || hiddenInput() === true,
-        flex: result.open === true && hiddenInput() === false,
+        flex: result.open === true,
       }"
     >
       <h4
         class="p-2 w-full bg-gray-extralightest"
         :class="{
-          hidden: hiddenInput() === true,
-          block: hiddenInput() === false,
+          hidden:
+            result.open === false ||
+            Object.keys(artworks).length !== 0 ||
+            students[0],
+          block: result.open === true && hiddenInput() === false,
         }"
       >
         Pas de résultat
