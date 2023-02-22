@@ -153,11 +153,17 @@ function search(input) {
       <div
         class="w-full flex flex-col gap-6"
         :class="{
-          flex: students[0],
-          hidden: !students[0],
+          flex: Object.keys(artworks).length !== 0 || students[0],
+          hidden: Object.keys(artworks).length === 0 && !students[0],
         }"
       >
-        <ul class="flex flex-col gap-3">
+        <ul
+          class="flex-col gap-3"
+          :class="{
+            flex: students[0],
+            hidden: !students[0],
+          }"
+        >
           <h6 class="ml-2 text-xs font-medium text-gray uppercase">Students</h6>
           <li v-for="student in students" :key="student">
             <router-link
@@ -181,7 +187,15 @@ function search(input) {
           </li>
         </ul>
 
-        <div v-for="artworksType in artworks" :key="artworksType.type">
+        <div
+          v-for="artworksType in artworks"
+          :key="artworksType.type"
+          class="flex-col"
+          :class="{
+            flex: Object.keys(artworks).length !== 0,
+            hidden: Object.keys(artworks).length === 0,
+          }"
+        >
           <h6 class="ml-2 text-xs font-medium text-gray uppercase">
             {{ artworksType.type }}
           </h6>
