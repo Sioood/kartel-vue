@@ -4,6 +4,23 @@ Cette page va vous aidez étape par étape à mettre en place Kartel _(et Kart)_
 
 ## Kartel
 
+## Prérequis
+
+### Node.js
+
+Si tu utilises npm pour installer Kartel, il supporte :
+
+- **Node** 18.13.0
+- **npm** 8.19.3
+
+### OS
+
+- **Windows 7** and above (64-bit only)
+- **Ubuntu** 22.04.1 LTS and above
+- **MacOS**
+
+---
+
 ### Étape 1 : Installer toutes les dépendences
 
 ```sh
