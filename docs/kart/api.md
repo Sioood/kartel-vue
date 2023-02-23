@@ -80,6 +80,12 @@ Exemple : _{username}_ -> kartel
 ?search={username}
 ```
 
+### Example
+
+```GET
+https://api.lefresnoy.net/v2/people/user?search=selestane
+```
+
 ### Expected output
 
 ```json
@@ -175,6 +181,12 @@ Paramètre de recherche basé sur l'username du profil user. Pas très pratique.
 ?search={username}
 ```
 
+### Example
+
+```GET
+https://api.lefresnoy.net/v2/people/artist?search=selestane
+```
+
 ### Expected output
 
 ```json
@@ -212,6 +224,12 @@ Paramètre de recherche basé sur l'username du profil user. Pas très pratique.
 
 ```
 ?search={username}
+```
+
+### Example
+
+```GET
+https://api.lefresnoy.net/v2/people/staff?search=selestane
 ```
 
 ### Expected output
@@ -482,11 +500,44 @@ Rechercher des artworks selon ses ou son auteur.
 authors={artist_id}
 ```
 
-Si vous avez besoin de sortir une certaine liste d'artworks en fonction de filtres, avec un offset et un nombre d'artwork maximum.
+### List and filters
+
+### Headers
+
+:::warning
+Il faut récupérer les headers avec ''
+:::
+
+_next_ et _previous_ servent d'offset et de repère pour de futures requêtes en fonction de la page actuelle.
+Si _next_ ou _previous_ ne sont pas défini, cela veut dire que la page est soit la première soit la dernière.
+
+```json
+headers:{
+  "count": Number,
+  "next": "http://preprod.api.lefresnoy.net/v2/production/artwork?production_year=2022&page_size=3&page=6",
+  "previous": "http://preprod.api.lefresnoy.net/v2/production/artwork?production_year=2022&page_size=3&page=5",
+}
 ```
-?production_year={Number(Year)}
-&page_size={Number}
-&page={Number}
+
+### Parameters
+
+:::tip
+Plus de paramètres peuvent être ajouter au fur et à mesure de l'évolution des besoins de filtre et de recherche
+:::
+
+Si _production_year_ n'est pas précisé, c'est une liste de tous les artworks qui en résulte.
+_page_size_ et _page_ sont obligatoires
+
+```
+?production_year={year}
+page_size={Number}
+page={Number}
+```
+
+### Example
+
+```GET
+http://preprod.api.lefresnoy.net/v2/production/artwork?production_year=2022&page_size=3&page=5
 ```
 
 ### Expected output
@@ -538,57 +589,6 @@ Si vous avez besoin de sortir une certaine liste d'artworks en fonction de filtr
     "type": "Installation"
   }
 ]
-```
-
----
-
-<br/><br/>
-
-### Artwork list and filters
-
-### Input request
-
-```GET
-http://preprod.api.lefresnoy.net/v2/production/artwork?production_year=2022&page_size=3&page=5
-```
-
-### Headers
-
-:::warning
-Il faut récupérer les headers avec ''
-:::
-
-_next_ et _previous_ servent d'offset et de repère pour de futures requêtes en fonction de la page actuelle.
-Si _next_ ou _previous_ ne sont pas défini, cela veut dire que la page est soit la première soit la dernière.
-
-```json
-headers:{
-  "count": Number,
-  "next": "URL",
-  "previous": "URL",
-}
-```
-
-### Parameters
-
-:::tip
-Plus de paramètres peuvent être ajouter au fur et à mesure de l'évolution des besoins de filtre et de recherche
-:::
-
-Si _production_year_ n'est pas précisé, c'est une liste de tous les artworks qui en résulte.
-_page_size_ et _page_ sont obligatoires
-
-```
-?production_year={year}
-page_size={Number}
-page={Number}
-```
-
-### Expected output
-
-```json
-// 🟢 200 - Result
-
 ```
 
 ---
@@ -739,50 +739,10 @@ https://api.lefresnoy.net/v2/production/itinerary
 ?event={id}
 ```
 
-### Expected output
-
-```json
-// 🟢 200 - Result
-[
-  {
-    "url": "https://api.lefresnoy.net/v2/production/itinerary/1",
-    "updated_on": "2014-06-05T18:41:24.214797+02:00",
-    "label_fr": "Métamorphoses",
-    "label_en": "Métamorphoses",
-    "description_fr": "",
-    "description_en": "",
-    "event": "https://api.lefresnoy.net/v2/production/event/53",
-    "artworks": ["https://api.lefresnoy.net/v2/production/artwork/38"],
-    "gallery": []
-  },
-  {
-    "url": "https://api.lefresnoy.net/v2/production/itinerary/2",
-    "updated_on": "2016-04-18T16:18:53.331212+02:00",
-    "label_fr": "Panorama 17",
-    "label_en": "Panorama 17",
-    "description_fr": " ",
-    "description_en": " ",
-    "event": "https://api.lefresnoy.net/v2/production/event/533",
-    "artworks": ["https://api.lefresnoy.net/v2/production/artwork/580"],
-    "gallery": []
-  }
-]
-```
-
----
-
-<br/><br/>
-
-### Input request
-
-```GET
-https://api.lefresnoy.net/v2/production/itinerary
-```
-
-### Parameters
+### Example
 
 ```
-?event={id}
+https://api.lefresnoy.net/v2/production/itinerary?event=1
 ```
 
 ### Expected output
@@ -1272,6 +1232,12 @@ http://preprod.api.lefresnoy.net/v2/production/artwork-search
 ?q={something}
 ```
 
+### Example
+
+```GET
+http://preprod.api.lefresnoy.net/v2/school/student-search?q=10:10
+```
+
 ### Expected output
 
 ```json
@@ -1341,6 +1307,12 @@ http://preprod.api.lefresnoy.net/v2/school/student-search
 ?q={something}
 ```
 
+### Example
+
+```GET
+http://preprod.api.lefresnoy.net/v2/school/student-search?q=selestane
+```
+
 ### Expected output
 
 ```json
@@ -1355,5 +1327,4 @@ http://preprod.api.lefresnoy.net/v2/school/student-search
     "artist": "https://api.lefresnoy.net/v2/people/artist/1"
   }
 ]
-
 ```
