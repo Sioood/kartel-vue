@@ -1,7 +1,7 @@
 <script setup>
-import config from "@/config";
+import config from "../../config";
 
-import { useConfigApi } from "@/stores/configApi";
+import { useConfigApi } from "../../stores/configApi";
 const storeApi = useConfigApi();
 
 // define props like url of img media and url artwork

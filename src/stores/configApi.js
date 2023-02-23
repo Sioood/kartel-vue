@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
-import config from "@/config";
+import config from "../config";
 
 export const useConfigApi = defineStore("configApi", () => {
   // states / refs
