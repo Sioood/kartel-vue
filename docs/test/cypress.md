@@ -1,11 +1,14 @@
 # Cypress
 
 Cypress est un outil de test frontal pour les applications Web, il permet de faire des tests _End to End_ (_E2E_) et des tests _composant_.
+<br/>
+<br/>
+Retrouvez la documentation de cypress par [<ins>ici</ins>](https://docs.cypress.io/guides/overview/why-cypress).
 
-## WSL
+## Linux
 
 :::warning
-Si vous utilisez WSL, Cypress nécessite plusieures dépendences pour fonctionnner.
+Si vous utilisez Linux ou WSL, Cypress nécessite plusieures dépendences pour fonctionnner.
 :::
 
 ```sh

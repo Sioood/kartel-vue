@@ -88,9 +88,9 @@ Exemple : _{username}_ -> kartel
   {
     "id": 1,
     "url": "https://api.lefresnoy.net/v2/people/user/1",
-    "username": "Username",
-    "first_name": "Name",
-    "last_name": "Lastname"
+    "username": "selestane",
+    "first_name": "Selene",
+    "last_name": "Lamstane"
   }
 ]
 ```
@@ -131,26 +131,26 @@ parameters possible à mettre à jour.
 {
   "id": 1,
   "photo": null,
-  "gender": "",
+  "gender": "female",
   "cursus": "",
-  "nationality": "",
-  "birthdate": null,
-  "birthplace": null,
-  "birthplace_country": "",
-  "mother_tongue": "",
-  "other_language": "",
-  "homeland_country": "",
-  "homeland_address": "",
-  "homeland_zipcode": "",
-  "homeland_town": "",
-  "homeland_phone": "",
-  "residence_phone": "",
-  "residence_country": "",
-  "residence_zipcode": "",
-  "residence_address": "",
-  "residence_town": "",
+  "nationality": "Française",
+  "birthdate": "24/03/2004",
+  "birthplace": "Tourcoing",
+  "birthplace_country": "France",
+  "mother_tongue": "Français",
+  "other_language": "Anglais",
+  "homeland_country": "France",
+  "homeland_address": "123 Rue du Fresnoy",
+  "homeland_zipcode": "59200",
+  "homeland_town": "Tourcoing",
+  "homeland_phone": "06 59 84 23 97",
+  "residence_phone": "06 59 84 23 97",
+  "residence_country": "France",
+  "residence_zipcode": "59200",
+  "residence_address": "123 Rue du Fresnoy",
+  "residence_town": "Tourcoing",
   "social_insurance_number": "",
-  "family_status": "",
+  "family_status": "Célibataire",
   "is_artist": true,
   "is_staff": false,
   "is_student": false
@@ -183,13 +183,13 @@ Paramètre de recherche basé sur l'username du profil user. Pas très pratique.
   {
     "id": 1,
     "url": "https://api.lefresnoy.net/v2/people/artist/1",
-    "nickname": "",
+    "nickname": "selestane",
     "bio_short_fr": "",
     "bio_short_en": "",
     "bio_fr": "",
     "bio_en": "",
-    "twitter_account": "",
-    "facebook_profile": "",
+    "twitter_account": "selestane",
+    "facebook_profile": "selestane",
     "user": "https://api.lefresnoy.net/v2/people/user/1",
     "websites": ["https://api.lefresnoy.net/v2/common/website/1"]
   }
@@ -242,8 +242,8 @@ https://api.lefresnoy.net/v2/people/organization
 [
   {
     "url": "https://api.lefresnoy.net/v2/people/organization/1",
-    "name": "",
-    "description": "",
+    "name": "Le Fresnoy",
+    "description": "Le Fresnoy - Studio national des arts contemporains est un établissement français de formation, de production et de diffusion artistiques, audiovisuelles et numériques.",
     "picture": null,
     "updated_on": "2015-06-18T16:33:17.310847+02:00"
   }
@@ -267,8 +267,8 @@ https://api.lefresnoy.net/v2/people/organization-staff
 [
   {
     "url": "https://api.lefresnoy.net/v2/people/organization-staff/1",
-    "label": "",
-    "description": ""
+    "label": "Le Fresnoy",
+    "description": "Le Fresnoy - Studio national des arts contemporains est un établissement français de formation, de production et de diffusion artistiques, audiovisuelles et numériques."
   }
 ]
 ```
@@ -290,9 +290,9 @@ https://api.lefresnoy.net/v2/school/promotion
 [
   {
     "url": "https://api.lefresnoy.net/v2/school/promotion/1",
-    "name": "",
-    "starting_year": 2000,
-    "ending_year": 2002
+    "name": "Marguerite Duras",
+    "starting_year": 2021,
+    "ending_year": 2023
   }
 ]
 ```
@@ -456,9 +456,9 @@ Student Autocomplete Search List
 [
   {
     "text": "",
-    "firstname": "",
-    "lastname": "",
-    "promotion": "Pina Bausch (2009-2011)",
+    "firstname": "Selene",
+    "lastname": "Lamstane",
+    "promotion": "Marguerite Duras (2021-2023)",
     "content_auto": ""
   }
 ]
@@ -820,8 +820,8 @@ https://api.lefresnoy.net/v2/production/film-genre
 // 🟢 200 - Result
 [
   {
-    "url": "https://api.lefresnoy.net/v2/production/film-genre/1",
-    "label": " "
+    "url": "https://api.lefresnoy.net/v2/production/film-genre/3",
+    "label": "Documentaire"
   }
 ]
 ```
@@ -903,7 +903,7 @@ https://api.lefresnoy.net/v2/production/installation-genre
 [
   {
     "url": "https://api.lefresnoy.net/v2/production/installation-genre/1",
-    "label": "Installation intéractive et multimédia "
+    "label": "Installation intéractive et multimédia"
   }
 ]
 ```
