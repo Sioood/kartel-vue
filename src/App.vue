@@ -116,7 +116,7 @@ onUnmounted(() => {
         />
 
         <li v-for="(item, index) in navigation.children" :key="index">
-          <UiLink :url="item.path" :text="item.name" />
+          <UiLink :url="item.path" :text="item.name" data-test="nav-link" />
         </li>
         <!-- </div> -->
       </ul>
@@ -126,6 +126,7 @@ onUnmounted(() => {
       <button
         @click="switchTheme('toggle')"
         class="w-12 h-12 hover:bg-gray-extralightest"
+        data-test="toggle-theme"
       >
         {{ theme }}
       </button>
@@ -214,6 +215,7 @@ onUnmounted(() => {
         class="m-4 sticky top-20"
         src="https://kartel.lefresnoy.net/images/candidature/fresnoy-bandeau.jpg"
         alt=""
+        data-test="logo-lg"
       />
     </RouterLink>
 
