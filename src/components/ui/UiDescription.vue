@@ -8,7 +8,7 @@ const props = defineProps({
 });
 
 let bio = ref({
-  lang: "fr",
+  lang: !props.desc_fr && props.desc_en ? "en" : "fr",
   data: !props.desc_fr && props.desc_en ? props.desc_en : props.desc_fr,
 });
 </script>
