@@ -1,11 +1,11 @@
+import config from "../../../src/config";
+
 describe("Promotions", () => {
   it("intercept request of promotions", () => {
     //get url path by config !!!
 
     // intercept any request of /v2/school/promotion
-    cy.intercept("https://api.lefresnoy.net/v2/school/promotion").as(
-      "promotion"
-    );
+    cy.intercept(`${config.rest_uri_v2}school/promotion*`).as("promotion");
     cy.visit("/school");
 
     // check if body exist and if each element of it contains rights properties
