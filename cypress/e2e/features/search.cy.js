@@ -5,6 +5,13 @@ describe("Explore the search feature which result students and artworks", () => 
     function testSearch(search, type) {
       cy.get(search).type(type);
 
+      cy.intercept(`${config.rest_uri_v2}production/artwork-search*`).as(
+        "artwork-search"
+      );
+      cy.intercept(`${config.rest_uri_v2}school/student-search*`).as(
+        "student-search"
+      );
+
       cy.wait("@artwork-search").then(({ response }) => {
         expect(response.statusCode).to.eq(200);
         expect(response.body).to.exist;
@@ -25,13 +32,6 @@ describe("Explore the search feature which result students and artworks", () => 
 
     it("expect to work in home", () => {
       cy.viewport(1280, 720);
-
-      cy.intercept(`${config.rest_uri_v2}production/artwork-search*`).as(
-        "artwork-search"
-      );
-      cy.intercept(`${config.rest_uri_v2}school/student-search*`).as(
-        "student-search"
-      );
 
       cy.visit("/");
       cy.get('[data-test="toggle-theme"]').click();
