@@ -143,6 +143,8 @@ export default {
       },
       {
         text: "Tester l'application",
+        link: "/test/cypress",
+
         items: [
           {
             text: "Cypress",
