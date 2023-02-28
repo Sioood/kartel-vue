@@ -1,18 +1,11 @@
 import UiSearch from "../ui/UiSearch.vue";
 
-import { createApp } from "vue";
-import { createPinia } from "pinia";
-import App from "@/App.vue";
+import "@/main";
 
 import config from "@/config";
 
 describe("Ui Link", () => {
   it("Check when results", () => {
-    const app = createApp(App);
-
-    const pinia = createPinia();
-    app.use(pinia);
-
     cy.intercept(`${config.rest_uri_v2}production/artwork-search*`).as(
       "artwork-search"
     );
@@ -50,11 +43,6 @@ describe("Ui Link", () => {
   });
 
   it("Check when no results", () => {
-    const app = createApp(App);
-
-    const pinia = createPinia();
-    app.use(pinia);
-
     cy.intercept(`${config.rest_uri_v2}production/artwork-search*`).as(
       "artwork-search"
     );
@@ -91,11 +79,6 @@ describe("Ui Link", () => {
   });
 
   it("Check when input have nothing or only space after trim", () => {
-    const app = createApp(App);
-
-    const pinia = createPinia();
-    app.use(pinia);
-
     cy.mount(UiSearch);
 
     // check before typing something
