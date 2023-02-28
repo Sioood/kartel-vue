@@ -2,7 +2,7 @@ import UiLink from "../ui/UiLink.vue";
 
 describe("Ui Link", () => {
   it("Check props", () => {
-    const data = { url: "/", text: "Hello Cypress" };
+    let data = { url: "/", text: "Hello Cypress" };
     cy.mount(UiLink, { props: { url: data.url, text: data.text } });
 
     cy.get(".link")

@@ -4,9 +4,9 @@ defineProps({
     type: String,
     required: true,
   },
-  subtitle: String,
-  uppercase: Boolean,
-  half: Boolean,
+  // subtitle: String,
+  // uppercase: Boolean,
+  // half: Boolean,
   underlineSize: Number,
   // Size might be bad for differents size of h2 -> v-if and separate h1,h2,h3...
   fontSize: Number,

@@ -2,7 +2,7 @@ import UiDescription from "../ui/UiDescription.vue";
 
 describe("Ui Description", () => {
   it("Check props and reactivity to them", () => {
-    const data = { desc_fr: "fr", desc_en: "en" };
+    let data = { desc_fr: "fr", desc_en: "en" };
     cy.mount(UiDescription, {
       props: { desc_fr: data.desc_fr, desc_en: data.desc_en },
     });
