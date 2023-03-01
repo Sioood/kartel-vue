@@ -28,6 +28,7 @@ Vary: Accept
     "people/user": "https://api.lefresnoy.net/v2/people/user",
     "people/userprofile": "https://api.lefresnoy.net/v2/people/userprofile",
     "people/artist": "https://api.lefresnoy.net/v2/people/artist",
+    "people/artist-search": "http://api.lefresnoy.net/v2/people/artist-search",
     "people/staff": "https://api.lefresnoy.net/v2/people/staff",
     "people/organization": "https://api.lefresnoy.net/v2/people/organization",
     "people/organization-staff": "https://api.lefresnoy.net/v2/people/organization-staff",
@@ -37,6 +38,7 @@ Vary: Accept
     "school/student-application-setup": "https://api.lefresnoy.net/v2/school/student-application-setup",
     "school/student-search": "https://api.lefresnoy.net/v2/school/student-search",
     "production/artwork": "https://api.lefresnoy.net/v2/production/artwork",
+    "production/artwork-search": "https://api.lefresnoy.net/v2/production/artwork-search",
     "production/film": "https://api.lefresnoy.net/v2/production/film",
     "production/film-keywords": "https://api.lefresnoy.net/v2/production/film-keywords",
     "production/event": "https://api.lefresnoy.net/v2/production/event",
@@ -47,6 +49,7 @@ Vary: Accept
     "production/performance": "https://api.lefresnoy.net/v2/production/performance",
     "production/collaborator": "https://api.lefresnoy.net/v2/production/collaborator",
     "production/partner": "https://api.lefresnoy.net/v2/production/partner",
+    "production/task": "https://api.lefresnoy.net/v2/production/task",
     "diffusion/place": "https://api.lefresnoy.net/v2/diffusion/place",
     "diffusion/meta-award": "https://api.lefresnoy.net/v2/diffusion/meta-award",
     "diffusion/award": "https://api.lefresnoy.net/v2/diffusion/award",
@@ -72,8 +75,19 @@ https://api.lefresnoy.net/v2/people/user
 ### parameters
 
 ::: tip
+Pour constuire des paramètres de recherche il faut fonctionner de la manière suivante :<br/>
+- La séparation entre le chemin et les paramètres s'effectue par un *?*, le premier paramètre sera toujours précédé d'un "?".
+- Pour ajouter d'autres paramètres il faudra les séparer d'une *&*.
+- Le paramètre sera suivi d'un *=* qui sera lui même suivi de la valeur voulue pour ce paramètre.
+
+EX: http://api.lefresnoy.net/v2/school/artwork-search?q=10:10&type=installation
+
+- ?search=10:10 -> premier paramètre donc précédé d'un *?*.
+- &type=installation -> deuxième paramètre donc précédé d'une *&*.
+
+<br/><br/>
 Remplacer ce qui se trouve entre accolades par la donnée voulue.
-Exemple : _{username}_ -> kartel
+Exemple : _{username}_ -> selestane
 :::
 
 ```
@@ -96,7 +110,15 @@ https://api.lefresnoy.net/v2/people/user?search=selestane
     "url": "https://api.lefresnoy.net/v2/people/user/1",
     "username": "selestane",
     "first_name": "Selene",
-    "last_name": "Lamstane"
+    "last_name": "Lamstane",
+    "profile": {
+            "id": 23,
+            "photo": "http://api.lefresnoy.net/media/people/fresnoyprofile/selestane.jpg",
+            "nationality": "FRA",
+            "is_artist": true,
+            "is_staff": false,
+            "is_student": true
+        }
   }
 ]
 ```
@@ -179,12 +201,18 @@ Paramètre de recherche basé sur l'username du profil user. Pas très pratique.
 
 ```
 ?search={username}
+page_size={Number}
+page={Number}
 ```
 
 ### Example
 
 ```GET
 https://api.lefresnoy.net/v2/people/artist?search=selestane
+```
+
+```GET
+https://api.lefresnoy.net/v2/people/artist?page=2&page_size=20
 ```
 
 ### Expected output
@@ -238,7 +266,19 @@ https://api.lefresnoy.net/v2/people/staff?search=selestane
 // 🟢 200 - Result
 [
   {
-    "user": "https://api.lefresnoy.net/v2/people/user/1"
+    "user": "http://api.lefresnoy.net/v2/people/user/1",
+    "production_task": [
+      {
+        "production": {
+          "url": "http://api.lefresnoy.net/v2/production/artwork/1325",
+          "title": "Quartz"
+        },
+        "task": {
+          "label": "Musique originale",
+          "description": "Musique composée"
+        }
+      }
+    ]
   }
 ]
 ```
@@ -514,8 +554,8 @@ Si _next_ ou _previous_ ne sont pas défini, cela veut dire que la page est soit
 ```json
 headers:{
   "count": Number,
-  "next": "http://preprod.api.lefresnoy.net/v2/production/artwork?production_year=2022&page_size=3&page=6",
-  "previous": "http://preprod.api.lefresnoy.net/v2/production/artwork?production_year=2022&page_size=3&page=5",
+  "next": "http://api.lefresnoy.net/v2/production/artwork?production_year=2022&page_size=3&page=6",
+  "previous": "http://api.lefresnoy.net/v2/production/artwork?production_year=2022&page_size=3&page=5",
 }
 ```
 
@@ -537,7 +577,7 @@ page={Number}
 ### Example
 
 ```GET
-http://preprod.api.lefresnoy.net/v2/production/artwork?production_year=2022&page_size=3&page=5
+http://api.lefresnoy.net/v2/production/artwork?production_year=2022&page_size=3&page=5
 ```
 
 ### Expected output
@@ -933,6 +973,32 @@ https://api.lefresnoy.net/v2/production/performance
 ]
 ```
 
+---
+
+<br/><br/>
+
+### Input request
+
+```GET
+http://api.lefresnoy.net/v2/production/task
+```
+
+### Expected output
+
+```json
+// 🟢 200 - Result
+[
+  {
+    "label": "Partenaire",
+    "description": "Partenaire"
+  },
+  {
+    "label": "Producteur",
+    "description": "Produit une œuvre"
+  }
+]
+```
+
 ### People
 
 ### Input request
@@ -1223,19 +1289,23 @@ Besoin de préciser l'assets voulu dans l'url de la requête.
 ### Input request
 
 ```GET
-http://preprod.api.lefresnoy.net/v2/production/artwork-search
+http://api.lefresnoy.net/v2/production/artwork-search
 ```
 
 ### Parameters
 
 ```GET
-?q={something}
+?q={String}
+type={String(film,installation...)}
+genres={String(photographie, fiction, documentaire...)}
+keywords={String}
+shooting_place={String(Paris, Marseille, Tourcoing...)}
 ```
 
 ### Example
 
 ```GET
-http://preprod.api.lefresnoy.net/v2/school/student-search?q=10:10
+http://api.lefresnoy.net/v2/school/artwork-search?q=10:10
 ```
 
 ### Expected output
@@ -1298,7 +1368,7 @@ http://preprod.api.lefresnoy.net/v2/school/student-search?q=10:10
 ### Input request
 
 ```GET
-http://preprod.api.lefresnoy.net/v2/school/student-search
+http://api.lefresnoy.net/v2/school/student-search
 ```
 
 ### Parameters
@@ -1310,7 +1380,7 @@ http://preprod.api.lefresnoy.net/v2/school/student-search
 ### Example
 
 ```GET
-http://preprod.api.lefresnoy.net/v2/school/student-search?q=selestane
+http://api.lefresnoy.net/v2/school/student-search?q=selestane
 ```
 
 ### Expected output
@@ -1325,6 +1395,64 @@ http://preprod.api.lefresnoy.net/v2/school/student-search?q=selestane
     "promotion": "https://api.lefresnoy.net/v2/school/promotion/1",
     "user": "https://api.lefresnoy.net/v2/people/user/1",
     "artist": "https://api.lefresnoy.net/v2/people/artist/1"
+  }
+]
+```
+
+---
+
+<br/><br/>
+
+### Student
+
+### Input request
+
+```GET
+http://api.lefresnoy.net/v2/people/artist-search
+```
+
+### Parameters
+
+::: warning
+Les Country code ont iso 2 et 3 lettres. La recherche d'un peut exclure l'autre dans les résultats.
+:::
+::: tip
+Pour l'instant il faut donc combiner les 2 dans la recherche : nationality=FR{operator or (!need to update)}FRA.
+:::
+
+```GET
+?q={something}
+&nationality={Country Code iso2,3}
+```
+
+### Example
+
+```GET
+http://api.lefresnoy.net/v2/people/artist-search?q=selestane&nationality=FR{operator or (!need to update)}FRA
+```
+
+### Expected output
+
+```json
+// 🟢 200 - Result
+[
+  {
+    "nickname": "selestane",
+    "user": {
+      "id": 1,
+      "url": "http://api.lefresnoy.net/v2/people/user/1",
+      "username": "selestane",
+      "first_name": "Selene",
+      "last_name": "Lamstane",
+      "profile": {
+        "id": 1369,
+        "photo": "http://api.lefresnoy.net/media/people/fresnoyprofile/2018/selestane.png",
+        "nationality": "FR",
+        "is_artist": true,
+        "is_staff": false,
+        "is_student": true
+      }
+    }
   }
 ]
 ```
