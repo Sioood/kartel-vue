@@ -1,5 +1,6 @@
 <script setup>
-import config from "@/config";
+// import config from "@/config";
+import config from "../../config";
 
 import { ref } from "vue";
 
@@ -10,7 +11,7 @@ const props = defineProps({
   },
   medium: {
     type: String,
-    required: true,
+    required: false,
   },
   title: {
     type: String,

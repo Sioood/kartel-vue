@@ -28,6 +28,7 @@ Vary: Accept
     "people/user": "https://api.lefresnoy.net/v2/people/user",
     "people/userprofile": "https://api.lefresnoy.net/v2/people/userprofile",
     "people/artist": "https://api.lefresnoy.net/v2/people/artist",
+    "people/artist-search": "http://api.lefresnoy.net/v2/people/artist-search",
     "people/staff": "https://api.lefresnoy.net/v2/people/staff",
     "people/organization": "https://api.lefresnoy.net/v2/people/organization",
     "people/organization-staff": "https://api.lefresnoy.net/v2/people/organization-staff",
@@ -37,6 +38,7 @@ Vary: Accept
     "school/student-application-setup": "https://api.lefresnoy.net/v2/school/student-application-setup",
     "school/student-search": "https://api.lefresnoy.net/v2/school/student-search",
     "production/artwork": "https://api.lefresnoy.net/v2/production/artwork",
+    "production/artwork-search": "https://api.lefresnoy.net/v2/production/artwork-search",
     "production/film": "https://api.lefresnoy.net/v2/production/film",
     "production/film-keywords": "https://api.lefresnoy.net/v2/production/film-keywords",
     "production/event": "https://api.lefresnoy.net/v2/production/event",
@@ -47,6 +49,7 @@ Vary: Accept
     "production/performance": "https://api.lefresnoy.net/v2/production/performance",
     "production/collaborator": "https://api.lefresnoy.net/v2/production/collaborator",
     "production/partner": "https://api.lefresnoy.net/v2/production/partner",
+    "production/task": "https://api.lefresnoy.net/v2/production/task",
     "diffusion/place": "https://api.lefresnoy.net/v2/diffusion/place",
     "diffusion/meta-award": "https://api.lefresnoy.net/v2/diffusion/meta-award",
     "diffusion/award": "https://api.lefresnoy.net/v2/diffusion/award",
@@ -72,12 +75,29 @@ https://api.lefresnoy.net/v2/people/user
 ### parameters
 
 ::: tip
+Pour constuire des paramètres de recherche il faut fonctionner de la manière suivante :<br/>
+- La séparation entre le chemin et les paramètres s'effectue par un *?*, le premier paramètre sera toujours précédé d'un "?".
+- Pour ajouter d'autres paramètres il faudra les séparer d'une *&*.
+- Le paramètre sera suivi d'un *=* qui sera lui même suivi de la valeur voulue pour ce paramètre.
+
+EX: http://api.lefresnoy.net/v2/school/artwork-search?q=10:10&type=installation
+
+- ?search=10:10 -> premier paramètre donc précédé d'un *?*.
+- &type=installation -> deuxième paramètre donc précédé d'une *&*.
+
+<br/><br/>
 Remplacer ce qui se trouve entre accolades par la donnée voulue.
-Exemple : _{username}_ -> kartel
+Exemple : _{username}_ -> selestane
 :::
 
 ```
 ?search={username}
+```
+
+### Example
+
+```GET
+https://api.lefresnoy.net/v2/people/user?search=selestane
 ```
 
 ### Expected output
@@ -88,9 +108,17 @@ Exemple : _{username}_ -> kartel
   {
     "id": 1,
     "url": "https://api.lefresnoy.net/v2/people/user/1",
-    "username": "Username",
-    "first_name": "Name",
-    "last_name": "Lastname"
+    "username": "selestane",
+    "first_name": "Selene",
+    "last_name": "Lamstane",
+    "profile": {
+            "id": 23,
+            "photo": "http://api.lefresnoy.net/media/people/fresnoyprofile/selestane.jpg",
+            "nationality": "FRA",
+            "is_artist": true,
+            "is_staff": false,
+            "is_student": true
+        }
   }
 ]
 ```
@@ -131,26 +159,26 @@ parameters possible à mettre à jour.
 {
   "id": 1,
   "photo": null,
-  "gender": "",
+  "gender": "female",
   "cursus": "",
-  "nationality": "",
-  "birthdate": null,
-  "birthplace": null,
-  "birthplace_country": "",
-  "mother_tongue": "",
-  "other_language": "",
-  "homeland_country": "",
-  "homeland_address": "",
-  "homeland_zipcode": "",
-  "homeland_town": "",
-  "homeland_phone": "",
-  "residence_phone": "",
-  "residence_country": "",
-  "residence_zipcode": "",
-  "residence_address": "",
-  "residence_town": "",
+  "nationality": "Française",
+  "birthdate": "24/03/2004",
+  "birthplace": "Tourcoing",
+  "birthplace_country": "France",
+  "mother_tongue": "Français",
+  "other_language": "Anglais",
+  "homeland_country": "France",
+  "homeland_address": "123 Rue du Fresnoy",
+  "homeland_zipcode": "59200",
+  "homeland_town": "Tourcoing",
+  "homeland_phone": "06 59 84 23 97",
+  "residence_phone": "06 59 84 23 97",
+  "residence_country": "France",
+  "residence_zipcode": "59200",
+  "residence_address": "123 Rue du Fresnoy",
+  "residence_town": "Tourcoing",
   "social_insurance_number": "",
-  "family_status": "",
+  "family_status": "Célibataire",
   "is_artist": true,
   "is_staff": false,
   "is_student": false
@@ -173,6 +201,18 @@ Paramètre de recherche basé sur l'username du profil user. Pas très pratique.
 
 ```
 ?search={username}
+page_size={Number}
+page={Number}
+```
+
+### Example
+
+```GET
+https://api.lefresnoy.net/v2/people/artist?search=selestane
+```
+
+```GET
+https://api.lefresnoy.net/v2/people/artist?page=2&page_size=20
 ```
 
 ### Expected output
@@ -183,13 +223,13 @@ Paramètre de recherche basé sur l'username du profil user. Pas très pratique.
   {
     "id": 1,
     "url": "https://api.lefresnoy.net/v2/people/artist/1",
-    "nickname": "",
+    "nickname": "selestane",
     "bio_short_fr": "",
     "bio_short_en": "",
     "bio_fr": "",
     "bio_en": "",
-    "twitter_account": "",
-    "facebook_profile": "",
+    "twitter_account": "selestane",
+    "facebook_profile": "selestane",
     "user": "https://api.lefresnoy.net/v2/people/user/1",
     "websites": ["https://api.lefresnoy.net/v2/common/website/1"]
   }
@@ -214,13 +254,31 @@ Paramètre de recherche basé sur l'username du profil user. Pas très pratique.
 ?search={username}
 ```
 
+### Example
+
+```GET
+https://api.lefresnoy.net/v2/people/staff?search=selestane
+```
+
 ### Expected output
 
 ```json
 // 🟢 200 - Result
 [
   {
-    "user": "https://api.lefresnoy.net/v2/people/user/1"
+    "user": "http://api.lefresnoy.net/v2/people/user/1",
+    "production_task": [
+      {
+        "production": {
+          "url": "http://api.lefresnoy.net/v2/production/artwork/1325",
+          "title": "Quartz"
+        },
+        "task": {
+          "label": "Musique originale",
+          "description": "Musique composée"
+        }
+      }
+    ]
   }
 ]
 ```
@@ -242,8 +300,8 @@ https://api.lefresnoy.net/v2/people/organization
 [
   {
     "url": "https://api.lefresnoy.net/v2/people/organization/1",
-    "name": "",
-    "description": "",
+    "name": "Le Fresnoy",
+    "description": "Le Fresnoy - Studio national des arts contemporains est un établissement français de formation, de production et de diffusion artistiques, audiovisuelles et numériques.",
     "picture": null,
     "updated_on": "2015-06-18T16:33:17.310847+02:00"
   }
@@ -267,8 +325,8 @@ https://api.lefresnoy.net/v2/people/organization-staff
 [
   {
     "url": "https://api.lefresnoy.net/v2/people/organization-staff/1",
-    "label": "",
-    "description": ""
+    "label": "Le Fresnoy",
+    "description": "Le Fresnoy - Studio national des arts contemporains est un établissement français de formation, de production et de diffusion artistiques, audiovisuelles et numériques."
   }
 ]
 ```
@@ -290,9 +348,9 @@ https://api.lefresnoy.net/v2/school/promotion
 [
   {
     "url": "https://api.lefresnoy.net/v2/school/promotion/1",
-    "name": "",
-    "starting_year": 2000,
-    "ending_year": 2002
+    "name": "Marguerite Duras",
+    "starting_year": 2021,
+    "ending_year": 2023
   }
 ]
 ```
@@ -456,9 +514,9 @@ Student Autocomplete Search List
 [
   {
     "text": "",
-    "firstname": "",
-    "lastname": "",
-    "promotion": "Pina Bausch (2009-2011)",
+    "firstname": "Selene",
+    "lastname": "Lamstane",
+    "promotion": "Marguerite Duras (2021-2023)",
     "content_auto": ""
   }
 ]
@@ -482,11 +540,44 @@ Rechercher des artworks selon ses ou son auteur.
 authors={artist_id}
 ```
 
-Si vous avez besoin de sortir une certaine liste d'artworks en fonction de filtres, avec un offset et un nombre d'artwork maximum.
+### List and filters
+
+### Headers
+
+:::warning
+Il faut récupérer les headers avec ''
+:::
+
+_next_ et _previous_ servent d'offset et de repère pour de futures requêtes en fonction de la page actuelle.
+Si _next_ ou _previous_ ne sont pas défini, cela veut dire que la page est soit la première soit la dernière.
+
+```json
+headers:{
+  "count": Number,
+  "next": "http://api.lefresnoy.net/v2/production/artwork?production_year=2022&page_size=3&page=6",
+  "previous": "http://api.lefresnoy.net/v2/production/artwork?production_year=2022&page_size=3&page=5",
+}
 ```
-?production_year={Number(Year)}
-&page_size={Number}
-&page={Number}
+
+### Parameters
+
+:::tip
+Plus de paramètres peuvent être ajouter au fur et à mesure de l'évolution des besoins de filtre et de recherche
+:::
+
+Si _production_year_ n'est pas précisé, c'est une liste de tous les artworks qui en résulte.
+_page_size_ et _page_ sont obligatoires
+
+```
+?production_year={year}
+page_size={Number}
+page={Number}
+```
+
+### Example
+
+```GET
+http://api.lefresnoy.net/v2/production/artwork?production_year=2022&page_size=3&page=5
 ```
 
 ### Expected output
@@ -538,57 +629,6 @@ Si vous avez besoin de sortir une certaine liste d'artworks en fonction de filtr
     "type": "Installation"
   }
 ]
-```
-
----
-
-<br/><br/>
-
-### Artwork list and filters
-
-### Input request
-
-```GET
-http://preprod.api.lefresnoy.net/v2/production/artwork?production_year=2022&page_size=3&page=5
-```
-
-### Headers
-
-:::warning
-Il faut récupérer les headers avec ''
-:::
-
-_next_ et _previous_ servent d'offset et de repère pour de futures requêtes en fonction de la page actuelle.
-Si _next_ ou _previous_ ne sont pas défini, cela veut dire que la page est soit la première soit la dernière.
-
-```json
-headers:{
-  "count": Number,
-  "next": "URL",
-  "previous": "URL",
-}
-```
-
-### Parameters
-
-:::tip
-Plus de paramètres peuvent être ajouter au fur et à mesure de l'évolution des besoins de filtre et de recherche
-:::
-
-Si _production_year_ n'est pas précisé, c'est une liste de tous les artworks qui en résulte.
-_page_size_ et _page_ sont obligatoires
-
-```
-?production_year={year}
-page_size={Number}
-page={Number}
-```
-
-### Expected output
-
-```json
-// 🟢 200 - Result
-
 ```
 
 ---
@@ -739,50 +779,10 @@ https://api.lefresnoy.net/v2/production/itinerary
 ?event={id}
 ```
 
-### Expected output
-
-```json
-// 🟢 200 - Result
-[
-  {
-    "url": "https://api.lefresnoy.net/v2/production/itinerary/1",
-    "updated_on": "2014-06-05T18:41:24.214797+02:00",
-    "label_fr": "Métamorphoses",
-    "label_en": "Métamorphoses",
-    "description_fr": "",
-    "description_en": "",
-    "event": "https://api.lefresnoy.net/v2/production/event/53",
-    "artworks": ["https://api.lefresnoy.net/v2/production/artwork/38"],
-    "gallery": []
-  },
-  {
-    "url": "https://api.lefresnoy.net/v2/production/itinerary/2",
-    "updated_on": "2016-04-18T16:18:53.331212+02:00",
-    "label_fr": "Panorama 17",
-    "label_en": "Panorama 17",
-    "description_fr": " ",
-    "description_en": " ",
-    "event": "https://api.lefresnoy.net/v2/production/event/533",
-    "artworks": ["https://api.lefresnoy.net/v2/production/artwork/580"],
-    "gallery": []
-  }
-]
-```
-
----
-
-<br/><br/>
-
-### Input request
-
-```GET
-https://api.lefresnoy.net/v2/production/itinerary
-```
-
-### Parameters
+### Example
 
 ```
-?event={id}
+https://api.lefresnoy.net/v2/production/itinerary?event=1
 ```
 
 ### Expected output
@@ -820,8 +820,8 @@ https://api.lefresnoy.net/v2/production/film-genre
 // 🟢 200 - Result
 [
   {
-    "url": "https://api.lefresnoy.net/v2/production/film-genre/1",
-    "label": " "
+    "url": "https://api.lefresnoy.net/v2/production/film-genre/3",
+    "label": "Documentaire"
   }
 ]
 ```
@@ -903,7 +903,7 @@ https://api.lefresnoy.net/v2/production/installation-genre
 [
   {
     "url": "https://api.lefresnoy.net/v2/production/installation-genre/1",
-    "label": "Installation intéractive et multimédia "
+    "label": "Installation intéractive et multimédia"
   }
 ]
 ```
@@ -969,6 +969,32 @@ https://api.lefresnoy.net/v2/production/performance
     "teaser_galleries": ["https://api.lefresnoy.net/v2/assets/gallery/2119"],
     "authors": ["https://api.lefresnoy.net/v2/people/artist/570"],
     "beacons": []
+  }
+]
+```
+
+---
+
+<br/><br/>
+
+### Input request
+
+```GET
+http://api.lefresnoy.net/v2/production/task
+```
+
+### Expected output
+
+```json
+// 🟢 200 - Result
+[
+  {
+    "label": "Partenaire",
+    "description": "Partenaire"
+  },
+  {
+    "label": "Producteur",
+    "description": "Produit une œuvre"
   }
 ]
 ```
@@ -1263,13 +1289,23 @@ Besoin de préciser l'assets voulu dans l'url de la requête.
 ### Input request
 
 ```GET
-http://preprod.api.lefresnoy.net/v2/production/artwork-search
+http://api.lefresnoy.net/v2/production/artwork-search
 ```
 
 ### Parameters
 
 ```GET
-?q={something}
+?q={String}
+type={String(film,installation...)}
+genres={String(photographie, fiction, documentaire...)}
+keywords={String}
+shooting_place={String(Paris, Marseille, Tourcoing...)}
+```
+
+### Example
+
+```GET
+http://api.lefresnoy.net/v2/school/artwork-search?q=10:10
 ```
 
 ### Expected output
@@ -1332,13 +1368,19 @@ http://preprod.api.lefresnoy.net/v2/production/artwork-search
 ### Input request
 
 ```GET
-http://preprod.api.lefresnoy.net/v2/school/student-search
+http://api.lefresnoy.net/v2/school/student-search
 ```
 
 ### Parameters
 
 ```GET
 ?q={something}
+```
+
+### Example
+
+```GET
+http://api.lefresnoy.net/v2/school/student-search?q=selestane
 ```
 
 ### Expected output
@@ -1355,5 +1397,62 @@ http://preprod.api.lefresnoy.net/v2/school/student-search
     "artist": "https://api.lefresnoy.net/v2/people/artist/1"
   }
 ]
+```
 
+---
+
+<br/><br/>
+
+### Student
+
+### Input request
+
+```GET
+http://api.lefresnoy.net/v2/people/artist-search
+```
+
+### Parameters
+
+::: warning
+Les Country code ont iso 2 et 3 lettres. La recherche d'un peut exclure l'autre dans les résultats.
+:::
+::: tip
+Pour l'instant il faut donc combiner les 2 dans la recherche : nationality=FR{operator or (!need to update)}FRA.
+:::
+
+```GET
+?q={something}
+&nationality={Country Code iso2,3}
+```
+
+### Example
+
+```GET
+http://api.lefresnoy.net/v2/people/artist-search?q=selestane&nationality=FR{operator or (!need to update)}FRA
+```
+
+### Expected output
+
+```json
+// 🟢 200 - Result
+[
+  {
+    "nickname": "selestane",
+    "user": {
+      "id": 1,
+      "url": "http://api.lefresnoy.net/v2/people/user/1",
+      "username": "selestane",
+      "first_name": "Selene",
+      "last_name": "Lamstane",
+      "profile": {
+        "id": 1369,
+        "photo": "http://api.lefresnoy.net/media/people/fresnoyprofile/2018/selestane.png",
+        "nationality": "FR",
+        "is_artist": true,
+        "is_staff": false,
+        "is_student": true
+      }
+    }
+  }
+]
 ```

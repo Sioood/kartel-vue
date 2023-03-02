@@ -4,9 +4,34 @@ Cette page va vous aidez étape par étape à mettre en place Kartel _(et Kart)_
 
 ## Kartel
 
-### Étape 1 : Installer toutes les dépendences
+## Prérequis
+
+### Node.js
+
+Si tu utilises npm pour installer Kartel, il supporte :
+:::tip
+Pour l'installation de Node retrouver les versions [ici](https://nodejs.org/fr/download/) et vous pouvez vous appuyer de ce
+[tutoriel](https://kinsta.com/fr/blog/comment-installer-node-js/).
+:::
+
+- **Node** 18.13.0
+- **npm** 8.19.3
+
+### OS
+
+- **Windows 7** and above (64-bit only)
+- **Ubuntu** 22.04.1 LTS and above
+- **MacOS**
+
+---
+
+### Étape 1 : Cloner le repository github et installer toutes les dépendences
+```sh
+$ git clone https://github.com/Sioood/kartel-vue
+```
 
 ```sh
+# ./kartel-vue
 $ npm install
 ```
 
@@ -19,7 +44,7 @@ Mettre à jour la configuration et tout les liens vers l'API en remplacant par l
 :::
 
 ```json
-//src/config.js
+// src/config.js
 
 {
   "api_url": "http://127.0.0.1:5173/",
@@ -61,6 +86,14 @@ $ npm run docs:build
 
 ## Effectuer des tests
 
-### Voir la page [cypress](../test/cypress.md)
+### Voir la page [Tester l'application](../test/cypress.md).
 
 ## Kart
+
+### Installation de Kart
+
+### Installation de la Base de donnée BDD (Postgresql)
+
+### Mise en place du media service
+
+### Installation d'elasticsearch

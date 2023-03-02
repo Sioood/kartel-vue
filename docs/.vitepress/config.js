@@ -79,6 +79,12 @@ export default {
         text: "Kartel",
         items: [
           {
+            text: "Sitemap",
+            link: "/kartel/sitemap",
+            collapsible: false,
+            collapsed: false,
+          },
+          {
             text: "UI",
             link: "/kartel/ui",
             items: [
@@ -143,6 +149,8 @@ export default {
       },
       {
         text: "Tester l'application",
+        link: "/test/cypress",
+
         items: [
           {
             text: "Cypress",
