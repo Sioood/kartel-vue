@@ -79,6 +79,12 @@ export default {
         text: "Kartel",
         items: [
           {
+            text: "Sitemap",
+            link: "/kartel/sitemap",
+            collapsible: false,
+            collapsed: false,
+          },
+          {
             text: "UI",
             link: "/kartel/ui",
             items: [
