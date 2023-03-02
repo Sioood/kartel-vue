@@ -10,7 +10,6 @@ const props = defineProps({
     required: true,
   },
   medium: {
-    type: String,
     required: false,
   },
   title: {
