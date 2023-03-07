@@ -15,6 +15,10 @@ Si vous utilisez Linux ou WSL, Cypress nécessite plusieures dépendences pour f
 apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
 ```
 
+:::details
+Le projet à débuté avec cypress et à changé vers cypress/vue accompagné de vue test utils
+:::
+
 ## Lancer Cypress
 
 ```sh
