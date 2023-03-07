@@ -11,10 +11,10 @@
 
 const config = {
   // api_url: "https://api.lefresnoy.net/",
-  api_url: "http://localhost:5173/",
-  rest_uri_v2: "http://preprod.api.lefresnoy.net/v2/",
-  // rest_uri_v2: "http://127.0.0.1:5173/v2/",
-  rest_uri: "https://api.lefresnoy.net/v1/",
+  api_url: "http://localhost:8000/",
+  // rest_uri_v2: "http://preprod.api.lefresnoy.net/v2/",
+  rest_uri_v2: "http://127.0.0.1:8000/v2/",
+  // rest_uri: "https://api.lefresnoy.net/v1/",
   media_service: "http://127.0.0.1:8888/",
   reset_password_uri: "https://api.lefresnoy.net/account/reset_password/",
   ame_rest_uri: "https://ame.lefresnoy.net/plugins/api_search/",
