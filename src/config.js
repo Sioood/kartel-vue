@@ -10,6 +10,7 @@
 // };
 
 const config = {
+  url: "http://localhost:5173/",
   // api_url: "https://api.lefresnoy.net/",
   api_url: "http://localhost:8000/",
   // rest_uri_v2: "http://preprod.api.lefresnoy.net/v2/",

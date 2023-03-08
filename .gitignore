@@ -1,5 +1,6 @@
 # Config 
 src/config.js
+docs/.vitepress/cache
 
 # Logs
 logs
