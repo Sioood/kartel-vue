@@ -40,7 +40,9 @@ describe("Artist and artworks informations from school, navigate through all pag
         expect(response.statusCode).to.eq(200);
         expect(response.body).to.exist;
 
-        // check each properties expected - Maybe not mandatory
+        // check each properties expected
+        // FOR ME important because if the structure of the DB will be modified,
+        // the informations requested will not be the same -> EX: starting_year or started_year
         response.body.forEach((el) => {
           expect(el).to.have.property("url");
           expect(el).to.have.property("name");
