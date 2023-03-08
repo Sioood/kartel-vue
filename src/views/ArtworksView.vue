@@ -40,9 +40,11 @@ async function getArtworks(productionYear) {
 
   let data = await response.json();
 
-  data.forEach((artwork) => {
-    artworks.value.push(artwork);
-  });
+  if (data) {
+    data.forEach((artwork) => {
+      artworks.value.push(artwork);
+    });
+  }
 
   offset.value++;
   load.value = true;

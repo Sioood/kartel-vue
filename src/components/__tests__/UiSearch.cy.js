@@ -4,7 +4,7 @@ import "@/main";
 
 import config from "@/config";
 
-describe("Ui Link", () => {
+describe("Ui Search", () => {
   it("Check when results", () => {
     cy.intercept(`${config.rest_uri_v2}production/artwork-search*`).as(
       "artwork-search"

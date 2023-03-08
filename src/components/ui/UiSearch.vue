@@ -151,7 +151,7 @@ function search(input) {
         Pas de résultat
       </h4>
       <div
-      data-test="results"
+        data-test="results"
         class="w-full flex flex-col gap-6"
         :class="{
           flex: Object.keys(artworks).length !== 0 || students[0],
