@@ -5,8 +5,8 @@ import "@/main.js";
 
 import { useConfigApi } from "@/stores/configApi";
 
-import UnitExample from "./UnitExample.vue";
-import { sum, value } from "./UnitExample.js";
+import UnitExample from "./unit/UnitExample.vue";
+import { sum, value } from "./unit/UnitExample.js";
 
 describe("function", () => {
   const storeApi = useConfigApi();
