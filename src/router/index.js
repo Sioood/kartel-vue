@@ -7,14 +7,14 @@ const router = createRouter({
     {
       path: "/",
       name: "home",
-      component: () => import("../views/HomeView.vue"),
+      component: () => import("../pages/HomePage.vue"),
     },
     {
       // mettre la schoolview en componenent dans une view pour mieux agencer le tout ->
       // contrer le problème du fixed sur la liste promo, donner des valeurs précise de position padding etc
       path: "/school",
       name: "school",
-      component: () => import("../views/SchoolView.vue"),
+      component: () => import("../pages/school/SchoolPage.vue"),
       children: [
         {
           // promotion will be rendered inside School's <router-view> (Don't forget the router-view element to render children)
@@ -59,12 +59,12 @@ const router = createRouter({
     {
       path: "/artworks",
       name: "artworks",
-      component: () => import("../views/ArtworksView.vue"),
+      component: () => import("../pages/artwork/ArtworksPage.vue"),
     },
     {
       path: "/artwork/:id",
       name: "artwork",
-      component: () => import("../pages/ArtworkPage.vue"),
+      component: () => import("../pages/artwork/ArtworkPage.vue"),
     },
     // For visualisation but need to be children of artist and artwork
     {

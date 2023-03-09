@@ -1,7 +1,7 @@
 <script setup>
 import { useRouter } from "vue-router";
 
-import { useConfigApi } from "../stores/configApi";
+import { useConfigApi } from "../../stores/configApi";
 import { onMounted, ref } from "vue";
 
 import UnderlineTitle from "@/components/ui/UnderlineTitle.vue";
