@@ -5,6 +5,10 @@ defineProps(["title"]);
 
 let variable = "i'm a variable";
 
+let testable = ref({
+  property: "test"
+})
+
 function test() {
   return "exposed test";
 }
@@ -24,6 +28,7 @@ defineExpose({ test, variable, returnString });
     <h2>value: {{ value }}</h2>
     <h2>variable: {{ variable }}</h2>
     <h2>test: {{ test() }}</h2>
+    <h2>{{ testable.property }}</h2>
   </div>
 </template>
 
