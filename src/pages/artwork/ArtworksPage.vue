@@ -115,8 +115,21 @@ function removePreprod(url) {
     <div class="mb-6 flex items-center gap-6">
       <h3 class="text-lg font-medium text-gray-dark">Filtres :</h3>
       <div>
-        <label for="date" class="flex flex-col items-end">
-          <div class="w-full after:block after:w-full after:h-1 after:bg-black">
+        <label
+          for="date"
+          class="flex flex-col items-end after:block after:w-full after:h-1 after:bg-black"
+        >
+          <div class="w-full flex items-end">
+            <svg
+              class="h-fit fill-gray-dark"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              width="30"
+              height="30"
+            >
+              <path fill="none" d="M0 0h24v24H0z" />
+              <path d="M12 16l-6-6h12z" />
+            </svg>
             <select
               name="date"
               id="date"
@@ -130,8 +143,8 @@ function removePreprod(url) {
               </option>
             </select>
           </div>
-          <h6 class="pl-4 text-xs text-gray">Date de production</h6>
         </label>
+        <h6 class="pl-4 text-xs text-right text-gray">Date de production</h6>
       </div>
     </div>
     <span class="my-3 w-full h-0.5 block bg-gray-extralight"></span>

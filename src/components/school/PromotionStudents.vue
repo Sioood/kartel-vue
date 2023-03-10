@@ -47,14 +47,35 @@ console.log(null);
       ></UnderlineTitle>
 
       <div class="my-6 flex justify-end gap-3 text-sm">
-        <AppButton
-          @click="storeApi.sortStudents(storeApi.promoStudents)"
-          text="Sort Ascending"
-        ></AppButton>
+        <AppButton @click="storeApi.sortStudents(storeApi.promoStudents)">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            width="20"
+            height="20"
+          >
+            <path
+              class="fill-white"
+              d="M19 3l4 5h-3v12h-2V8h-3l4-5zm-5 15v2H3v-2h11zm0-7v2H3v-2h11zm-2-7v2H3V4h9z"
+            />
+          </svg>
+        </AppButton>
         <AppButton
           @click="storeApi.sortStudents(storeApi.promoStudents, 'descending')"
-          text="Sort Descending"
-        ></AppButton>
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            width="20"
+            height="20"
+          >
+            <path fill="none" d="M0 0H24V24H0z" />
+            <path
+              d="M20 4v12h3l-4 5-4-5h3V4h2zm-8 14v2H3v-2h9zm2-7v2H3v-2h11zm0-7v2H3V4h11z"
+              fill="rgba(255,255,255,1)"
+            />
+            </svg>
+      </AppButton>
       </div>
     </div>
 
@@ -78,7 +99,7 @@ console.log(null);
 
       <!-- </li> -->
     </ul>
-    <p v-else>Aucun étudiants n'est encore disponible pour cette promotion</p>
+    <p v-else>Aucun étudiants n'a était trouvé pour cette promotion</p>
   </div>
 </template>
 
@@ -116,6 +137,8 @@ console.log(null);
 .list-move, /* apply transition to moving elements */
 .list-enter-active,
 .list-leave-active {
+  transform: translate(0, 30%);
+
   transition: all 1s ease;
 }
 
@@ -130,4 +153,5 @@ console.log(null);
 .list-leave-active {
   position: absolute;
 }
+
 </style>

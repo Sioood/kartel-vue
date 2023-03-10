@@ -58,16 +58,16 @@ watch(navigation.value, () => {
 });
 
 onMounted(() => {
-  if (!localStorage.theme) {
-    window.matchMedia("(prefers-color-scheme: dark)")
-      ? switchTheme("dark")
-      : switchTheme("light");
-  } else {
-    localStorage.theme === "dark"
-      ? (document.documentElement.classList.add("dark"), (theme.value = "🌒"))
-      : (document.documentElement.classList.remove("dark"),
-        (theme.value = "🌖"));
-  }
+  // if (!localStorage.theme) {
+  //   window.matchMedia("(prefers-color-scheme: dark)")
+  //     ? switchTheme("dark")
+  //     : switchTheme("light");
+  // } else {
+  //   localStorage.theme === "dark"
+  //     ? (document.documentElement.classList.add("dark"), (theme.value = "🌒"))
+  //     : (document.documentElement.classList.remove("dark"),
+  //       (theme.value = "🌖"));
+  // }
 
   addEventListener("resize", () => {
     navigation.value.open = false;

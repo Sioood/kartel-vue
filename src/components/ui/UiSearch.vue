@@ -139,7 +139,7 @@ function search(input) {
       }"
     >
       <h4
-        class="p-2 w-full bg-gray-extralightest"
+        class="p-2 w-full font-medium"
         :class="{
           hidden:
             result.open === false ||
@@ -148,7 +148,7 @@ function search(input) {
           block: result.open === true && hiddenInput() === false,
         }"
       >
-        Pas de résultat
+        Aucun résultat ...
       </h4>
       <div
         data-test="results"
