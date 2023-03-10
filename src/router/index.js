@@ -72,6 +72,21 @@ const router = createRouter({
       name: "media",
       component: () => import("../components/MediaDetails.vue"),
     },
+
+
+
+
+    /**
+    
+      test composable
+    
+    **/
+
+      {
+        path: "/test",
+        name: "test",
+        component: () => import("../__examples__/__test__/ComponentComposables.vue"),
+      },
   ],
 });
 
