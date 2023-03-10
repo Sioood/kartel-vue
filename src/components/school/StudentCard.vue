@@ -9,7 +9,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <li>
+  <li class="bg-white">
     <!-- <p>{{ props.student }}</p> -->
     <div
       v-if="props.student.userData"

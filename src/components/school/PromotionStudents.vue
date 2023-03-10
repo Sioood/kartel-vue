@@ -58,18 +58,24 @@ console.log(null);
       </div>
     </div>
 
-    <ul v-if="storeApi.promoStudents[0]" class="grid grid-cols-fluid gap-6">
+    <ul
+      v-if="storeApi.promoStudents[0]"
+      class="students grid grid-cols-fluid gap-6"
+    >
       <!-- <p>{{ storeApi.promoStudents[0] }}</p> -->
       <!-- fetch all student before and not one by one inside the card -> get an array and can iterate it -->
       <!-- :key remplacer par l'index -> (object, index) -->
       <!-- Modèle de destructuration attendu -->
-      <StudentCard
-        class="artist__card"
-        v-for="(student, index) in storeApi.promoStudents"
-        :key="index"
-        :student="student"
-        :data-key="index"
-      ></StudentCard>
+      <TransitionGroup name="list">
+        <StudentCard
+          class="student"
+          v-for="(student, index) in storeApi.promoStudents"
+          :key="student"
+          :student="student"
+          :data-key="index"
+        ></StudentCard>
+      </TransitionGroup>
+
       <!-- </li> -->
     </ul>
     <p v-else>Aucun étudiants n'est encore disponible pour cette promotion</p>
@@ -82,9 +88,19 @@ console.log(null);
   animation: appear 1s ease forwards;
   transition: background 0.3s ease;
 }
+
+.students {
+  animation: appear 1s ease forwards;
+}
+
+.student {
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
 @keyframes appear {
   from {
-    transform: translate(0, 30%);
+    transform: translate(0, 10%);
     opacity: 0;
   }
   to {
@@ -93,19 +109,25 @@ console.log(null);
   }
 }
 
-.artist__card {
-  overflow: hidden;
-  animation: appear 1s ease forwards;
-  transition: background 0.3s ease;
+.list-enter {
+  opacity: 0;
 }
-@keyframes appear {
-  from {
-    transform: translate(0, 30%);
-    opacity: 0;
-  }
-  to {
-    transform: translate(0, 0);
-    opacity: 1;
-  }
+
+.list-move, /* apply transition to moving elements */
+.list-enter-active,
+.list-leave-active {
+  transition: all 1s ease;
+}
+
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translate(0, 30%);
+}
+
+/* ensure leaving items are taken out of layout flow so that moving
+   animations can be calculated correctly. */
+.list-leave-active {
+  position: absolute;
 }
 </style>
