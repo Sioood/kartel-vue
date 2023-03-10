@@ -48,11 +48,11 @@ console.log(null);
 
       <div class="my-6 flex justify-end gap-3 text-sm">
         <AppButton
-          @click="storeApi.sortStudents()"
+          @click="storeApi.sortStudents(storeApi.promoStudents)"
           text="Sort Ascending"
         ></AppButton>
         <AppButton
-          @click="storeApi.sortStudents('descending')"
+          @click="storeApi.sortStudents(storeApi.promoStudents, 'descending')"
           text="Sort Descending"
         ></AppButton>
       </div>

@@ -50,56 +50,57 @@ export const useConfigApi = defineStore("configApi", () => {
 
     promoStudents.value = [];
 
-    data.map((student) => {
-      getUser(student);
+    const users = data.map(async (student) => {
+      // await getUser(student);
+      // console.log(await getUser(student));
+
+      student.userData = await getUser(student);
+
+      // run each time a request finish -> not good for performance but avoid the card to jump if we sort after all
+      // sortStudents();
+
+      // console.log(student);
+      return student;
     });
 
-    sortStudents();
+    await Promise.all(users);
+
+    // set promoStudents with studentWithUser after sorted
+    promoStudents.value = sortStudents(await Promise.all(users));
   }
 
-  function sortStudents(order) {
+  function sortStudents(students, order) {
     // for Promotion Marguerite Duras sort invert V and Y for Yoo and Villafagne ?!
     if (order === "descending") {
-      const sort = promoStudents.value.sort((a, b) => {
+      const sort = students.sort((a, b) => {
         // Sort with lower or upper case for avoid bad sorting because not the same Unicode
         console.log(a.userData.last_name.toLowerCase());
         return a.userData.last_name < b.userData.last_name ? 1 : -1;
       });
 
-      promoStudents.value = sort;
+      return students = sort;
     } else {
-      const sort = promoStudents.value.sort((a, b) =>
+      const sort = students.sort((a, b) =>
         a.userData.last_name > b.userData.last_name ? 1 : -1
       );
 
-      promoStudents.value = sort;
+      return students = sort;
     }
   }
 
   // Need to do the same with artist
   async function getUser(student) {
-    // fetch(student.user)
-    //   .then((response) => {
-    //     if (response.ok) {
-    //       return response.json();
-    //     }
-    //     // response.json();
-
-    //     // student.userData = response.json();
-    //   })
-    //   .then((data) => {
-    //     student.userData = data;
-    //     student.userData = "test";
-    //     promoStudents.value = test;
-
-    //     return data;
-    //   });
-
     const response = await fetch(student.user);
     const userData = await response.json();
-    student.userData = userData;
+    // student.userData = userData;
 
-    promoStudents.value.push(student);
+    // console.log(userData);
+    // console.log(student);
+
+    // promoStudents.value.push(student);
+
+    // console.log(await userData);
+    return await userData;
     // student.userData = data;
     // return data;
   }
