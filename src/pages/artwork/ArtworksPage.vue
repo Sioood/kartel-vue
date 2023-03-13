@@ -24,7 +24,8 @@ let year = ref();
 // update params if filters change
 // if the filters change reset artworks
 async function getArtworks(productionYear) {
-  load.value = false;
+  // avoid load.value to be false if the observer is intersecting by default in large screen
+  !artworks.value[0] ? (load.value = true) : (load.value = false);
 
   let params = {
     productionYear: `production_year=${productionYear}`,
@@ -74,6 +75,7 @@ getYears();
 
 const handleObserver = (entries) => {
   entries.forEach((entry) => {
+    console.log(entry);
     if (load.value && entry.isIntersecting) {
       getArtworks(year.value);
     }

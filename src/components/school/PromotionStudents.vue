@@ -137,9 +137,7 @@ console.log(null);
 .list-move, /* apply transition to moving elements */
 .list-enter-active,
 .list-leave-active {
-  transform: translate(0, 30%);
-
-  transition: all 1s ease;
+   transition: all 1s ease;
 }
 
 .list-enter-from,
