@@ -25,6 +25,10 @@ Si tu utilises npm pour installer Kartel, il supporte :
 
 ---
 
+### Setup IDE recommandé
+
+[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+
 ### Étape 1 : Cloner le repository github et installer toutes les dépendences
 
 ```sh
