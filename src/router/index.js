@@ -4,6 +4,22 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   // Check all needed redirects for avoid blank page
   routes: [
+    /**
+    
+      Catch wrong route to redirect. To home for now
+    
+    **/
+    {
+      path: "/:pathMatch(.*)*",
+      name: "home",
+      component: () => import("../pages/HomePage.vue"),
+    },
+
+    /**
+    
+      Routes
+    
+    **/
     {
       path: "/",
       name: "home",
