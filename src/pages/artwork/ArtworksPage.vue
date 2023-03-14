@@ -5,6 +5,11 @@ import { useRouter } from "vue-router";
 
 import { ref, onMounted } from "vue";
 
+/**
+
+  Components
+
+**/
 import UnderlineTitle from "@/components/ui/UnderlineTitle.vue";
 import ArtworkCard from "@/components/artwork/ArtworkCard.vue";
 
@@ -27,13 +32,10 @@ async function getArtworks(productionYear) {
   // avoid load.value to be false if the observer is intersecting by default in large screen
   !artworks.value[0] ? (load.value = true) : (load.value = false);
 
+  // set params for the request
   let params = {
-    productionYear: `production_year=${productionYear}`,
+    productionYear: productionYear ? `production_year=${productionYear}` : "",
   };
-
-  if (!productionYear) {
-    params.productionYear = "";
-  }
 
   let response = await fetch(
     `${config.rest_uri_v2}production/artwork?${params.productionYear}&page_size=20&page=${offset.value}`
@@ -42,6 +44,7 @@ async function getArtworks(productionYear) {
   let data = await response.json();
 
   if (data) {
+    // can be a simple for loop -> better for async operation
     data.forEach((artwork) => {
       artworks.value.push(artwork);
     });
@@ -51,6 +54,7 @@ async function getArtworks(productionYear) {
   load.value = true;
 }
 
+// change the params if the year change and push to router
 function onChangeYear(productionYear) {
   if (productionYear === null) {
     router.push("");
@@ -59,9 +63,12 @@ function onChangeYear(productionYear) {
   }
   artworks.value = [];
   offset.value = 1;
+
+  // reload new artworks with the new production year
   getArtworks(productionYear);
 }
 
+// set option of production year for select based on a min (1998) to now
 function getYears() {
   let max = new Date().getFullYear();
   let min = 1998;
@@ -73,9 +80,9 @@ function getYears() {
 }
 getYears();
 
+// each time the watcher intersecting fetch a new load of artworks
 const handleObserver = (entries) => {
   entries.forEach((entry) => {
-    console.log(entry);
     if (load.value && entry.isIntersecting) {
       getArtworks(year.value);
     }
@@ -85,8 +92,11 @@ const handleObserver = (entries) => {
 onMounted(() => {
   const routeYear = router.currentRoute.value.query.year;
   const observer = new IntersectionObserver(handleObserver);
+
+  // set the observer
   observer.observe(watcher.value);
 
+  // set if year is already selected
   if (routeYear) {
     year.value = routeYear;
     getArtworks(routeYear);

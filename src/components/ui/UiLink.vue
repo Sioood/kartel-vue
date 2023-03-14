@@ -1,5 +1,6 @@
 <script setup>
 const props = defineProps({
+  // extern is for set a RouterLink for no reload or a simple a anchor
   extern: Boolean,
   url: {
     type: String,
@@ -21,7 +22,7 @@ const props = defineProps({
     </RouterLink>
   </div>
 
-  <a v-else :href="props.url"></a>
+  <a v-else :href="props.url">{{ props.text }}</a>
 </template>
 
 <style scoped>

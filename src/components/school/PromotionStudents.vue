@@ -4,6 +4,11 @@
 import { onMounted } from "vue";
 import { useConfigApi } from "../../stores/configApi";
 
+/**
+
+  Component
+
+**/
 import StudentCard from "./StudentCard.vue";
 import AppButton from "@/components/ui/AppButton.vue";
 import UnderlineTitle from "@/components/ui/UnderlineTitle.vue";
@@ -17,13 +22,10 @@ onMounted(() => {
   // const routerPromoId = router.currentRoute.value.params.id;
 
   if (props.promoId) {
-    console.log(true);
     storeApi.getPromoStudents(props.promoId);
     storeApi.getSelectedPromo(props.promoId);
   }
 });
-
-console.log(null);
 </script>
 
 <template>
@@ -130,6 +132,12 @@ console.log(null);
   }
 }
 
+
+/**
+
+  For transtiongroup
+
+**/
 .list-enter {
   opacity: 0;
 }

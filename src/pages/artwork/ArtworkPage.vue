@@ -6,6 +6,11 @@ import { useRouter } from "vue-router";
 import { ref, onMounted } from "vue";
 import { useConfigApi } from "@/stores/configApi";
 
+/**
+
+  Components
+
+**/
 import UnderlineTitle from "@/components/ui/UnderlineTitle.vue";
 import UiLink from "@/components/ui/UiLink.vue";
 import UiDescription from "@/components/ui/UiDescription.vue";
@@ -24,13 +29,16 @@ let events = ref([]);
 
 let responsive = ref(false);
 
+// get artwork by current route id
 async function getArtwork(id) {
   let response = await fetch(`${config.rest_uri_v2}production/artwork/${id}`);
   let data = await response.json();
   artwork.value = data;
 
+  // get authors with only the first author for now
   getAuthors(data.authors[0]);
 
+  // get all galleries -> can be refacto with a key include "galleries" and after split to Camel case
   function getGalleries() {
     galleries.value.processGalleries = [];
     data.process_galleries.forEach((el) => {
@@ -57,6 +65,12 @@ async function getArtwork(id) {
       getGallery(el, galleries.value.teaserGalleries);
     });
   }
+
+  /**
+  
+    get the rest of info for the artwork
+  
+  **/
   getGalleries();
 
   getGenres(data.genres);
@@ -77,13 +91,15 @@ async function getAuthors(url) {
   getUser(data.user);
 }
 
+// get user with api url
 async function getUser(url) {
   let response = await fetch(url);
   let data = await response.json();
 
-  authorsName.value = `${data.first_name} ${data.last_name}`;
+  return (authorsName.value = `${data.first_name} ${data.last_name}`);
 }
 
+// get specific gallery
 async function getGallery(url, output) {
   let response = await fetch(url);
   let data = await response.json();
