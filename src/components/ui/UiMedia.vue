@@ -9,6 +9,7 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  // medium is the media to display in lightbox
   medium: {
     required: false,
   },
@@ -24,6 +25,7 @@ const open = ref(false);
 <!-- set for img if preview but it can be a video watch out -->
 <template>
   <div class="flex flex-col items-end">
+    <!-- Lightbox -> can be a library -->
     <Teleport v-if="open" to="body">
       <div
         @click="open = false"

@@ -7,6 +7,7 @@ const props = defineProps({
   desc_en: String,
 });
 
+// set the description to display first
 let bio = ref({
   lang: !props.desc_fr && props.desc_en ? "en" : "fr",
   data: !props.desc_fr && props.desc_en ? props.desc_en : props.desc_fr,

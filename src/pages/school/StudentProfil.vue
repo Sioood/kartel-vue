@@ -17,7 +17,7 @@ let artist = ref();
 let student = ref();
 let user = ref();
 
-let bio = ref([]);
+// let bio = ref([]);
 
 onMounted(() => {
   // the user came from promo -> students of the promo are stored in store
@@ -55,25 +55,10 @@ onMounted(() => {
     let data = await response.json();
     artist.value = data;
 
-    bio.value.lang = "fr";
-    bio.value.data = data.bio_fr;
+    // bio.value.lang = "fr";
+    // bio.value.data = data.bio_fr;
   }
 
-  // if (storeApi.promoStudents[0]) {
-  //   storeApi.promoStudents.filter((student) => console.log(student));
-
-  //   artist.value = storeApi.promoStudents.filter(
-  //     (student) => storeApi.getId(student.artist) === Number(artistId)
-  //   );
-
-  //   student.value = storeApi.promoStudents.filter(
-  //     (student) => storeApi.getId(student.url) === Number(studentId)
-  //   );
-  // } else {
-  //   // fetch artist with router id
-  //   getArtist(artistId);
-  //   getStudent(studentId);
-  // }
   getArtist(artistId);
   getStudent(studentId);
 });

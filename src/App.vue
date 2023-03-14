@@ -8,6 +8,13 @@ import UiLink from "@/components/ui/UiLink.vue";
 
 const router = useRouter();
 
+/**
+
+  Navigation
+
+**/
+
+// Open is for the mobile menu
 // if true block the scroll
 let navigation = ref({
   open: false,
@@ -21,6 +28,7 @@ let navigation = ref({
   ],
 });
 
+// when an user go to a page close the navigation by default
 watch(router.currentRoute, () => {
   navigation.value.open = false;
 });
@@ -58,6 +66,7 @@ watch(navigation.value, () => {
 });
 
 onMounted(() => {
+  // Set the default theme by the user
   // if (!localStorage.theme) {
   //   window.matchMedia("(prefers-color-scheme: dark)")
   //     ? switchTheme("dark")
@@ -69,6 +78,7 @@ onMounted(() => {
   //       (theme.value = "🌖"));
   // }
 
+  // Listen the resize for prevent computer user to stay stuck inside the mobile menu
   addEventListener("resize", () => {
     navigation.value.open = false;
   });

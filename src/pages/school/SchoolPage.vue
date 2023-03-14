@@ -4,6 +4,11 @@ import { useRouter } from "vue-router";
 import { useConfigApi } from "../../stores/configApi";
 import { onMounted, ref } from "vue";
 
+/**
+
+  Components
+
+**/
 import UnderlineTitle from "@/components/ui/UnderlineTitle.vue";
 
 const router = useRouter();
@@ -15,13 +20,10 @@ let promoSelected = ref(promoId);
 
 function selectPromotion(id) {
   router.push(`/school/promotion/${id}`);
-  // router.replace(`/school/promotion/${storeApi.getId(url)}`);
 }
 
 onMounted(() => {
-  const routerPromoId = router.currentRoute.value.params.id;
-
-  promoId.value = routerPromoId;
+  promoId.value = router.currentRoute.value.params.id;;
 
   if (!storeApi.promotions[0]) {
     storeApi.getPromotions();

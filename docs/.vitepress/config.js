@@ -149,9 +149,18 @@ export default {
       },
       {
         text: "Tester l'application",
-        link: "/test/cypress",
+        link: "/test/test",
 
         items: [
+          {
+            text: "Test",
+            link: "/test/test",
+          },
+          {
+            text: "Vitest",
+            link: "/test/vitest",
+          },
+
           {
             text: "Cypress",
             link: "/test/cypress",

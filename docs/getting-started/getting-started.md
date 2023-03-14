@@ -25,6 +25,10 @@ Si tu utilises npm pour installer Kartel, il supporte :
 
 ---
 
+### Setup IDE recommandé
+
+[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+
 ### Étape 1 : Cloner le repository github et installer toutes les dépendences
 
 ```sh
@@ -97,16 +101,16 @@ Nécessite une installation d'une version de python au préalable (todo).
 
 ### Installation de Kart
 
+### Installation de Python
+
+:::info
+Prérequis: <br/>
+
+- Python ^3.7
+:::
+
 ```sh
 $ git clone https://github.com/Fresnoy/kart.git
-
-$ cd kart
-
-# $ BESOIN D'INSTALLER LES REQUIREMENTS
-# $ pip install psycopg2
-$ pip install -r requirements.txt
-
-$ cd ../
 
 $ python3 -m virtualenv --python=/usr/bin/python3.7 kart-env
 
@@ -114,50 +118,77 @@ $ source kart-env/bin/activate
 
 $ cd kart
 
+$ cp kart/site_setting.py.dev kart/site_setting.py
+# config à changer selon la votre
+
+# $ BESOIN D'INSTALLER LES REQUIREMENTS
+$ pip install -r requirements.txt
+
+$ ./manage.py migrate
+$ ./manage.py collectstatic
 $ ./manage.py runserver
 ```
 
+#### Créer des utilisateurs, privilèves... en se référérant à la documentation de la DB concerné
+
+La base de donnée de base est intégrée en SQLite
+
+Si besoin d'installer une base de donnée via Postegre
+
 ### Installation de la Base de donnée BDD (Postgresql)
+
 ```sh
 $ sudo apt install postgresql
 
-$ cd kart
-
 $ sudo service postgresql start
+
+# Installer la db...
 ```
 
 ### Mise en place du media service
+
 :::info
 Nécessite l'installation de pillbox et d'une autre dépendence (todo).
 :::
 
-
 ```sh
-# $ pip3.7 install pilbox
-
-$ pip install git+https://github.com/agschwender/pilbox@refs/pull/81/merge
+# $ pip install git+https://github.com/agschwender/pilbox@refs/pull/81/merge
 
 $ mkdir mediaservice
 
 $ cd mediaservice
 
-# $ python3 -m virtualenv --python=/usr/bin/python3.7 media-env
-$ python3 -m virtualenv media-env
+$ python3 -m virtualenv --python=/usr/bin/python3.7 media-env
 
 $ source media-env/bin/activate
 
+$ pip3.7 install pilbox
+
+
+```
+
+#### Démarrer le média service
+
+```sh
 $ ./run.sh
 ```
 
 ### Installation d'elasticsearch
 
 ```sh
-$ sudo apt-get install apt-transport-https
 $ wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo gpg --dearmor -o /usr/share/keyrings/elasticsearch-keyring.gpg
+
+$ sudo apt-get install apt-transport-https
+
+$ echo "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee /etc/apt/sources.list.d/elastic-7.x.list
+
+$ sudo apt-get update && sudo apt-get install elasticsearch
 ```
 
 #### Démarrer elasticsearch
 
 ```sh
 $ sudo service elasticsearch start
+
+# rebuild index au premier démarrage ou à la mise à jour de la db
 ```

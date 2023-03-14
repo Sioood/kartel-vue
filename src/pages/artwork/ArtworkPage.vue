@@ -6,6 +6,19 @@ import { useRouter } from "vue-router";
 import { ref, onMounted } from "vue";
 import { useConfigApi } from "@/stores/configApi";
 
+/**
+
+  Composables
+
+**/
+
+import toCamelCase from "@/composables/toCamelCase";
+
+/**
+
+  Components
+
+**/
 import UnderlineTitle from "@/components/ui/UnderlineTitle.vue";
 import UiLink from "@/components/ui/UiLink.vue";
 import UiDescription from "@/components/ui/UiDescription.vue";
@@ -24,44 +37,48 @@ let events = ref([]);
 
 let responsive = ref(false);
 
+// get artwork by current route id
 async function getArtwork(id) {
   let response = await fetch(`${config.rest_uri_v2}production/artwork/${id}`);
   let data = await response.json();
   artwork.value = data;
 
+  // get authors with only the first author for now
   getAuthors(data.authors[0]);
 
-  function getGalleries() {
-    galleries.value.processGalleries = [];
-    data.process_galleries.forEach((el) => {
-      getGallery(el, galleries.value.processGalleries);
-    });
-
-    galleries.value.mediationGalleries = [];
-    data.mediation_galleries.forEach((el) => {
-      getGallery(el, galleries.value.mediationGalleries);
-    });
-
-    galleries.value.inSituGalleries = [];
-    data.in_situ_galleries.forEach((el) => {
-      getGallery(el, galleries.value.inSituGalleries);
-    });
-
-    galleries.value.pressGalleries = [];
-    data.press_galleries.forEach((el) => {
-      getGallery(el, galleries.value.pressGalleries);
-    });
-
-    galleries.value.teaserGalleries = [];
-    data.teaser_galleries.forEach((el) => {
-      getGallery(el, galleries.value.teaserGalleries);
-    });
-  }
+  /**
+  
+    get the rest of info for the artwork
+  
+  **/
   getGalleries();
 
   getGenres(data.genres);
 
   getDiffusions(data.diffusion);
+}
+
+// get all galleries -> can be refacto with a key include "galleries" and after split to Camel case
+function getGalleries() {
+  let galleriesKeys = [];
+
+  Object.keys(data).forEach((key) => {
+    if (key.includes("galleries")) galleriesKeys.push(key);
+  });
+
+  let galleriesKeysCamel = galleriesKeys.map((key) => toCamelCase(key));
+
+  // console.log(galleriesKeys[0], galleriesKeysCamel[0]);
+
+  // get data of each gallery and set it to galleries
+  for (let [index, gallery] of galleriesKeys.entries()) {
+    // gallery Camel work with index but might be good to check with includes or something for 100% certification of the same gallery
+
+    galleries.value[galleriesKeysCamel[index]] = [];
+    data[gallery].forEach((el) => {
+      getGallery(el, galleries.value[galleriesKeysCamel[index]]);
+    });
+  }
 }
 
 // Work for only 1 authors for now
@@ -77,38 +94,40 @@ async function getAuthors(url) {
   getUser(data.user);
 }
 
+// get user with api url
 async function getUser(url) {
   let response = await fetch(url);
   let data = await response.json();
 
-  authorsName.value = `${data.first_name} ${data.last_name}`;
+  return (authorsName.value = `${data.first_name} ${data.last_name}`);
 }
 
+// get specific gallery
 async function getGallery(url, output) {
   let response = await fetch(url);
   let data = await response.json();
 
   data.mediaData = [];
 
+  data.media.forEach((el) => {
+    getMedia(el, data, output);
+  });
+}
+
+async function getMedia(url, galleryData, output) {
+  let response = await fetch(url);
+  let data = await response.json();
+
+  galleryData.mediaData.push(data);
+
   // Check index of data.media for push in galleries only when all media is here
   // prevent multipushing and duplicate medias
   let index = 1;
 
-  data.media.forEach((el) => {
-    getMedia(el, data, output);
-  });
-
-  async function getMedia(url, galleryData, output) {
-    let response = await fetch(url);
-    let data = await response.json();
-
-    galleryData.mediaData.push(data);
-
-    if (index === galleryData.media.length) {
-      output.push(galleryData);
-    } else {
-      index++;
-    }
+  if (index === galleryData.media.length) {
+    output.push(galleryData);
+  } else {
+    index++;
   }
 }
 
@@ -128,18 +147,18 @@ function getDiffusions(diffusions) {
   diffusions.forEach((diffusion) => {
     getDiffusion(diffusion);
   });
+}
 
-  async function getDiffusion(diffusion) {
-    let response = await fetch(diffusion);
+async function getDiffusion(diffusion) {
+  let response = await fetch(diffusion);
+  let data = await response.json();
+  getEvent(data.event);
+
+  async function getEvent(event) {
+    let response = await fetch(event);
     let data = await response.json();
-    getEvent(data.event);
 
-    async function getEvent(event) {
-      let response = await fetch(event);
-      let data = await response.json();
-
-      events.value.push(data);
-    }
+    events.value.push(data);
   }
 }
 
