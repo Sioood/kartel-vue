@@ -3,16 +3,15 @@ import { shallowMount } from "@vue/test-utils";
 import { mount } from "@cypress/vue";
 import "@/main.js";
 
-import { useConfigApi } from "@/stores/configApi";
+import { getId } from "@/composables/getId";
 
 import UnitExample from "./unit/UnitExample.vue";
 import { sum, value } from "./unit/UnitExample.js";
 
 describe("function", () => {
-  const storeApi = useConfigApi();
 
   it("test externals functions", () => {
-    expect(storeApi.getId("test/2")).to.eq(2);
+    expect(getId("test/2")).to.eq(2);
 
     expect(sum(1, 1)).to.eq(2);
     expect(value.value).to.eq(2);

@@ -1,6 +1,8 @@
 <script setup>
 import { useRouter } from "vue-router";
 
+import { getId } from "@/composables/getId";
+
 import { useConfigApi } from "../../stores/configApi";
 import { onMounted, ref } from "vue";
 
@@ -60,8 +62,8 @@ onMounted(() => {
               </option>
               <option
                 v-for="promotion in storeApi.promotions"
-                :key="storeApi.getId(promotion.url)"
-                :value="storeApi.getId(promotion.url)"
+                :key="getId(promotion.url)"
+                :value="getId(promotion.url)"
               >
                 {{
                   `${promotion.starting_year}-${promotion.ending_year} — ${promotion.name}`
@@ -77,18 +79,18 @@ onMounted(() => {
       <ul class="hidden md:block min-w-min overflow-y-scroll divide-y">
         <li
           v-for="promotion in storeApi.promotions"
-          :key="storeApi.getId(promotion.url)"
+          :key="getId(promotion.url)"
         >
           <!-- {{ promotion }}         -->
           <router-link
-            :to="`/school/promotion/${storeApi.getId(promotion.url)}`"
+            :to="`/school/promotion/${getId(promotion.url)}`"
             class="promo__link p-2 flex flex-col m-3 items-start justify-start gap-1 whitespace-nowrap"
             :class="{
               'bg-gray-extralightest dark:bg-black-light':
                 $route.path.match(/.(school).(promotion)/gm) &&
-                Number($route.params.id) === storeApi.getId(promotion.url),
+                Number($route.params.id) === getId(promotion.url),
             }"
-            @click="promoId = storeApi.getId(promotion.url)"
+            @click="promoId = getId(promotion.url)"
           >
             <UnderlineTitle
               :title="`${promotion.starting_year}-${promotion.ending_year}`"

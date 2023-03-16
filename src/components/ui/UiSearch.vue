@@ -3,6 +3,8 @@ import config from "@/config";
 
 import { ref } from "vue";
 
+import { getId } from "@/composables/getId";
+
 import { useConfigApi } from "@/stores/configApi";
 const storeApi = useConfigApi();
 
@@ -168,7 +170,7 @@ function search(input) {
           <h6 class="ml-2 text-xs font-medium text-gray uppercase">Students</h6>
           <li v-for="student in students" :key="student">
             <router-link
-              :to="`/artist/${storeApi.getId(student.artist.url)}`"
+              :to="`/artist/${getId(student.artist.url)}`"
               class="px-1 py-2 flex flex-col border-l-2 border-gray divide-y"
             >
               <div>
@@ -204,7 +206,7 @@ function search(input) {
           <ul class="flex flex-col gap-3">
             <li v-for="artwork in artworksType.artworks" :key="artwork">
               <router-link
-                :to="`/artwork/${storeApi.getId(artwork.url)}`"
+                :to="`/artwork/${getId(artwork.url)}`"
                 class="px-1 py-2 flex flex-col border-l-2 border-gray divide-y"
               >
                 <h5 class="text-base font-medium">{{ artwork.title }}</h5>
@@ -218,7 +220,7 @@ function search(input) {
           <h6 class="ml-2 text-xs font-medium text-gray uppercase">Artworks</h6>
           <li v-for="artwork in artworks" :key="artwork.title">
             <router-link
-              :to="`/artwork/${storeApi.getId(artwork.url)}`"
+              :to="`/artwork/${getId(artwork.url)}`"
               class="px-1 py-2 flex flex-col border-l-2 border-gray divide-y"
             >
               <h5 class="text-base font-medium">{{ artwork.title }}</h5>
