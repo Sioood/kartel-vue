@@ -20,8 +20,9 @@ export const getArtistInfo = (artistId) => {
     let response = await fetch(`${config.rest_uri_v2}people/artist/${id}`);
     let data = await response.json();
 
+
     // get user information with the id url of artist.user
-    getUser(storeApi.getId(data.user));
+    // getUser(storeApi.getId(data.user));
 
     artist.value = data;
   }
@@ -30,6 +31,7 @@ export const getArtistInfo = (artistId) => {
   async function getUser(id) {
     let response = await fetch(`${config.rest_uri_v2}people/user/${id}`);
     let data = await response.json();
+
 
     user.value = data;
   }
@@ -54,11 +56,14 @@ export const getArtistInfo = (artistId) => {
     student.value = data;
   }
 
-  onBeforeMount(() => {
-    getArtist(artistId);
+  onBeforeMount(async () => {
+    // await the artist data for get the user url to not exec the function getUser inside
+    await getArtist(artistId);
 
+    getUser(storeApi.getId(artist.value.user))
+    
     getArtworks(artistId);
-
+    
     getStudent(artistId);
   });
 
@@ -67,6 +72,7 @@ export const getArtistInfo = (artistId) => {
     artist,
     user,
     artwork,
+    student,
 
     // export functions for test
     getArtist,

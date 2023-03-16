@@ -1,0 +1,16 @@
+{
+  "id": 710,
+  "url": "http://127.0.0.1:8000/v2/people/artist/710",
+  "nickname": "",
+  "bio_short_fr": "",
+  "bio_short_en": "",
+  "bio_fr": "Née à Paris en 1990, Juliette Dominati est réalisatrice et plasticienne. Son travail est régulièrement exposé en France et à l’étranger (Argentine, États-Unis, Chine, Islande, Royaume-Uni) et sera prochainement présenté au Salon de Montrouge, puis à Londres pour sa prochaine exposition personnelle.",
+  "bio_en": "Born in Paris in 1990, Juliette Dominati is a filmmaker and artist. Her work is regularly exhibited in France and abroad (Argentina, United States, China, Iceland, United Kingdom) and will feature at the forthcoming Salon de Montrouge, as well as in her next solo show in London.",
+  "twitter_account": "",
+  "facebook_profile": "",
+  "user": "http://127.0.0.1:8000/v2/people/user/670",
+  "websites": [
+    "http://127.0.0.1:8000/v2/common/website/1372",
+    "http://127.0.0.1:8000/v2/common/website/1263"
+  ]
+}

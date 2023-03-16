@@ -1,8 +1,21 @@
+import config from "@/config";
+
 import { flushPromises } from "@vue/test-utils";
 
 import { withSetup } from "@/__tests__/withSetup";
 import { getArtistInfo } from "@/composables/artist/getArtistInfo";
 
+/**
+
+  fixtures
+
+**/
+import artistFixture from "#/fixtures/artist.json";
+import userFixture from "#/fixtures/user.json";
+import artworkFixture from "#/fixtures/artwork.json";
+import studentFixture from "#/fixtures/student.json";
+
+// function to mock a response to a promise response
 function createMockResolveValue(data) {
   return {
     json: () => new Promise((resolve) => resolve(data)),
@@ -10,7 +23,7 @@ function createMockResolveValue(data) {
   };
 }
 
-describe("", () => {
+describe("test the composable getArtistInfo", () => {
   const mockFetch = vi.spyOn(global, "fetch");
 
   // need to deal with multiple request
@@ -32,37 +45,64 @@ describe("", () => {
   mockFetch
     .mockReturnValue(
       // default mock but not the first
-      createMockResolveValue({})
+      createMockResolveValue({
+        default: true,
+      })
     )
     // if once is present it would be the first mock and switch to the next mock or return to the default mock if no next
-    .mockReturnValueOnce(
-      createMockResolveValue({
-        id: 1,
-        user: "http://127.0.0.1:8000/v2/people/user/670",
-      })
-    );
+    .mockReturnValueOnce(createMockResolveValue(artistFixture))
+    .mockReturnValueOnce(createMockResolveValue(userFixture))
+    .mockReturnValueOnce(createMockResolveValue(artworkFixture))
+    .mockReturnValueOnce(createMockResolveValue(studentFixture))
 
   afterEach(() => {
     mockFetch.mockClear();
   });
 
-  it("", async () => {
+  it("check every result", async () => {
     // console.log(artist);
 
-    const [results, app] = withSetup(getArtistInfo, 1);
+    const [results, app] = withSetup(getArtistInfo, artistFixture.id);
 
+    // leave the requests and replace with mocks
     await flushPromises();
 
-    const { artist, user, artwork } = results;
+    // check the mock has be use the right number of times (Correspond to the number of fetch inside getArtistInfo)
+    expect(mockFetch).toHaveBeenCalledTimes(4);
+    // and check if the last time is called it is with the right url. Supposed to be the student request
+    expect(mockFetch).toHaveBeenLastCalledWith(
+      `${config.rest_uri_v2}school/student?artist=${artistFixture.id}`
+    );
 
-    console.log("artist ref", artist);
+    const { artist, user, artwork, student } = results;
 
-    // expect(results).haveOwnProperty("artist");
+    /**
+    
+      Check results
+    
+    **/
 
-    // console.log(app);
+    // Artist result
+    expect(artist.value)
+      .toBeTypeOf("object")
+      .toEqual(artistFixture)
+      .haveOwnProperty("user");
 
-    // Assert results
-    console.log("results :", results);
+    // User result
+    expect(user.value)
+      .toBeTypeOf("object")
+      .toEqual(userFixture)
+      .haveOwnProperty("username");
+
+    // Artwork result
+    expect(artwork.value).toBeTypeOf("object").toEqual(artworkFixture);
+
+    expect(artwork.value[0]).haveOwnProperty("title");
+
+    // Student result
+    expect(student.value).toBeTypeOf("object").toEqual(studentFixture);
+
+    expect(student.value[0]).haveOwnProperty("promotion");
 
     app.unmount();
   });
