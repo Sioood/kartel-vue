@@ -24,6 +24,9 @@ const router = createRouter({
       path: "/",
       name: "home",
       component: () => import("../pages/HomePage.vue"),
+      meta: {
+        title: "Kartel",
+      },
     },
     {
       // mettre la schoolview en componenent dans une view pour mieux agencer le tout ->
@@ -31,6 +34,9 @@ const router = createRouter({
       path: "/school",
       name: "school",
       component: () => import("../pages/school/SchoolPage.vue"),
+      meta: {
+        title: "Liste des promotions - Kartel",
+      },
       children: [
         {
           // promotion will be rendered inside School's <router-view> (Don't forget the router-view element to render children)
@@ -71,16 +77,25 @@ const router = createRouter({
       path: "/artist/:id",
       name: "artist",
       component: () => import("../pages/ArtistProfil.vue"),
+      meta: {
+        title: "Artiste - Kartel",
+      },
     },
     {
       path: "/artworks",
       name: "artworks",
       component: () => import("../pages/artwork/ArtworksPage.vue"),
+      meta: {
+        title: "Oeuvres - Kartel"
+      },
     },
     {
       path: "/artwork/:id",
       name: "artwork",
       component: () => import("../pages/artwork/ArtworkPage.vue"),
+      meta: {
+        title: "Oeuvre - Kartel"
+      },
     },
     // For visualisation but need to be children of artist and artwork
     {
@@ -89,21 +104,23 @@ const router = createRouter({
       component: () => import("../components/MediaDetails.vue"),
     },
 
-
-
-
     /**
     
       test composable
     
     **/
 
-      {
-        path: "/test",
-        name: "test",
-        component: () => import("../__examples__/__test__/ComponentComposables.vue"),
-      },
+    {
+      path: "/test",
+      name: "test",
+      component: () =>
+        import("../__examples__/__test__/ComponentComposables.vue"),
+    },
   ],
 });
 
 export default router;
+
+router.beforeEach((to, from) => {
+  document.title = to.meta?.title ?? "Kartel";
+});
