@@ -10,62 +10,56 @@ import { ref, onMounted } from "vue";
   Components
 
 **/
+import {
+  artworks,
+  getArtworks,
+  offset,
+  load,
+} from "@/composables/artwork/getArtworks";
+
+/**
+
+  Components
+
+**/
 import UnderlineTitle from "@/components/ui/UnderlineTitle.vue";
 import ArtworkCard from "@/components/artwork/ArtworkCard.vue";
 
 const router = useRouter();
 
-let artworks = ref([]);
 let watcher = ref();
-let load = ref(false);
-
-//  get header for get next
-let offset = ref(1);
 
 let years = ref([]);
-let year = ref();
+// let year = ref();
 
-// Get artworks, set an observer who fetch the next page
-// update params if filters change
-// if the filters change reset artworks
-async function getArtworks(productionYear) {
-  // avoid load.value to be false if the observer is intersecting by default in large screen
-  !artworks.value[0] ? (load.value = true) : (load.value = false);
+let genres = ref(null);
+let keywords = ref(null);
+let productionYear = ref(null);
+let q = ref(null);
+let shootingPlace = ref(null);
+let type = ref(null);
 
-  // set params for the request
-  let params = {
-    productionYear: productionYear ? `production_year=${productionYear}` : "",
-  };
-
-  let response = await fetch(
-    `${config.rest_uri_v2}production/artwork?${params.productionYear}&page_size=20&page=${offset.value}`
-  );
-
-  let data = await response.json();
-
-  if (data) {
-    // can be a simple for loop -> better for async operation
-    data.forEach((artwork) => {
-      artworks.value.push(artwork);
-    });
-  }
-
-  offset.value++;
-  load.value = true;
-}
+let params = ref({
+  genres,
+  keywords,
+  productionYear,
+  q,
+  shootingPlace,
+  type,
+});
 
 // change the params if the year change and push to router
-function onChangeYear(productionYear) {
-  if (productionYear === null) {
+function onChangeYear(year) {
+  if (year === null) {
     router.push("");
   } else {
-    router.push(`?year=${productionYear}`);
+    router.push(`?year=${year}`);
   }
   artworks.value = [];
   offset.value = 1;
 
   // reload new artworks with the new production year
-  getArtworks(productionYear);
+  getArtworks(params.value);
 }
 
 // set option of production year for select based on a min (1998) to now
@@ -83,27 +77,40 @@ getYears();
 // each time the watcher intersecting fetch a new load of artworks
 const handleObserver = (entries) => {
   entries.forEach((entry) => {
+    console.log(entry);
+    console.log(load.value);
+
     if (load.value && entry.isIntersecting) {
-      getArtworks(year.value);
+      // observer cause duplicate request sometimes
+      getArtworks(params.value);
+    } else if (!load.value && entry.intersectionRatio === 1) {
+      // intersectingRatio equal to the ration visible of the watcher 1 indicate that is it full visible in the page
+      // this is for avoid the watcher to be full visible in the beginning and block the infinite scroll
+      // [BUG] but for small size load to because the page load with nothing from the beginning -> maybe check if artworks is not empty
+      offset.value++;
+      getArtworks(params.value);
+      offset.value--;
     }
   });
 };
 
 onMounted(() => {
   const routeYear = router.currentRoute.value.query.year;
+
+  // set if year is already selected
+  if (routeYear) {
+    productionYear.value = routeYear;
+    getArtworks(params.value);
+  } else {
+    productionYear.value = null;
+    getArtworks(params.value);
+    console.log(true);
+  }
+
   const observer = new IntersectionObserver(handleObserver);
 
   // set the observer
   observer.observe(watcher.value);
-
-  // set if year is already selected
-  if (routeYear) {
-    year.value = routeYear;
-    getArtworks(routeYear);
-  } else {
-    year.value = null;
-    getArtworks();
-  }
 });
 
 // Need to remove this and all element using this function for Prod
@@ -146,8 +153,8 @@ function removePreprod(url) {
               name="date"
               id="date"
               class="px-2 w-full after:block after:w-10 after:h-1 after:bg-black cursor-pointer"
-              @change="onChangeYear(year)"
-              v-model="year"
+              @change="onChangeYear(productionYear)"
+              v-model="productionYear"
             >
               <option :value="null">toutes dates</option>
               <option :value="year" v-for="year in years" :key="year">
