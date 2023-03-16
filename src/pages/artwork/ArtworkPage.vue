@@ -52,7 +52,7 @@ async function getArtwork(id) {
     get the rest of info for the artwork
   
   **/
-  getGalleries();
+  getGalleries(data);
 
   getGenres(data.genres);
 
@@ -60,7 +60,7 @@ async function getArtwork(id) {
 }
 
 // get all galleries -> can be refacto with a key include "galleries" and after split to Camel case
-function getGalleries() {
+function getGalleries(data) {
   let galleriesKeys = [];
 
   Object.keys(data).forEach((key) => {
