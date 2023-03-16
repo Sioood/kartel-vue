@@ -62,7 +62,7 @@ const props = defineProps({
   }
   100% {
     right: 0;
-    bottom: 50%;
+    bottom: 42%;
     width: 0.25rem;
     height: 0.25rem;
     transform: translateY(75%);
@@ -72,7 +72,7 @@ const props = defineProps({
 @keyframes link-out {
   0% {
     right: 0;
-    bottom: 50%;
+    bottom: 42%;
     width: 0.25rem;
     height: 0.25rem;
     transform: translateY(75%);
