@@ -22,7 +22,7 @@ describe("Example for unit with composables", () => {
     expect(composable([1,2,3])).toHaveProperty("letters").toHaveProperty("numbers")
 
     //Assert results
-    console.log("results :", results);
+    // console.log("results :", results);
 
     app.unmount()
   });

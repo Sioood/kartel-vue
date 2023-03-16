@@ -1,7 +1,5 @@
 <script setup>
-import { useConfigApi } from "../../stores/configApi";
-
-const storeApi = useConfigApi();
+import { getId } from "@/composables/getId";
 
 const props = defineProps({
   student: Object,
@@ -16,7 +14,7 @@ const props = defineProps({
       :key="props.student.userData.id"
     >
       <!-- parameters Query with id Student ? User ? Artist ? all ? -->
-      <router-link :to="`/artist/${storeApi.getId(props.student.artist)}`">
+      <router-link :to="`/artist/${getId(props.student.artist)}`">
         <div class="p-2 w-full h-full capitalize">
           <p v-if="props.student.userData.first_name" class="last:font-bold">
             {{ props.student.userData.first_name }}

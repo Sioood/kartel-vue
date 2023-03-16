@@ -4,7 +4,9 @@ import config from "@/config";
 import { useRouter } from "vue-router";
 
 import { ref, onMounted } from "vue";
-import { useConfigApi } from "@/stores/configApi";
+
+import { getId } from "@/composables/getId";
+
 
 /**
 
@@ -26,7 +28,6 @@ import ArtworkGallery from "@/components/artwork/ArtworkGallery.vue";
 import CreditsSection from "@/components/artwork/CreditsSection.vue";
 
 const router = useRouter();
-const storeApi = useConfigApi();
 
 let artwork = ref();
 let authors = ref();
@@ -233,7 +234,7 @@ onMounted(() => {
             <UiLink
               v-if="authorsName"
               :text="authorsName"
-              :url="`/artist/${storeApi.getId(authors.url)}`"
+              :url="`/artist/${getId(authors.url)}`"
             />
             —
             {{ artwork.production_date.split("-")[0] }}

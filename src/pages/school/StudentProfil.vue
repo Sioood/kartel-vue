@@ -3,15 +3,15 @@ import config from "@/config";
 
 import { useRouter } from "vue-router";
 
+import { getId } from "@/composables/getId";
+
 import { ref, onMounted } from "vue";
-import { useConfigApi } from "../../stores/configApi";
 
 import UnderlineTitle from "@/components/ui/UnderlineTitle.vue";
 import UiDescription from "@/components/ui/UiDescription.vue";
 import ArtworkCard from "@/components/artwork/ArtworkCard.vue";
 
 const router = useRouter();
-const storeApi = useConfigApi();
 
 let artist = ref();
 let student = ref();
@@ -46,7 +46,7 @@ onMounted(() => {
       user.value = data;
     }
 
-    let userId = storeApi.getId(student.value.user);
+    let userId = getId(student.value.user);
     getUser(userId);
   }
 

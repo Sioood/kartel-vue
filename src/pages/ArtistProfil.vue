@@ -1,10 +1,14 @@
 <script setup>
-import config from "@/config";
-
 import { useRouter } from "vue-router";
 
 import { ref, onMounted } from "vue";
-import { useConfigApi } from "@/stores/configApi";
+
+/**
+
+  Composables
+
+**/
+import { getArtistInfo } from "@/composables/artist/getArtistInfo";
 
 /**
 
@@ -16,68 +20,13 @@ import UiDescription from "@/components/ui/UiDescription.vue";
 import ArtworkCard from "@/components/artwork/ArtworkCard.vue";
 
 const router = useRouter();
-const storeApi = useConfigApi();
 
-// [FOR ME] separate ref can be an object for readability
-let artist = ref();
-let artwork = ref();
-let student = ref();
-let user = ref();
+const artistId = router.currentRoute.value.params.id;
 
-// let bio = ref([]);
+// refs from the composable
+const { artist, user, artwork } = getArtistInfo(artistId);
 
 let responsive = ref(false);
-
-// get artist based on the current route id
-async function getArtist(id) {
-  let response = await fetch(`${config.rest_uri_v2}people/artist/${id}`);
-  let data = await response.json();
-  artist.value = data;
-
-  // bio.value.lang = "fr";
-  // bio.value.data = data.bio_fr;
-
-  // get user information with the id url of artist.user
-  getUser(storeApi.getId(data.user));
-}
-
-// get artwork bound to the current artist id
-async function getArtwork(id) {
-  let response = await fetch(
-    `${config.rest_uri_v2}production/artwork?authors=${id}`
-  );
-  let data = await response.json();
-  artwork.value = data;
-}
-
-// get user by artist id
-async function getUser(id) {
-  let response = await fetch(`${config.rest_uri_v2}people/user/${id}`);
-  let data = await response.json();
-
-  user.value = data;
-}
-
-// get student by artist id 
-async function getStudent(id) {
-  let response = await fetch(
-    `${config.rest_uri_v2}school/student?artist=${id}`
-  );
-  let data = await response.json();
-  student.value = data;
-}
-
-// Get more info when authentified via userProfile api
-onMounted(() => {
-  const artistId = router.currentRoute.value.params.id;
-
-  // get each information based on the current route id which defined the artist id
-  getArtist(artistId);
-
-  getArtwork(artistId);
-
-  getStudent(artistId);
-});
 
 // Need to remove this and all element using this function for Prod
 function removePreprod(url) {

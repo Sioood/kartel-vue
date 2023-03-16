@@ -1,0 +1,10 @@
+[
+  {
+    "url": "http://127.0.0.1:8000/v2/school/student/550",
+    "number": "2020-247",
+    "graduate": false,
+    "promotion": "http://127.0.0.1:8000/v2/school/promotion/26",
+    "user": "http://127.0.0.1:8000/v2/people/user/670",
+    "artist": "http://127.0.0.1:8000/v2/people/artist/710"
+  }
+]
