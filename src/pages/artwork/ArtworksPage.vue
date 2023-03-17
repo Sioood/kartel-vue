@@ -11,11 +11,11 @@ import { ref, onMounted } from "vue";
 
 **/
 import {
-  artworks,
-  getArtworks,
+  content as artworks,
+  getContent as getArtworks,
   offset,
   load,
-} from "@/composables/artwork/getArtworks";
+} from "@/composables/artwork/getContent";
 
 /**
 
@@ -59,7 +59,7 @@ function onChangeYear(year) {
   offset.value = 1;
 
   // reload new artworks with the new production year
-  getArtworks(params.value);
+  getArtworks("artwork", params.value);
 }
 
 // set option of production year for select based on a min (1998) to now
@@ -77,18 +77,18 @@ getYears();
 // each time the watcher intersecting fetch a new load of artworks
 const handleObserver = (entries) => {
   entries.forEach((entry) => {
-    console.log(entry);
-    console.log(load.value);
+    // console.log(entry);
+    // console.log(load.value);
 
     if (load.value && entry.isIntersecting) {
       // observer cause duplicate request sometimes
-      getArtworks(params.value);
+      getArtworks("artwork", params.value);
     } else if (!load.value && entry.intersectionRatio === 1) {
       // intersectingRatio equal to the ration visible of the watcher 1 indicate that is it full visible in the page
       // this is for avoid the watcher to be full visible in the beginning and block the infinite scroll
       // [BUG] but for small size load to because the page load with nothing from the beginning -> maybe check if artworks is not empty
       offset.value++;
-      getArtworks(params.value);
+      getArtworks("artwork", params.value);
       offset.value--;
     }
   });
@@ -100,11 +100,10 @@ onMounted(() => {
   // set if year is already selected
   if (routeYear) {
     productionYear.value = routeYear;
-    getArtworks(params.value);
+    getArtworks("artwork", params.value);
   } else {
     productionYear.value = null;
-    getArtworks(params.value);
-    console.log(true);
+    getArtworks("artwork", params.value);
   }
 
   const observer = new IntersectionObserver(handleObserver);
