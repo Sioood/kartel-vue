@@ -16,8 +16,10 @@ export default defineConfig({
     globals: true,
     environment: "jsdom",
     coverage: {
-      provider: "istanbul",
-      reporter: ["html"],
+      all: true,
+      include: ["src/composables",],
+      provider: "c8",
+      reporter: ["text", "html"],
     },
   },
 });
