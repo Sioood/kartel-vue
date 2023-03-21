@@ -44,6 +44,8 @@ function switchTheme(mode) {
     mode === "dark" ? (theme.value = "🌒") : (theme.value = "🌖");
   }
 
+  
+
   if (mode === "toggle") {
     localStorage.theme === "dark"
       ? ((localStorage.theme = "light"), (theme.value = "🌖"))
