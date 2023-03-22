@@ -10,10 +10,10 @@ import { getArtistInfo } from "@/composables/artist/getArtistInfo";
   fixtures
 
 **/
-import artistFixture from "#/fixtures/artist.json";
-import userFixture from "#/fixtures/user.json";
-import artworkFixture from "#/fixtures/artwork.json";
-import studentFixture from "#/fixtures/student.json";
+import artistFixture from "~/fixtures/artist.json";
+import userFixture from "~/fixtures/user.json";
+import artworkFixture from "~/fixtures/artwork.json";
+import studentFixture from "~/fixtures/student.json";
 
 // function to mock a response to a promise response
 function createMockResolveValue(data) {

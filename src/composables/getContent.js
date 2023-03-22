@@ -3,7 +3,7 @@ import config from "@/config";
 import { ref } from "vue";
 
 /**
- * 
+ *
  * [TODO] Need to be independant to be artist and artwork
  *
  */
@@ -36,7 +36,6 @@ async function getContent(type, parameters) {
   // !artworks.value[0] ? (load.value = true) : (load.value = false);
   load.value = false;
 
-
   // set differents params according to the type of content
   if (type === "artwork") {
     const { genres, keywords, productionYear, q, shootingPlace, type } =
@@ -54,7 +53,7 @@ async function getContent(type, parameters) {
       type: type ? `production_year=${type}` : null,
     };
 
-    setParams()
+    setParams();
 
     url = `${config.rest_uri_v2}production/artwork?page_size=20&page=${offset.value}${stringParams}`;
   } else if (type === "artist") {
@@ -66,9 +65,11 @@ async function getContent(type, parameters) {
       nationality: nationality ? `nationality=${nationality}` : null,
     };
 
-    setParams()
+    setParams();
 
-    url = `${config.rest_uri_v2}people/artist-search?page_size=20&page=${offset.value}${stringParams}`;
+    console.log(stringParams);
+
+    url = `${config.rest_uri_v2}people/artist?page_size=20&page=${offset.value}${stringParams}`;
   }
 
   try {
@@ -90,4 +91,4 @@ async function getContent(type, parameters) {
   load.value = true;
 }
 
-export { content, getContent, offset, load };
+export { content, getContent, offset, load, url, params, stringParams };

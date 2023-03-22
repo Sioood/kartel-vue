@@ -1,6 +1,4 @@
 <script setup>
-import config from "@/config";
-
 import { useRouter } from "vue-router";
 
 import { ref, onMounted } from "vue";
@@ -15,7 +13,7 @@ import {
   getContent as getArtworks,
   offset,
   load,
-} from "@/composables/artwork/getContent";
+} from "@/composables/getContent";
 
 /**
 
