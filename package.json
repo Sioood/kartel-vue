@@ -15,7 +15,7 @@
     "//comment-test:dev": "The below scripts are intended to be run against the dev server running npm run dev in a separate terminal window",
     "test:e2e:dev:coverage": "cypress run --e2e",
     "test:component:dev:coverage": "cypress run --component --quiet --reporter spec",
-    "test:dev:coverage": "npm run test:component:dev:coverage && npm run test:e2e:dev:coverage",
+    "test:dev:coverage": "npm run test:component:dev:coverage & npm run test:e2e:dev:coverage",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:serve": "vitepress serve docs",

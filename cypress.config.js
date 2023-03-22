@@ -2,6 +2,7 @@ const { defineConfig } = require("cypress");
 
 module.exports = defineConfig({
   e2e: {
+    video: false,
     setupNodeEvents(on, config) {
       require("@cypress/code-coverage/task")(on, config);
       // `on` is used to hook into various events Cypress emits
@@ -13,6 +14,7 @@ module.exports = defineConfig({
     baseUrl: "http://localhost:5173",
   },
   component: {
+    video: false,
     setupNodeEvents(on, config) {
       require("@cypress/code-coverage/task")(on, config);
       // `on` is used to hook into various events Cypress emits

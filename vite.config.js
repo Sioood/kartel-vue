@@ -10,9 +10,6 @@ export default defineConfig({
   plugins: [
     vue(),
     istanbul({
-      include: "src/*",
-      exclude: ["node_modules", "src/router"],
-      extension: [".js", ".vue"],
       // cypress: true,
       /**
        * This allows us to omit the INSTRUMENT_BUILD env variable when running the production build via
