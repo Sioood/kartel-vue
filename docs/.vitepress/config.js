@@ -160,10 +160,13 @@ export default {
             text: "Vitest",
             link: "/test/vitest",
           },
-
           {
             text: "Cypress",
             link: "/test/cypress",
+          },
+          {
+            text: "Coverage",
+            link: "/test/coverage",
           },
         ],
       },

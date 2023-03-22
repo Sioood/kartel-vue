@@ -8,7 +8,7 @@ Retrouvez la documentation de vitest par [<ins>ici</ins>](https://vitest.dev).
 ## Lancer Vitest
 
 ```sh
-$ npm run test
+$ npm run test:unit
 ```
 
 Vitest vient récupérer tout les fichiers *test* et *spec* qu'il trouve et les exécute.
