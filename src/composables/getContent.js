@@ -82,12 +82,13 @@ async function getContent(type, parameters) {
       data.forEach((contentData) => {
         content.value.push(contentData);
       });
+
+      offset.value++;
     }
   } catch (err) {
     console.log(err);
   }
 
-  offset.value++;
   load.value = true;
 }
 

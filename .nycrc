@@ -1,6 +1,7 @@
 {
   "all": true,
   "check-coverage": true,
+  "ïnclude": ["src"],
   "exclude": [
     "**/__tests__/**",
     "coverage",
@@ -9,7 +10,7 @@
     "out",
     "src/__examples__",
     "src/router",
-    "config.js"
+    "**config.js"
   ],
   "reporter": ["lcov", "text-summary"]
 }

@@ -27,16 +27,12 @@ let params = {
 describe("test the composable getContent", () => {
   const mockFetch = vi.spyOn(global, "fetch");
 
-  mockFetch
-    .mockReturnValue(
-      // default mock but not the first
-      createMockResolveValue({
-        default: true,
-      })
-    )
-    // if once is present it would be the first mock and switch to the next mock or return to the default mock if no next
-    .mockReturnValueOnce(createMockResolveValue(artworkFixture))
-    .mockReturnValueOnce(createMockResolveValue([artistFixture]));
+  mockFetch.mockReturnValue(
+    // default mock but not the first
+    createMockResolveValue({
+      default: true,
+    })
+  );
 
   afterEach(() => {
     mockFetch.mockClear();
@@ -48,6 +44,11 @@ describe("test the composable getContent", () => {
   });
 
   it("check content for artwork", async () => {
+    mockFetch
+      // if once is present it would be the first mock and switch to the next mock or return to the default mock if no next
+      .mockReturnValueOnce(createMockResolveValue(artworkFixture))
+      .mockReturnValueOnce(createMockResolveValue([artistFixture]));
+
     // check default value
     expect(content.value).toEqual([]);
     expect(load.value).toEqual(false);
@@ -55,7 +56,7 @@ describe("test the composable getContent", () => {
 
     // console.log(artist);
     await getContent("artwork", params);
-    
+
     // leave the requests and replace with mocks
     await flushPromises();
 
@@ -80,5 +81,21 @@ describe("test the composable getContent", () => {
     expect(content.value).toEqual([artistFixture]);
     expect(load.value).toEqual(true);
     expect(offset.value).toEqual(2);
+  });
+
+  it("catch on fetch fail", async () => {
+    mockFetch
+      // if once is present it would be the first mock and switch to the next mock or return to the default mock if no next
+      .mockReturnValueOnce(Promise.reject("Mock Catch API"));
+
+    await getContent("artist", params);
+
+    // leave the requests and replace with mocks
+    await flushPromises();
+
+    // check value after running once getContent
+    expect(content.value).toEqual([]);
+    expect(load.value).toEqual(true);
+    expect(offset.value).toEqual(1);
   });
 });
