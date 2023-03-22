@@ -18,6 +18,7 @@ dist-ssr
 coverage
 .nyc_output
 *.local
+out
 
 /cypress/videos/
 /cypress/screenshots/
