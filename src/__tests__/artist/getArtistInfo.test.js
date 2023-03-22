@@ -106,4 +106,43 @@ describe("test the composable getArtistInfo", () => {
 
     app.unmount();
   });
+
+  it("catch on fetch fail", async () => {
+    mockFetch
+    // if once is present it would be the first mock and switch to the next mock or return to the default mock if no next
+    .mockReturnValue(Promise.reject("Mock Catch API"));
+
+    const [results, app] = withSetup(getArtistInfo, artistFixture.id);
+
+    // leave the requests and replace with mocks
+    await flushPromises();
+
+    
+
+    const { artist, user, artwork, student } = results;
+
+    /**
+    
+      Check results
+    
+    **/
+
+    // Artist result
+    expect(artist.value)
+      .toEqual({})
+
+    // User result
+    expect(user.value)
+      .toEqual({})
+
+    // Artwork result
+    expect(artwork.value).toEqual({});
+
+
+    // Student result
+    expect(student.value).toEqual({});
+
+
+    app.unmount();
+  });
 });

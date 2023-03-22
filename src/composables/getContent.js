@@ -50,7 +50,7 @@ async function getContent(type, parameters) {
         : null,
       query: q ? `q=${q}` : null,
       shootingPlace: shootingPlace ? `shooting_place=${shootingPlace}` : null,
-      type: type ? `production_year=${type}` : null,
+      type: type ? `type=${type}` : null,
     };
 
     setParams();
