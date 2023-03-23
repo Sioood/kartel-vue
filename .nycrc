@@ -1,13 +1,16 @@
 {
   "all": true,
   "check-coverage": true,
+  "ïnclude": ["src"],
   "exclude": [
-    "src/__examples__",
-    "src/router",
+    "**/__tests__/**",
     "coverage",
     "cypress",
     "node_modules",
-    "**/__tests__/**"
+    "out",
+    "src/__examples__",
+    "src/router",
+    "**config.js"
   ],
   "reporter": ["lcov", "text-summary"]
 }

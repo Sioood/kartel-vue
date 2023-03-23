@@ -11,6 +11,7 @@ describe("Ui Description", () => {
     cy.get(".p-4 > .text-xs").contains(data.desc_fr);
 
     cy.get(".underline").contains("FR");
+    cy.get(".underline").click().contains("FR");
 
     cy.get(".justify-between > .flex > :nth-child(2)").click();
 

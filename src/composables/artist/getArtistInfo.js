@@ -54,7 +54,7 @@ export const getArtistInfo = (artistId) => {
       artwork.value = data;
     } catch (err) {
       console.log(err);
-      artwork.value = { data };
+      artwork.value = {};
     }
   }
 

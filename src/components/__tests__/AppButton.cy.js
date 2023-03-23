@@ -6,7 +6,9 @@ describe("Artwork card", () => {
       text: "Hello Cypress",
     };
     cy.mount(AppButton, {
-      props: { text: data.text },
+      slots: {
+        default: () => data.text,
+      },
     });
 
     cy.get("button").should("exist").contains(data.text);

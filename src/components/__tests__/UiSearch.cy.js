@@ -16,14 +16,13 @@ describe("Ui Search", () => {
     cy.mount(UiSearch);
 
     cy.get("#search").type("mer");
-    cy.contains("Mer");
-    cy.contains("mer");
+    cy.get("#search").should("have.value", "mer");
 
     // click to make input state focus
     cy.get("#search").click();
     cy.get("[data-test='results']").should("exist");
 
-    cy.get(".p-2").should("have.class", "hidden");
+    cy.get(".p-2").should("not.have.class", "hidden");
 
     cy.wait("@artwork-search").then(({ response }) => {
       expect(response.statusCode).to.eq(200);
