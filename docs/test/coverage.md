@@ -10,9 +10,25 @@ selon certaines mesures.
 - Functions: Relève le nombre de fonctions testées.
 - Lines: Vérification du nombre de lignes présentes au lors des tests.
 
+<br/>
+
+---
+
+<br/>
+
 # Vitest — Tests unitaires
 
 Tout les coverages ressortent dans le dossier coverage dans l'index.html.
+
+```sh
+├── Coverage
+│   └── [index.html]
+│
+├── src
+│
+└── ...
+```
+
 Il vous suffit juste d'ouvrir l'index dans un navigateur.
 
 ```sh
@@ -22,6 +38,19 @@ $ npm run test:unit:coverage
 # Cypress — Tests Composants et E2E
 
 Tout les coverages ressortent dans le dossier coverage dans l'index.html du dossier lcov-report.
+
+```sh
+├── Coverage
+│   ├── lcov-report
+│   │   └── [index.html]
+│   │
+│   └── index.html─{unit coverage}
+│
+├── src
+│
+└── ...
+```
+
 Il vous suffit juste d'ouvrir l'index dans un navigateur.
 
 Coverage seul des tests e2e
