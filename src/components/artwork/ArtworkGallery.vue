@@ -1,4 +1,10 @@
 <script setup>
+
+/**
+
+  Components
+
+**/
 import UnderlineTitle from "@/components/ui/UnderlineTitle.vue";
 import UiMedia from "@/components/ui/UiMedia.vue";
 

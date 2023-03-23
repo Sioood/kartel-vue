@@ -55,22 +55,22 @@ export default {
             text: "Getting Started",
             link: "/getting-started/getting-started",
           },
-          {
-            text: "Folder",
-            items: [
-              { text: "Folder file", link: "/folder/folder-file" },
-              {
-                text: "Subfolder",
-                items: [
-                  { text: "Sub file", link: "/folder/subfolder/sub-file" },
-                ],
-                collapsible: true,
-                collapsed: false,
-              },
-            ],
-            collapsible: true,
-            collapsed: false,
-          },
+          // {
+          //   text: "Folder",
+          //   items: [
+          //     { text: "Folder file", link: "/folder/folder-file" },
+          //     {
+          //       text: "Subfolder",
+          //       items: [
+          //         { text: "Sub file", link: "/folder/subfolder/sub-file" },
+          //       ],
+          //       collapsible: true,
+          //       collapsed: false,
+          //     },
+          //   ],
+          //   collapsible: true,
+          //   collapsed: false,
+          // },
         ],
         collapsible: true,
         collapsed: false,
@@ -78,6 +78,12 @@ export default {
       {
         text: "Kartel",
         items: [
+          {
+            text: "Sitemap",
+            link: "/kartel/sitemap",
+            collapsible: false,
+            collapsed: false,
+          },
           {
             text: "UI",
             link: "/kartel/ui",
@@ -143,10 +149,24 @@ export default {
       },
       {
         text: "Tester l'application",
+        link: "/test/test",
+
         items: [
+          {
+            text: "Test",
+            link: "/test/test",
+          },
+          {
+            text: "Vitest",
+            link: "/test/vitest",
+          },
           {
             text: "Cypress",
             link: "/test/cypress",
+          },
+          {
+            text: "Coverage",
+            link: "/test/coverage",
           },
         ],
       },

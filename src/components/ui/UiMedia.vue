@@ -1,4 +1,7 @@
 <script setup>
+// import config from "@/config";
+import config from "../../config";
+
 import { ref } from "vue";
 
 const props = defineProps({
@@ -6,9 +9,9 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  // medium is the media to display in lightbox
   medium: {
-    type: String,
-    required: true,
+    required: false,
   },
   title: {
     type: String,
@@ -22,6 +25,7 @@ const open = ref(false);
 <!-- set for img if preview but it can be a video watch out -->
 <template>
   <div class="flex flex-col items-end">
+    <!-- Lightbox -> can be a library -->
     <Teleport v-if="open" to="body">
       <div
         @click="open = false"
@@ -45,7 +49,7 @@ const open = ref(false);
           <img
             v-if="!props.medium"
             class="w-full h-full object-cover aspect-video"
-            :src="props.url"
+            :src="`${config.media_service}?url=${props.url}&mode=adapt&w=1000&fmt=jpg`"
             :alt="props.title"
           />
           <video
@@ -64,8 +68,8 @@ const open = ref(false);
       class="w-full aspect-video object-cover bg-gray-extralightest cursor-pointer"
     >
       <img
-        class="object-cover aspect-video"
-        :src="props.url"
+        class="w-full h-full object-cover aspect-video"
+        :src="`${config.media_service}?url=${props.url}&mode=adapt&w=300&fmt=jpg`"
         :alt="props.title"
       />
     </div>

@@ -1,4 +1,9 @@
 <script setup>
+/**
+
+  Components
+
+**/
 import UnderlineTitle from "@/components/ui/UnderlineTitle.vue";
 </script>
 

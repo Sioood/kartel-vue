@@ -1,3 +1,7 @@
+# Config 
+src/config.js
+docs/.vitepress/cache
+
 # Logs
 logs
 *.log
@@ -12,7 +16,9 @@ node_modules
 dist
 dist-ssr
 coverage
+.nyc_output
 *.local
+out
 
 /cypress/videos/
 /cypress/screenshots/

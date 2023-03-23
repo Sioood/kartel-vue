@@ -1,0 +1,49 @@
+[
+  {
+    "url": "http://127.0.0.1:8000/v2/production/film/1888",
+    "collaborators": [],
+    "partners": [
+      {
+        "organization": "http://127.0.0.1:8000/v2/people/organization/1",
+        "task": "http://127.0.0.1:8000/v2/people/organization-staff/2"
+      }
+    ],
+    "diffusion": ["http://127.0.0.1:8000/v2/diffusion/diffusion/935"],
+    "award": [],
+    "keywords": [],
+    "title": "L'île flottante",
+    "former_title": null,
+    "subtitle": null,
+    "updated_on": "2021-12-13T13:04:25.128560+01:00",
+    "picture": "http://127.0.0.1:8000/media/production/film/2021/07/dominati-juliette__0_ynC.png",
+    "description_short_fr": "",
+    "description_short_en": "",
+    "description_fr": "Isolée dans un hangar, Lola rejoue ses souvenirs. Des décors s’éclairent, des personnages apparaissent, Lola navigue d’une scène à l’autre.\r\n\r\nJuliette Dominati travaille sur les souvenirs, ce qui reste, ce qui échappe, des détails, des presque rien. À la fois peintre et metteur-en-scène, elle s’intéresse à la construction d’environnements, complets, autonomes, enveloppants. Ses installations ressemblent à des collages en volume, faits d’objets trouvés et peints. Son travail est fait d’astuces, de matériaux souvent pauvres, de rebuts, de trouvailles. Elle collectionne des histoires, des images, des matériaux abandonnés, du bois, du tissu, du mobilier, enregistre des récits, archive des moments, qu’elle colle, scotche, rejoue. Ces fragments sont assemblés avec délicatesse, et équilibre troublant, tenant à peine, toujours sur le point de s’écrouler.\r\nPourtant ils « tiennent » des espaces, construisent des mondes qui semblent attendre que spectateurs et personnages entrent, s’approchent, s’installent. Ces mises-en-scènes cultivent une aura intime, une quiétude mystérieuse, et un « mal-aise » propre aux rêves. S’en approcher c’est faire l’expérience d’un effondrement, de palimpsestes, de souvenirs fracturés, à la fois confus et joyeux.",
+    "description_en": "Isolated in a hangar, Lola runs through her memories. Settings light up, characters appear. Lola navigates from one scene to another.\r\n\r\nJuliette Dominati works on memories, on what remains and what escapes, on details, nothings. Both painter and director, she is interested in the construction of environments that are complete, autonomous, enveloping. Her installations are like three-dimensional collages, made of painted found objects. Her work is made up of tricks, materials that are often poor, discards, discoveries. She collects stories, images, abandoned materials, wood, cloth, furniture; she records narratives, archives moments, which she glues, tapes, replays. These fragments are delicately assembled, in a troubling equilibrium, only just standing, always about to collapse.\r\nAnd yet they “hold” spaces, construct worlds that seem to be waiting for viewers and characters to enter them, to approach and to settle. These stagings cultivate a private aura, a mysterious quietude, and an “unease” characteristic of dreams. To approach them is to experience a collapse, palimpsests, fractured memories that are at once confused and joyous.",
+    "production_date": "2021-07-06",
+    "credits_fr": "",
+    "credits_en": "",
+    "thanks_fr": "Émile et Jérémy Amzallag, AEI ; Didier Diaz, Transpalux ; Jean-François Lemaire, Pyrofolies.",
+    "thanks_en": "",
+    "copyright_fr": "",
+    "copyright_en": "",
+    "duration": "00:20:00",
+    "shooting_format": "",
+    "aspect_ratio": "",
+    "process": "",
+    "websites": [],
+    "process_galleries": [],
+    "mediation_galleries": ["http://127.0.0.1:8000/v2/assets/gallery/4195"],
+    "in_situ_galleries": [
+      "http://127.0.0.1:8000/v2/assets/gallery/4139",
+      "http://127.0.0.1:8000/v2/assets/gallery/4203"
+    ],
+    "press_galleries": [],
+    "teaser_galleries": [],
+    "authors": ["http://127.0.0.1:8000/v2/people/artist/710"],
+    "beacons": [],
+    "genres": [],
+    "shooting_place": [],
+    "type": "Film"
+  }
+]

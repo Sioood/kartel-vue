@@ -4,17 +4,39 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   // Check all needed redirects for avoid blank page
   routes: [
+    /**
+    
+      Catch wrong route to redirect. To home for now
+    
+    **/
+    {
+      path: "/:pathMatch(.*)*",
+      name: "home",
+      component: () => import("../pages/HomePage.vue"),
+    },
+
+    /**
+    
+      Routes
+    
+    **/
     {
       path: "/",
       name: "home",
-      component: () => import("../views/HomeView.vue"),
+      component: () => import("../pages/HomePage.vue"),
+      meta: {
+        title: "Kartel",
+      },
     },
     {
       // mettre la schoolview en componenent dans une view pour mieux agencer le tout ->
       // contrer le problème du fixed sur la liste promo, donner des valeurs précise de position padding etc
       path: "/school",
       name: "school",
-      component: () => import("../views/SchoolView.vue"),
+      component: () => import("../pages/school/SchoolPage.vue"),
+      meta: {
+        title: "Liste des promotions - Kartel",
+      },
       children: [
         {
           // promotion will be rendered inside School's <router-view> (Don't forget the router-view element to render children)
@@ -55,11 +77,25 @@ const router = createRouter({
       path: "/artist/:id",
       name: "artist",
       component: () => import("../pages/ArtistProfil.vue"),
+      meta: {
+        title: "Artiste - Kartel",
+      },
+    },
+    {
+      path: "/artworks",
+      name: "artworks",
+      component: () => import("../pages/artwork/ArtworksPage.vue"),
+      meta: {
+        title: "Oeuvres - Kartel"
+      },
     },
     {
       path: "/artwork/:id",
       name: "artwork",
-      component: () => import("../pages/ArtworkPage.vue"),
+      component: () => import("../pages/artwork/ArtworkPage.vue"),
+      meta: {
+        title: "Oeuvre - Kartel"
+      },
     },
     // For visualisation but need to be children of artist and artwork
     {
@@ -67,7 +103,24 @@ const router = createRouter({
       name: "media",
       component: () => import("../components/MediaDetails.vue"),
     },
+
+    /**
+    
+      test composable
+    
+    **/
+
+    {
+      path: "/test",
+      name: "test",
+      component: () =>
+        import("../__examples__/__test__/ComponentComposables.vue"),
+    },
   ],
 });
 
 export default router;
+
+router.beforeEach((to, from) => {
+  document.title = to.meta?.title ?? "Kartel";
+});

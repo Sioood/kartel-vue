@@ -7,8 +7,9 @@ const props = defineProps({
   desc_en: String,
 });
 
+// set the description to display first
 let bio = ref({
-  lang: "fr",
+  lang: !props.desc_fr && props.desc_en ? "en" : "fr",
   data: !props.desc_fr && props.desc_en ? props.desc_en : props.desc_fr,
 });
 </script>
@@ -16,9 +17,10 @@ let bio = ref({
 <template>
   <div class="w-full flex flex-col items-end">
     <div class="p-4 w-full bg-gray-extralightest dark:bg-black-light">
-      <p class="text-xs text-gray dark:text-gray-extralight">
-        {{ bio.data }}
-      </p>
+      <p
+        class="text-xs text-gray dark:text-gray-extralight"
+        v-html="bio.data"
+      ></p>
     </div>
     <div class="w-full h-1 bg-black dark:bg-white"></div>
     <div class="w-full flex justify-between">

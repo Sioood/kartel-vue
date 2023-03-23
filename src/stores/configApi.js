@@ -1,26 +1,9 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
+import config from "../config";
+
 export const useConfigApi = defineStore("configApi", () => {
-  // config = {
-  //     templateBaseUrl: '/views/',
-  //     useHtml5Mode: false,
-  //     api_url: "https://api.lefresnoy.net/",
-  //     rest_uri_v2: "https://api.lefresnoy.net/v2/",
-  //     rest_uri: "https://api.lefresnoy.net/v1/",
-  //     media_service: "https://media.lefresnoy.net/",
-  //     reset_password_uri: "https://api.lefresnoy.net/account/reset_password/",
-  //     ame_rest_uri: "https://ame.lefresnoy.net/plugins/api_search/"
-  // };
-
-  // config api
-  // const restUriV2 = "https://api.lefresnoy.net/v2/";
-  // const restUriV2 = "http://127.0.0.1:8000/v2/";
-  const restUriV2 = "http://preprod.api.lefresnoy.net/v2/";
-
-  // Donner un autre url pour les médias car pas accès en local
-  // const mediaService = "http://127.0.0.1:8000/v2/";
-
   // states / refs
   // Au lieu de stocker les étudiants dans promos faire un autre tableau avec tout les étudiants et leur passer l'id promo
   // Avec un .filter on peut récupérer plus facilement tout les étudiants
@@ -37,7 +20,7 @@ export const useConfigApi = defineStore("configApi", () => {
 
   // Get promotions list and return to ref "promotions"
   async function getPromotions() {
-    let response = await fetch(`${restUriV2}school/promotion`);
+    let response = await fetch(`${config.rest_uri_v2}school/promotion`);
     let data = await response.json();
 
     //sort in order to have latest promotion first
@@ -50,7 +33,9 @@ export const useConfigApi = defineStore("configApi", () => {
   }
 
   async function getSelectedPromo(promoId) {
-    let response = await fetch(`${restUriV2}school/promotion/${promoId}`);
+    let response = await fetch(
+      `${config.rest_uri_v2}school/promotion/${promoId}`
+    );
     let data = await response.json();
     selectedPromo.value = data;
   }
@@ -59,74 +44,68 @@ export const useConfigApi = defineStore("configApi", () => {
   // on obtient un mélange des promo
   async function getPromoStudents(promoId) {
     let response = await fetch(
-      `${restUriV2}school/student?&promotion=${promoId}&ordering=user__last_name`
+      `${config.rest_uri_v2}school/student?&promotion=${promoId}&ordering=user__last_name`
     );
     let data = await response.json();
 
     promoStudents.value = [];
 
-    data.map((student) => {
-      getUser(student);
+    const users = data.map(async (student) => {
+      // await getUser(student);
+      // console.log(await getUser(student));
+
+      student.userData = await getUser(student);
+
+      // run each time a request finish -> not good for performance but avoid the card to jump if we sort after all
+      // sortStudents();
+
+      // console.log(student);
+      return student;
     });
 
-    sortStudents();
+    await Promise.all(users);
+
+    // set promoStudents with studentWithUser after sorted
+    promoStudents.value = sortStudents(await Promise.all(users));
   }
 
-  function sortStudents(order) {
+  function sortStudents(students, order) {
     // for Promotion Marguerite Duras sort invert V and Y for Yoo and Villafagne ?!
     if (order === "descending") {
-      const sort = promoStudents.value.sort((a, b) => {
+      const sort = students.sort((a, b) => {
         // Sort with lower or upper case for avoid bad sorting because not the same Unicode
         console.log(a.userData.last_name.toLowerCase());
         return a.userData.last_name < b.userData.last_name ? 1 : -1;
       });
 
-      promoStudents.value = sort;
+      return students = sort;
     } else {
-      const sort = promoStudents.value.sort((a, b) =>
+      const sort = students.sort((a, b) =>
         a.userData.last_name > b.userData.last_name ? 1 : -1
       );
 
-      promoStudents.value = sort;
+      return students = sort;
     }
   }
 
   // Need to do the same with artist
   async function getUser(student) {
-    // fetch(student.user)
-    //   .then((response) => {
-    //     if (response.ok) {
-    //       return response.json();
-    //     }
-    //     // response.json();
-
-    //     // student.userData = response.json();
-    //   })
-    //   .then((data) => {
-    //     student.userData = data;
-    //     student.userData = "test";
-    //     promoStudents.value = test;
-
-    //     return data;
-    //   });
-
     const response = await fetch(student.user);
     const userData = await response.json();
-    student.userData = userData;
+    // student.userData = userData;
 
-    promoStudents.value.push(student);
+    // console.log(userData);
+    // console.log(student);
+
+    // promoStudents.value.push(student);
+
+    // console.log(await userData);
+    return await userData;
     // student.userData = data;
     // return data;
   }
 
-  function getId(url) {
-    const split = url.split("/");
-    const id = split[split.length - 1];
-    return Number(id);
-  }
-
   return {
-    restUriV2,
     promotions,
     selectedPromo,
     getPromotions,
@@ -135,6 +114,5 @@ export const useConfigApi = defineStore("configApi", () => {
     sortStudents,
     promoStudents,
     getUser,
-    getId,
   };
 });

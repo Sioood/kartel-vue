@@ -1,21 +1,23 @@
 <script setup>
+import config from "@/config";
+
 import { useRouter } from "vue-router";
 
+import { getId } from "@/composables/getId";
+
 import { ref, onMounted } from "vue";
-import { useConfigApi } from "../../stores/configApi";
 
 import UnderlineTitle from "@/components/ui/UnderlineTitle.vue";
 import UiDescription from "@/components/ui/UiDescription.vue";
 import ArtworkCard from "@/components/artwork/ArtworkCard.vue";
 
 const router = useRouter();
-const storeApi = useConfigApi();
 
 let artist = ref();
 let student = ref();
 let user = ref();
 
-let bio = ref([]);
+// let bio = ref([]);
 
 onMounted(() => {
   // the user came from promo -> students of the promo are stored in store
@@ -31,47 +33,32 @@ onMounted(() => {
 
   // can combine both function with more function parameters...
   async function getStudent(id) {
-    let response = await fetch(`${storeApi.restUriV2}school/student/${id}`);
+    let response = await fetch(`${config.rest_uri_v2}school/student/${id}`);
     let data = await response.json();
 
     student.value = data;
 
     // Function if we get only Student for exemple and want to retrieve more info (User & Artist)
     async function getUser(id) {
-      let response = await fetch(`${storeApi.restUriV2}people/user/${id}`);
+      let response = await fetch(`${config.rest_uri_v2}people/user/${id}`);
       let data = await response.json();
 
       user.value = data;
     }
 
-    let userId = storeApi.getId(student.value.user);
+    let userId = getId(student.value.user);
     getUser(userId);
   }
 
   async function getArtist(id) {
-    let response = await fetch(`${storeApi.restUriV2}people/artist/${id}`);
+    let response = await fetch(`${config.rest_uri_v2}people/artist/${id}`);
     let data = await response.json();
     artist.value = data;
 
-    bio.value.lang = "fr";
-    bio.value.data = data.bio_fr;
+    // bio.value.lang = "fr";
+    // bio.value.data = data.bio_fr;
   }
 
-  // if (storeApi.promoStudents[0]) {
-  //   storeApi.promoStudents.filter((student) => console.log(student));
-
-  //   artist.value = storeApi.promoStudents.filter(
-  //     (student) => storeApi.getId(student.artist) === Number(artistId)
-  //   );
-
-  //   student.value = storeApi.promoStudents.filter(
-  //     (student) => storeApi.getId(student.url) === Number(studentId)
-  //   );
-  // } else {
-  //   // fetch artist with router id
-  //   getArtist(artistId);
-  //   getStudent(studentId);
-  // }
   getArtist(artistId);
   getStudent(studentId);
 });
@@ -136,7 +123,13 @@ onMounted(() => {
           </div>
           <div class="grid grid-cols-4 gap-2">
             <!-- set ring active with router id -->
-            <ArtworkCard v-for="(el, index) in 8" :key="index" url="url" picture="picture" title="title"  />
+            <ArtworkCard
+              v-for="(el, index) in 8"
+              :key="index"
+              url="url"
+              picture="picture"
+              title="title"
+            />
           </div>
         </div>
       </div>
