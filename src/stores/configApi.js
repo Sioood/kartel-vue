@@ -105,12 +105,6 @@ export const useConfigApi = defineStore("configApi", () => {
     // return data;
   }
 
-  function getId(url) {
-    const split = url.split("/");
-    const id = split[split.length - 1];
-    return Number(id);
-  }
-
   return {
     promotions,
     selectedPromo,
@@ -120,6 +114,5 @@ export const useConfigApi = defineStore("configApi", () => {
     sortStudents,
     promoStudents,
     getUser,
-    getId,
   };
 });

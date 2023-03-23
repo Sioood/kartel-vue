@@ -15,7 +15,7 @@ describe("Explore the search feature which result students and artworks", () => 
         expect(response.body).to.exist;
       });
 
-      cy.get(":nth-child(2) > .gap-3 > :nth-child(1) > .px-1").click();
+      cy.get('[data-test="nav-link"] > .link').last().click();
 
       cy.location().should((loc) => {
         // for artist or artwork, need to find a way to conditional with cypress
@@ -34,7 +34,6 @@ describe("Explore the search feature which result students and artworks", () => 
       );
 
       cy.visit("/");
-      cy.get('[data-test="toggle-theme"]').click();
 
       testSearch('[data-test="search"]', "mer");
     });
@@ -49,7 +48,6 @@ describe("Explore the search feature which result students and artworks", () => 
         "student-search"
       );
       cy.visit("/");
-      cy.get('[data-test="toggle-theme"]').click();
 
       // cy.get('[data-test="nav-link"] > .link').and((links) => {
       //   for (let i = 0; i < links.length; i++) {

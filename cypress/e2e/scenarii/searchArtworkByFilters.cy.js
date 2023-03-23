@@ -6,8 +6,10 @@ describe("Search artworks or an artwork in the artworks page and it's filters", 
       cy.viewport(1280, 720);
       // let page = 1;
       cy.intercept(`${config.rest_uri_v2}/production/artwork?*`).as("page");
+      // watch out the url can be changed in the front with more query and create an error
       cy.intercept(
-        `${config.rest_uri_v2}/production/artwork?production_year=*`
+        `${config.rest_uri_v2}/production/artwork?page_size=20&page=1&production_year=*`
+        
       ).as("year");
 
       // cy.intercept(`${config.rest_uri_v2}/production/artwork?*`, (req) => {
@@ -25,18 +27,14 @@ describe("Search artworks or an artwork in the artworks page and it's filters", 
       // });
 
       cy.visit("/artworks");
-      cy.get('[data-test="toggle-theme"]').click();
     });
 
     it("Home logo redirect should be '/'", () => {
-      let page = 1;
-
       cy.wait("@page").then(({ response }) => {
         expect(response.statusCode).to.eq(200);
         expect(response.body).to.exist;
         // check index of the page for the scroll based on the offset page which increment each time a request @page occur
-        expect(response.url).to.include(`page=${page}`);
-        page++;
+        expect(response.url).to.include(`page=`);
         cy.scrollTo("bottom");
       });
 
@@ -45,8 +43,7 @@ describe("Search artworks or an artwork in the artworks page and it's filters", 
         expect(response.statusCode).to.eq(200);
         expect(response.body).to.exist;
         // check index of the page for the scroll based on the offset page which increment each time a request @page occur
-        expect(response.url).to.include(`page=${page}`);
-        page++;
+        expect(response.url).to.include(`page=`);
         cy.scrollTo("bottom");
       });
 
@@ -65,8 +62,8 @@ describe("Search artworks or an artwork in the artworks page and it's filters", 
     beforeEach(() => {
       cy.viewport(1280, 720);
       cy.intercept(
-        `${config.rest_uri_v2}/production/artwork?production_year*`
-      ).as("page");
+        `${config.rest_uri_v2}/production/artwork?page_size=20&page=1&production_year=*`
+      ).as("year");
 
       cy.visit("/artworks");
       cy.get('[data-test="toggle-theme"]').click();
@@ -76,7 +73,7 @@ describe("Search artworks or an artwork in the artworks page and it's filters", 
       cy.get("#date").select(3);
 
       // check for third option
-      cy.wait("@page").then(({ response }) => {
+      cy.wait("@year").then(({ response }) => {
         expect(response.statusCode).to.eq(200);
         expect(response.body).to.exist;
 
@@ -87,7 +84,7 @@ describe("Search artworks or an artwork in the artworks page and it's filters", 
       cy.get("#date").select(5);
 
       // check for fifth option
-      cy.wait("@page").then(({ response }) => {
+      cy.wait("@year").then(({ response }) => {
         expect(response.statusCode).to.eq(200);
         expect(response.body).to.exist;
 

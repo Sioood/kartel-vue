@@ -5,7 +5,6 @@ describe("Artist and artworks informations from school, navigate through all pag
     it("Home logo redirect should be '/'", () => {
       cy.viewport(1280, 720);
       cy.visit("/");
-      cy.get('[data-test="toggle-theme"]').click();
 
       // check if the logo redirect to "/"
       cy.get("[data-test='logo-lg']").click();
@@ -18,7 +17,6 @@ describe("Artist and artworks informations from school, navigate through all pag
     it("Navigation bar to School with link", () => {
       cy.viewport(1280, 720);
       cy.visit("/");
-      cy.get('[data-test="toggle-theme"]').click();
 
       // check if the first navbar link which is "school" redirect to "/school/promotion/4"
       cy.get("[data-test='nav-link']").contains("School").click();
@@ -38,7 +36,6 @@ describe("Artist and artworks informations from school, navigate through all pag
       cy.intercept(`${config.rest_uri_v2}school/promotion/*`).as("promotion");
 
       cy.visit("/school");
-      cy.get('[data-test="toggle-theme"]').click();
 
       // wait the request intercepted @promotions declared before and check is body properties
       cy.wait("@promotions").then(({ response }) => {
@@ -69,7 +66,6 @@ describe("Artist and artworks informations from school, navigate through all pag
     it("Get a student from a promotion", () => {
       cy.viewport(1280, 720);
       cy.visit("/school");
-      cy.get('[data-test="toggle-theme"]').click();
 
       cy.get(":nth-child(8) > .promo__link").click();
 
@@ -85,9 +81,7 @@ describe("Artist and artworks informations from school, navigate through all pag
   context("Artist profile to artwork", () => {
     it("Check data of artist page 1606", () => {
       cy.viewport(1280, 720);
-
       cy.visit("/artist/1606");
-      cy.get('[data-test="toggle-theme"]').click();
 
       // check if the page have the good artist
       cy.get("h2").contains("Amélie Agbo");
@@ -98,7 +92,6 @@ describe("Artist and artworks informations from school, navigate through all pag
       cy.viewport(1280, 720);
 
       cy.visit("/artwork/1278");
-      cy.get('[data-test="toggle-theme"]').click();
 
       // check if the page have the good artwork
       cy.get("h1").contains("Bénincity : épisode 4");
