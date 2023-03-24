@@ -1,8 +1,14 @@
 <script setup>
+import { computed } from "vue";
+
 import { getId } from "@/composables/getId";
 
 const props = defineProps({
   student: Object,
+});
+
+const fullname = computed(() => {
+  return `${props.student.userData.first_name} ${props.student.userData.last_name}`;
 });
 </script>
 
@@ -15,6 +21,11 @@ const props = defineProps({
     >
       <!-- parameters Query with id Student ? User ? Artist ? all ? -->
       <router-link :to="`/artist/${getId(props.student.artist)}`">
+        <img
+          class="w-full h-44 object-cover"
+          :src="props.student.userData.profile.photo"
+          :alt="`Photo de ${fullname}`"
+        />
         <div class="p-2 w-full h-full capitalize">
           <p v-if="props.student.userData.first_name" class="last:font-bold">
             {{ props.student.userData.first_name }}
