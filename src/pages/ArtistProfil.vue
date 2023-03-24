@@ -9,6 +9,7 @@ import { ref, onMounted } from "vue";
 
 **/
 import { getArtistInfo } from "@/composables/artist/getArtistInfo";
+import { getId } from "@/composables/getId";
 
 /**
 
@@ -108,10 +109,14 @@ function removePreprod(url) {
               ></UnderlineTitle>
 
               <h4 v-if="student?.promotion?.name">
-                Promotion {{ student.promotion.name }}
+                Promotion
+                <router-link
+                  :to="`/school/promotion/${getId(student.promotion.url)}`"
+                  class="underline"
+                >
+                  {{ student.promotion.name }}
+                </router-link>
               </h4>
-
-
             </div>
           </div>
 
