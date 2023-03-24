@@ -24,7 +24,7 @@ const router = useRouter();
 const artistId = router.currentRoute.value.params.id;
 
 // refs from the composable
-const { artist, user, artwork } = getArtistInfo(artistId);
+const { artist, user, artwork, student } = getArtistInfo(artistId);
 
 let responsive = ref(false);
 
@@ -73,34 +73,47 @@ function removePreprod(url) {
         class="pl-8 pr-6 py-5 lg:w-3/5 lg:flex"
         :class="{ flex: responsive === false, hidden: responsive === true }"
       >
-        <!-- <p>{{ storeApi.promoStudents }}</p> -->
         <div class="flex flex-col gap-10">
-          <UnderlineTitle
-            class="w-max"
-            title="General Info"
-            :underlineSize="2"
-            :fontSize="1"
-          ></UnderlineTitle>
+          <div class="flex items-end gap-6">
+            <img
+              v-if="user?.profile?.photo"
+              class="w-1/3 object-cover"
+              :src="user.profile.photo"
+              :alt="`Photo de ${user.first_name} ${user.last_name}`"
+            />
 
-          <UnderlineTitle
-            class="w-max"
-            v-if="artist && artist.nickname"
-            :title="`''${artist.nickname}''`"
-            subtitle="Artist"
-            :uppercase="true"
-            :underlineSize="1"
-            :fontSize="2"
-          ></UnderlineTitle>
+            <div class="w-2/3 flex flex-col">
+              <h4 v-if="user?.profile?.nationality" class="font-medium">
+                {{ user.profile.nationality }}
+              </h4>
 
-          <UnderlineTitle
-            class="w-max"
-            v-else-if="user && !artist.nickname"
-            :title="`${user.first_name} ${user.last_name}`"
-            subtitle="Artist"
-            :uppercase="true"
-            :underlineSize="1"
-            :fontSize="2"
-          ></UnderlineTitle>
+              <UnderlineTitle
+                class="w-max"
+                v-if="artist?.nickname"
+                :title="`''${artist.nickname}''`"
+                subtitle="Artist"
+                :uppercase="true"
+                :underlineSize="1"
+                :fontSize="2"
+              ></UnderlineTitle>
+
+              <UnderlineTitle
+                class="w-max"
+                v-else-if="user && !artist.nickname"
+                :title="`${user.first_name} ${user.last_name}`"
+                subtitle="Artist"
+                :uppercase="true"
+                :underlineSize="1"
+                :fontSize="2"
+              ></UnderlineTitle>
+
+              <h4 v-if="student?.promotion?.name">
+                Promotion {{ student.promotion.name }}
+              </h4>
+
+
+            </div>
+          </div>
 
           <UiDescription
             v-if="artist"

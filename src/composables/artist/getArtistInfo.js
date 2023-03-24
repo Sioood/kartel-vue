@@ -64,9 +64,20 @@ export const getArtistInfo = (artistId) => {
       let response = await fetch(
         `${config.rest_uri_v2}school/student?artist=${id}`
       );
-      let data = await response.json();
+      let studentData = await response.json();
 
-      student.value = data;
+      try {
+        let response = await fetch(studentData[0].promotion);
+        let promotionData = await response.json();
+
+        studentData.promotion = promotionData;
+
+        student.value = studentData;
+      } catch (err) {
+        student.value = {};
+      }
+
+      // student.value = data;
     } catch (err) {
       student.value = {};
     }
