@@ -1,7 +1,7 @@
 <script setup>
 import { useRouter } from "vue-router";
 
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 
 /**
 
@@ -13,6 +13,8 @@ import {
   getContent as getArtworks,
   offset,
   load,
+  stringParams,
+  setParams,
 } from "@/composables/getContent";
 
 /**
@@ -46,19 +48,30 @@ let params = ref({
   type,
 });
 
-// change the params if the year change and push to router
-function onChangeYear(year) {
-  if (year === null) {
-    router.push("");
-  } else {
-    router.push(`?year=${year}`);
-  }
-  artworks.value = [];
-  offset.value = 1;
+watch([genres, keywords, productionYear, q, shootingPlace, type], () => {
+  // prevent the observer to fetch at the same time
+  observer.unobserve(watcher.value);
 
-  // reload new artworks with the new production year
+  router.push({ path: "artworks", query: { ...params.value } });
+
+  offset.value = 1;
+  artworks.value = [];
+
   getArtworks("artwork", params.value);
-}
+
+  // reobserve
+  observer.observe(watcher.value);
+
+  // getArtworks("artwork", params.value);
+});
+
+// change the params if the year change and push to router
+// function onChangeYear() {
+//     offset.value = 1
+//     artworks.value = []
+
+//     router.push({ path: "artworks", query: { ...params.value } });
+// }
 
 // set option of production year for select based on a min (1998) to now
 function getYears() {
@@ -76,7 +89,7 @@ getYears();
 const handleObserver = (entries) => {
   entries.forEach((entry) => {
     // console.log(entry);
-    // console.log(load.value);
+    console.log(load.value);
 
     if (load.value && entry.isIntersecting) {
       // observer cause duplicate request sometimes
@@ -92,19 +105,22 @@ const handleObserver = (entries) => {
   });
 };
 
-onMounted(() => {
-  const routeYear = router.currentRoute.value.query.year;
+const observer = new IntersectionObserver(handleObserver);
 
-  // set if year is already selected
-  if (routeYear) {
-    productionYear.value = routeYear;
-    getArtworks("artwork", params.value);
-  } else {
-    productionYear.value = null;
-    getArtworks("artwork", params.value);
+onMounted(() => {
+  let queries = router.currentRoute.value.query;
+  let queriesArr = Object.keys(queries).map((key) => queries[key]);
+
+  // set default value if present in queries
+  for (let param in params.value) {
+    queries[param]
+      ? (params.value[param] = queries[param])
+      : (params.value[param] = null);
   }
 
-  const observer = new IntersectionObserver(handleObserver);
+  if (queriesArr.every((value) => value === null)) {
+    getArtworks("artwork", params.value);
+  }
 
   // set the observer
   observer.observe(watcher.value);
@@ -150,7 +166,6 @@ function removePreprod(url) {
               name="date"
               id="date"
               class="px-2 w-full after:block after:w-10 after:h-1 after:bg-black cursor-pointer"
-              @change="onChangeYear(productionYear)"
               v-model="productionYear"
             >
               <option :value="null">toutes dates</option>

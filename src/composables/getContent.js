@@ -17,10 +17,16 @@ let offset = ref(1);
 let load = ref(false);
 
 let url;
-let stringParams = "";
+let stringParams;
 let params = {};
 
-function setParams() {
+/**
+ *
+ *  @param {object} params - the differents params to return
+ *
+ */
+function setParams(params) {
+  stringParams = "";
   for (let param in params) {
     params[param] && (stringParams = `${stringParams}&${params[param]}`);
   }
@@ -53,7 +59,7 @@ async function getContent(type, parameters) {
       type: type ? `type=${type}` : null,
     };
 
-    setParams();
+    setParams(params);
 
     url = `${config.rest_uri_v2}production/artwork?page_size=20&page=${offset.value}${stringParams}`;
   } else if (type === "artist") {
@@ -65,23 +71,27 @@ async function getContent(type, parameters) {
       nationality: nationality ? `nationality=${nationality}` : null,
     };
 
-    setParams();
-
-    console.log(stringParams);
+    setParams(params);
 
     url = `${config.rest_uri_v2}people/artist?page_size=20&page=${offset.value}${stringParams}`;
   }
+
+  console.log(stringParams);
 
   try {
     let response = await fetch(url);
 
     let data = await response.json();
 
-    if (data) {
+    if (data && data !== { details: "Page non valide." }) {
       // can be a simple for loop -> better for async operation
-      data.forEach((contentData) => {
+      // data.forEach((contentData) => {
+      //   content.value.push(contentData);
+      // });
+
+      for (let contentData of data) {
         content.value.push(contentData);
-      });
+      }
 
       offset.value++;
     }
@@ -92,4 +102,13 @@ async function getContent(type, parameters) {
   load.value = true;
 }
 
-export { content, getContent, offset, load, url, params, stringParams };
+export {
+  content,
+  getContent,
+  offset,
+  load,
+  url,
+  params,
+  setParams,
+  stringParams,
+};
