@@ -4,6 +4,7 @@ import { flushPromises } from "@vue/test-utils";
 
 import { withSetup } from "@/__tests__/withSetup";
 import { getArtistInfo } from "@/composables/artist/getArtistInfo";
+import { getId } from "@/composables/getId";
 
 /**
 
@@ -14,6 +15,8 @@ import artistFixture from "~/fixtures/artist.json";
 import userFixture from "~/fixtures/user.json";
 import artworkFixture from "~/fixtures/artwork.json";
 import studentFixture from "~/fixtures/student.json";
+import promotionFixture from "~/fixtures/promotion.json";
+
 
 // function to mock a response to a promise response
 function createMockResolveValue(data) {
@@ -54,6 +57,7 @@ describe("test the composable getArtistInfo", () => {
     .mockReturnValueOnce(createMockResolveValue(userFixture))
     .mockReturnValueOnce(createMockResolveValue(artworkFixture))
     .mockReturnValueOnce(createMockResolveValue(studentFixture))
+    .mockReturnValueOnce(createMockResolveValue(promotionFixture));
 
   afterEach(() => {
     mockFetch.mockClear();
@@ -68,10 +72,10 @@ describe("test the composable getArtistInfo", () => {
     await flushPromises();
 
     // check the mock has be use the right number of times (Correspond to the number of fetch inside getArtistInfo)
-    expect(mockFetch).toHaveBeenCalledTimes(4);
+    expect(mockFetch).toHaveBeenCalledTimes(5);
     // and check if the last time is called it is with the right url. Supposed to be the student request
     expect(mockFetch).toHaveBeenLastCalledWith(
-      `${config.rest_uri_v2}school/student?artist=${artistFixture.id}`
+      `${config.rest_uri_v2}school/promotion/${getId(promotionFixture.url)}`
     );
 
     const { artist, user, artwork, student } = results;
@@ -103,21 +107,20 @@ describe("test the composable getArtistInfo", () => {
     expect(student.value).toBeTypeOf("object").toEqual(studentFixture);
 
     expect(student.value[0]).haveOwnProperty("promotion");
+    // expect(student.value[0].promotion).toEqual(promotionFixture);
 
     app.unmount();
   });
 
   it("catch on fetch fail", async () => {
     mockFetch
-    // if once is present it would be the first mock and switch to the next mock or return to the default mock if no next
-    .mockReturnValue(Promise.reject("Mock Catch API"));
+      // if once is present it would be the first mock and switch to the next mock or return to the default mock if no next
+      .mockReturnValue(Promise.reject("Mock Catch API"));
 
     const [results, app] = withSetup(getArtistInfo, artistFixture.id);
 
     // leave the requests and replace with mocks
     await flushPromises();
-
-    
 
     const { artist, user, artwork, student } = results;
 
@@ -128,20 +131,16 @@ describe("test the composable getArtistInfo", () => {
     **/
 
     // Artist result
-    expect(artist.value)
-      .toEqual({})
+    expect(artist.value).toEqual({});
 
     // User result
-    expect(user.value)
-      .toEqual({})
+    expect(user.value).toEqual({});
 
     // Artwork result
     expect(artwork.value).toEqual({});
 
-
     // Student result
     expect(student.value).toEqual({});
-
 
     app.unmount();
   });
