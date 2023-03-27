@@ -81,34 +81,35 @@ async function getContent(type, parameters) {
   console.log(stringParams);
 
   try {
-    console.log(url);
     let response = await fetch(url);
 
     let data = await response.json();
 
     if (data && data !== { details: "Page non valide." }) {
-      // can be a simple for loop -> better for async operation
-      // data.forEach((contentData) => {
-      //   content.value.push(contentData);
-      // });
-
-      for (let contentData of data) {
+      let contentData = data.map(async (data) => {
         if (type === "artists") {
           try {
-            let response = await fetch(contentData.user);
+            let response = await fetch(data.user);
 
             let userData = await response.json();
 
-            contentData.userData = userData;
+            data.userData = userData;
 
+            return data;
             // console.log(userData);
           } catch (err) {
             console.log(err);
-          }
-        }
 
-        content.value.push(contentData);
-      }
+            return data;
+          }
+        } else {
+          return data;
+        }
+      });
+
+      await Promise.all(contentData);
+
+      content.value = [...content.value, ...(await Promise.all(contentData))];
 
       offset.value++;
     }

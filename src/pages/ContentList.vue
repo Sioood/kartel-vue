@@ -1,7 +1,7 @@
 <script setup>
 import { useRouter } from "vue-router";
 
-import { ref, onMounted, watch } from "vue";
+import { ref, onBeforeMount, onMounted, watch } from "vue";
 
 /**
 
@@ -23,31 +23,43 @@ import {
 import UnderlineTitle from "@/components/ui/UnderlineTitle.vue";
 import ArtworkCard from "@/components/artwork/ArtworkCard.vue";
 import ArtistCard from "@/components/artist/ArtistCard.vue";
+import UiSelect from "@/components/ui/UiSelect.vue";
 
 const router = useRouter();
 
 let typeOfContent = ref();
 let watcher = ref();
 
-let years = ref([]);
-// let year = ref();
+/**
+ *
+ *  default value/option of refs
+ *
+ */
+// let years = ref([]);
 
+let defGenres = ref(null);
+let defKeywords = ref(null);
+let defNationality = ref(null);
+let defProductionYear = ref([]);
+// let defQ = ref(null);
+let defShootingPlace = ref(null);
+let defType = ref(null);
+
+/**
+ *
+ *  refs
+ *
+ */
 let genres = ref(null);
 let keywords = ref(null);
+let nationality = ref(null);
 let productionYear = ref(null);
 let q = ref(null);
 let shootingPlace = ref(null);
 let type = ref(null);
 
 // let typeOfContent define the params and display them inside the dom with a includes or something like a dictionnary
-let params = ref({
-  genres,
-  keywords,
-  productionYear,
-  q,
-  shootingPlace,
-  type,
-});
+let params = ref();
 
 watch([genres, keywords, productionYear, q, shootingPlace, type], () => {
   // prevent the observer to fetch at the same time
@@ -57,7 +69,7 @@ watch([genres, keywords, productionYear, q, shootingPlace, type], () => {
   router.push({ path: typeOfContent.value, query: { ...params.value } });
 
   offset.value = 1;
-  artworks.value = [];
+  contents.value = [];
 
   getContent(typeOfContent.value, params.value);
 
@@ -74,7 +86,7 @@ function getYears() {
   let number = max - (max - min);
 
   for (let i = max; i >= number; i--) {
-    years.value.push(i);
+    defProductionYear.value.push(i);
   }
 }
 getYears();
@@ -101,6 +113,12 @@ const handleObserver = (entries) => {
 
 const observer = new IntersectionObserver(handleObserver);
 
+onBeforeMount(() => {
+  // prevent the switch type of content to have some content of the precedent type and have a offset
+  contents.value = [];
+  offset.value = 1;
+});
+
 onMounted(() => {
   // name or path to set default content
   typeOfContent.value = router.currentRoute.value.path.replace("/", "");
@@ -108,16 +126,29 @@ onMounted(() => {
   let queries = router.currentRoute.value.query;
   let queriesArr = Object.keys(queries).map((key) => queries[key]);
 
+  // set params with type
+  if (typeOfContent.value === "artworks") {
+    params.value = {
+      genres,
+      keywords,
+      productionYear,
+      q,
+      shootingPlace,
+      type,
+    };
+  } else {
+    params.value = {
+      nationality,
+      q,
+    };
+  }
+
   // set default value if present in queries
   for (let param in params.value) {
     queries[param]
       ? (params.value[param] = queries[param])
       : (params.value[param] = null);
   }
-
-  // prevent the switch type of content to have some content of the precedent type and have a offset
-  contents.value = [];
-  offset.value = 1;
 
   if (queriesArr.every((value) => value === null)) {
     getContent(typeOfContent.value, params.value);
@@ -147,39 +178,64 @@ function removePreprod(url) {
     <!-- fluid grid -->
     <div class="mb-6 flex items-center gap-6">
       <h3 class="text-lg font-medium text-gray-dark">Filtres :</h3>
-      <div>
-        <label
-          for="date"
-          class="flex flex-col items-end after:block after:w-full after:h-1 after:bg-black"
-        >
-          <div class="w-full flex items-end">
-            <svg
-              class="h-fit fill-gray-dark"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              width="30"
-              height="30"
-            >
-              <path fill="none" d="M0 0h24v24H0z" />
-              <path d="M12 16l-6-6h12z" />
-            </svg>
-            <select
-              name="date"
-              id="date"
-              class="px-2 w-full after:block after:w-10 after:h-1 after:bg-black cursor-pointer"
-              v-model="productionYear"
-            >
-              <option :value="null">toutes dates</option>
-              <option :value="year" v-for="year in years" :key="year">
-                {{ year }}
-              </option>
-            </select>
-          </div>
-        </label>
-        <h6 class="pl-4 text-xs text-right text-gray">Date de production</h6>
-      </div>
+      <UiSelect
+        v-if="params && Object.keys(params).includes('productionYear')"
+        :options="defProductionYear"
+        defaultValue="toutes dates"
+        :selectedValue="productionYear"
+        desc="Date de production"
+        @update:option="(newValue) => (productionYear = newValue)"
+      ></UiSelect>
+
+      <UiSelect
+        v-if="params && Object.keys(params).includes('nationality')"
+        :options="defNationality"
+        defaultValue="toutes nationalités"
+        :selectedValue="nationality"
+        desc="Nationalité"
+        @update:option="(newValue) => (nationality = newValue)"
+      ></UiSelect>
+
+      <UiSelect
+        v-if="params && Object.keys(params).includes('genres')"
+        :options="defGenres"
+        defaultValue="tout genres"
+        :selectedValue="genres"
+        desc="Genres"
+        @update:option="(newValue) => (genres = newValue)"
+      ></UiSelect>
+
+      <UiSelect
+        v-if="params && Object.keys(params).includes('keywords')"
+        :options="defKeywords"
+        defaultValue="aucun"
+        :selectedValue="keywords"
+        desc="Keywords"
+        @update:option="(newValue) => (keywords = newValue)"
+      ></UiSelect>
+
+      <UiSelect
+        v-if="params && Object.keys(params).includes('shootingPlace')"
+        :options="defShootingPlace"
+        defaultValue="tout"
+        :selectedValue="shootingPlace"
+        desc="Lieu de tournage"
+        @update:option="(newValue) => (shootingPlace = newValue)"
+      ></UiSelect>
+
+      <UiSelect
+        v-if="params && Object.keys(params).includes('type')"
+        :options="defType"
+        defaultValue="tout type"
+        :selectedValue="type"
+        desc="Type"
+        @update:option="(newValue) => (type = newValue)"
+      ></UiSelect>
+
+      <div v-if="params && Object.keys(params).includes('q')">q -> input search</div>
     </div>
     <span class="my-3 w-full h-0.5 block bg-gray-extralight"></span>
+
     <ul>
       <li
         v-if="typeOfContent === 'artworks'"
@@ -188,7 +244,7 @@ function removePreprod(url) {
         <div v-for="content in contents" :key="content.url">
           <ArtworkCard
             :url="content.url"
-            :picture="removePreprod(artwork.picture)"
+            :picture="removePreprod(content.picture)"
             :title="content.title"
           />
         </div>

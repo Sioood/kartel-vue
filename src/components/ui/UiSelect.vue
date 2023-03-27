@@ -1,0 +1,40 @@
+<script setup>
+const props = defineProps(["options", "selectedValue", "desc", "defaultValue"]);
+</script>
+
+<template>
+  <div>
+    <label
+      for="date"
+      class="flex flex-col items-end after:block after:w-full after:h-1 after:bg-black"
+    >
+      <div class="w-full flex items-end">
+        <svg
+          class="h-fit fill-gray-dark"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          width="30"
+          height="30"
+        >
+          <path fill="none" d="M0 0h24v24H0z" />
+          <path d="M12 16l-6-6h12z" />
+        </svg>
+        <select
+          name="date"
+          id="date"
+          class="px-2 w-full after:block after:w-10 after:h-1 after:bg-black cursor-pointer"
+          v-model="props.selectedValue"
+          @change="$emit('update:option', $event.target.value)"
+        >
+          <option :value="null">{{ props.defaultValue }}</option>
+          <option :value="option" v-for="option in props.options" :key="option">
+            {{ option }}
+          </option>
+        </select>
+      </div>
+    </label>
+    <h6 class="pl-4 text-xs text-right text-gray">{{ props.desc }}</h6>
+  </div>
+</template>
+
+<style scoped></style>

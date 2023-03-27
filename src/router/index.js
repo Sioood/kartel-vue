@@ -92,7 +92,7 @@ const router = createRouter({
     {
       path: "/artworks",
       name: "artworks",
-      component: () => import("../pages/artwork/ArtworksPage.vue"),
+      component: () => import("../pages/ContentList.vue"),
       meta: {
         title: "Oeuvres - Kartel"
       },
