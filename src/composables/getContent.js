@@ -42,8 +42,10 @@ async function getContent(type, parameters) {
   // !artworks.value[0] ? (load.value = true) : (load.value = false);
   load.value = false;
 
+  console.log(type);
+
   // set differents params according to the type of content
-  if (type === "artwork") {
+  if (type === "artworks") {
     const { genres, keywords, productionYear, q, shootingPlace, type } =
       parameters;
 
@@ -62,7 +64,7 @@ async function getContent(type, parameters) {
     setParams(params);
 
     url = `${config.rest_uri_v2}production/artwork?page_size=20&page=${offset.value}${stringParams}`;
-  } else if (type === "artist") {
+  } else if (type === "artists") {
     const { q, nationality } = parameters;
 
     // set params for the request
@@ -79,6 +81,7 @@ async function getContent(type, parameters) {
   console.log(stringParams);
 
   try {
+    console.log(url);
     let response = await fetch(url);
 
     let data = await response.json();
@@ -90,6 +93,20 @@ async function getContent(type, parameters) {
       // });
 
       for (let contentData of data) {
+        if (type === "artists") {
+          try {
+            let response = await fetch(contentData.user);
+
+            let userData = await response.json();
+
+            contentData.userData = userData;
+
+            // console.log(userData);
+          } catch (err) {
+            console.log(err);
+          }
+        }
+
         content.value.push(contentData);
       }
 

@@ -9,12 +9,10 @@ import { ref, onMounted, watch } from "vue";
 
 **/
 import {
-  content as artworks,
-  getContent as getArtworks,
+  content as contents,
+  getContent,
   offset,
   load,
-  stringParams,
-  setParams,
 } from "@/composables/getContent";
 
 /**
@@ -24,9 +22,11 @@ import {
 **/
 import UnderlineTitle from "@/components/ui/UnderlineTitle.vue";
 import ArtworkCard from "@/components/artwork/ArtworkCard.vue";
+import ArtistCard from "@/components/artist/ArtistCard.vue";
 
 const router = useRouter();
 
+let typeOfContent = ref();
 let watcher = ref();
 
 let years = ref([]);
@@ -39,6 +39,7 @@ let q = ref(null);
 let shootingPlace = ref(null);
 let type = ref(null);
 
+// let typeOfContent define the params and display them inside the dom with a includes or something like a dictionnary
 let params = ref({
   genres,
   keywords,
@@ -53,26 +54,18 @@ watch([genres, keywords, productionYear, q, shootingPlace, type], () => {
   observer.unobserve(watcher.value);
 
   // can filter only defined parameters for a cleanest URL
-  router.push({ path: "artworks", query: { ...params.value } });
+  router.push({ path: typeOfContent.value, query: { ...params.value } });
 
   offset.value = 1;
   artworks.value = [];
 
-  getArtworks("artwork", params.value);
+  getContent(typeOfContent.value, params.value);
 
   // reobserve
   observer.observe(watcher.value);
 
-  // getArtworks("artwork", params.value);
+  // getContent("artwork", params.value);
 });
-
-// change the params if the year change and push to router
-// function onChangeYear() {
-//     offset.value = 1
-//     artworks.value = []
-
-//     router.push({ path: "artworks", query: { ...params.value } });
-// }
 
 // set option of production year for select based on a min (1998) to now
 function getYears() {
@@ -94,13 +87,13 @@ const handleObserver = (entries) => {
 
     if (load.value && entry.isIntersecting) {
       // observer cause duplicate request sometimes
-      getArtworks("artworks", params.value);
+      getContent(typeOfContent.value, params.value);
     } else if (!load.value && entry.intersectionRatio === 1) {
       // intersectingRatio equal to the ration visible of the watcher 1 indicate that is it full visible in the page
       // this is for avoid the watcher to be full visible in the beginning and block the infinite scroll
       // [BUG] but for small size load to because the page load with nothing from the beginning -> maybe check if artworks is not empty
       offset.value++;
-      getArtworks("artworks", params.value);
+      getContent(typeOfContent.value, params.value);
       offset.value--;
     }
   });
@@ -109,6 +102,9 @@ const handleObserver = (entries) => {
 const observer = new IntersectionObserver(handleObserver);
 
 onMounted(() => {
+  // name or path to set default content
+  typeOfContent.value = router.currentRoute.value.path.replace("/", "");
+
   let queries = router.currentRoute.value.query;
   let queriesArr = Object.keys(queries).map((key) => queries[key]);
 
@@ -119,8 +115,12 @@ onMounted(() => {
       : (params.value[param] = null);
   }
 
+  // prevent the switch type of content to have some content of the precedent type and have a offset
+  contents.value = [];
+  offset.value = 1;
+
   if (queriesArr.every((value) => value === null)) {
-    getArtworks("artworks", params.value);
+    getContent(typeOfContent.value, params.value);
   }
 
   // set the observer
@@ -180,14 +180,30 @@ function removePreprod(url) {
       </div>
     </div>
     <span class="my-3 w-full h-0.5 block bg-gray-extralight"></span>
-    <ul class="pb-12 grid grid-cols-fluid-14 gap-3">
-      <li v-for="artwork in artworks" :key="artwork.url">
-        <ArtworkCard
-          :url="artwork.url"
-          :picture="removePreprod(artwork.picture)"
-          :title="artwork.title"
-        />
+    <ul>
+      <li
+        v-if="typeOfContent === 'artworks'"
+        class="pb-12 grid grid-cols-fluid-14 gap-3"
+      >
+        <div v-for="content in contents" :key="content.url">
+          <ArtworkCard
+            :url="content.url"
+            :picture="removePreprod(artwork.picture)"
+            :title="content.title"
+          />
+        </div>
       </li>
+
+      <li
+        v-else-if="typeOfContent === 'artists'"
+        class="pb-12 grid grid-cols-fluid-14 gap-3"
+      >
+        <div v-for="content in contents" :key="content">
+          <!-- {{ content }} -->
+          <ArtistCard :artist="content"></ArtistCard>
+        </div>
+      </li>
+
       <!-- Need to prevent multiple request in function with a Boolean -->
       <li ref="watcher" id="watcher"></li>
     </ul>
