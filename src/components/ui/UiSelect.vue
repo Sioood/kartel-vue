@@ -11,7 +11,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div>
+  <div class="">
     <label
       for="date"
       class="flex flex-col items-end after:block after:w-full after:h-1 after:bg-black"

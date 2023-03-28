@@ -24,6 +24,7 @@ import UnderlineTitle from "@/components/ui/UnderlineTitle.vue";
 import ArtworkCard from "@/components/artwork/ArtworkCard.vue";
 import ArtistCard from "@/components/artist/ArtistCard.vue";
 import UiSelect from "@/components/ui/UiSelect.vue";
+import FilterSearch from "@/components/ui/FilterSearch.vue";
 
 const router = useRouter();
 
@@ -232,7 +233,10 @@ function removePreprod(url) {
         @update:option="(newValue) => (type = newValue)"
       ></UiSelect>
 
-      <div v-if="params && Object.keys(params).includes('q')">q -> input search</div>
+      <FilterSearch
+        :query="q"
+        @update:modelValue="(newValue) => (q = newValue)"
+      ></FilterSearch>
     </div>
     <span class="my-3 w-full h-0.5 block bg-gray-extralight"></span>
 
