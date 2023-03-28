@@ -1,5 +1,13 @@
 <script setup>
+import { ref, onMounted } from "vue";
+
 const props = defineProps(["options", "selectedValue", "desc", "defaultValue"]);
+
+let value = ref();
+
+onMounted(() => {
+  value.value = props.selectedValue;
+});
 </script>
 
 <template>
@@ -23,8 +31,8 @@ const props = defineProps(["options", "selectedValue", "desc", "defaultValue"]);
           name="date"
           id="date"
           class="px-2 w-full after:block after:w-10 after:h-1 after:bg-black cursor-pointer"
-          v-model="props.selectedValue"
-          @change="$emit('update:option', $event.target.value)"
+          v-model="value"
+          @change="$emit('update:option', value) && log($event)"
         >
           <option :value="null">{{ props.defaultValue }}</option>
           <option :value="option" v-for="option in props.options" :key="option">
