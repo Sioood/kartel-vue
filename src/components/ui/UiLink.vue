@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted } from "vue";
+import { ref, onMounted } from "vue";
 
 const props = defineProps({
   // extern is for set a RouterLink for no reload or a simple a anchor
@@ -12,6 +12,11 @@ const props = defineProps({
     type: String,
     required: true,
   },
+});
+
+let animate = ref({
+  run: true,
+  state: "default",
 });
 
 /**
@@ -117,51 +122,103 @@ let ctx;
 
 let startTime, state, stop;
 
-function animate() {
-  const wrapper = document.getElementById(`wrapper-${random}`);
-  const text = document.getElementById(`text-${random}`);
+// function animateInterval() {
+//   animate.value = true;
+
+//   const wrapper = document.getElementById(`wrapper-${random}`);
+//   const text = document.getElementById(`text-${random}`);
+//   const element = document.getElementById(`${random + 1}`);
+
+//   let id;
+//   let pos = 0;
+
+//   let sign = "";
+
+//   clearInterval(id);
+//   id = setInterval(frame, 75);
+//   function frame() {
+//     // if (pos === -7) {
+//     //   clearInterval(id);
+//     // }
+
+//     if (pos % 10 === 0) {
+//       // clearInterval(id);
+//       sign === "" ? (sign = "-") : (sign = "");
+//     }
+//     // else {
+//     //   pos++;
+//     //   element.style.transform = `translate(0, ${sign}${pos}px)`;
+//     // }
+
+//     if (sign === "") {
+//       pos++;
+//     } else if (sign === "-") {
+//       pos--;
+//     }
+
+//     element.style.transform = `translateY(${pos}px)`;
+
+//     if (pos === 0) {
+//       console.log(true);
+//       if (!animate.value) {
+//         clearInterval(id);
+//       }
+//     }
+//   }
+// }
+
+let interval;
+let step = 1;
+let max = 0.1;
+
+function animateLink() {
   const element = document.getElementById(`${random + 1}`);
 
-  const timestamp = new Date().getTime();
+  clearInterval(interval);
+  interval = setInterval(defaultToHover, 25);
 
-  if (!startTime) startTime = timestamp;
+  function defaultToHover() {
+    step = step - 0.01;
+    element.style.transform = `translate(0, 0) scaleX(${step})`;
 
-  let elapsed = timestamp - startTime;
+    if (step < max) {
+      step = max;
 
-  const toHoverMax = wrapper.offsetWidth - element.offsetWidth * 3;
-  const toHoverCount = Math.min(0.1 * elapsed, toHoverMax);
-  if (!state) {
-    element.style.transform = `translate(${toHoverCount}px, 0)`;
-    if (toHoverCount === toHoverMax) state = "hover";
+      clearInterval(interval);
+
+      animate.value["state"] = "hover";
+
+      if (animate.value["run"] === true) {
+        step = 0;
+        max = 10;
+
+        interval = setInterval(defaultToClicked, 25);
+      }
+    }
   }
 
-  const toHover2Max =
-    wrapper.offsetHeight - element.offsetHeight * 3 - text.offsetHeight / 2;
-  const toHover2Count = Math.min(0.005 * elapsed, toHover2Max);
-  if (state === "hover") {
-    element.style.transform = `translate(${toHoverCount}px ,-${toHover2Count}px)`;
+  function defaultToClicked() {
+    step++;
+    element.style.transform = `translate(0, -${step}px) scaleX(0.1)`;
 
-    if (toHover2Count === toHover2Max) state = "hover2";
+    if (step === max) {
+      clearInterval(interval);
+
+      animate.value["state"] = "clicked";
+
+      if (animate.value["run"] === true) {
+        step = 1;
+
+        // interval = setInterval(defaultToClicked, 25);
+      }
+    }
   }
-
-  // if (state === "hover2") {
-  //   const max =
-  //     wrapper.offsetHeight - element.offsetHeight * 3 - text.offsetHeight / 2;
-  //   const count = Math.min(0.005 * elapsed, max);
-  //   console.log(count);
-  //   element.style.transform = `translate(${toHoverCount}px ,-${count}px)`;
-
-  //   if (count === max) state = "hover2";
-  //   stop = false;
-  // }
-
-  if (!stop) window.requestAnimationFrame(animate);
 }
 
 onMounted(() => {
   // setup();
-
-  requestAnimationFrame(animate);
+  // requestAnimationFrame(animate);
+  // animateInterval();
 });
 </script>
 
@@ -169,6 +226,8 @@ onMounted(() => {
   <div :id="`wrapper-${random}`" class="relative">
     <div v-if="props.extern !== true">
       <RouterLink
+        @mouseenter="animateLink(), (animate.run = true)"
+        @mouseleave="animate.run = false"
         :id="`text-${random}`"
         class="link relative mx-2 p-2 flex flex-col items-center font-medium"
         :to="props.url"
@@ -189,18 +248,21 @@ onMounted(() => {
 
     <span
       :id="random + 1"
-      class="absolute bottom-1 left-1 block w-1 h-1 bg-black"
+      class="square absolute bottom-1 block w-full h-1 bg-black transition-all"
     ></span>
   </div>
 </template>
 
 <style scoped>
+.square {
+  transform-origin: center right;
+}
 /* after:block after:w-full after:h-0.5 
  after:bg-black after:transition-all hover:after:translate-x-1/2
   */
 
 .link::after {
-  content: "";
+  /* content: ""; */
   position: absolute;
   bottom: 0.3rem;
   width: 100%;
