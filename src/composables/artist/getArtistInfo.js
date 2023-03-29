@@ -8,7 +8,7 @@ import { ref, onBeforeMount } from "vue";
 
 import { getId } from "@/composables/getId";
 
-export const getArtistInfo = (artistId) => {
+export const getArtistInfo = (artistId, auth) => {
   let artist = ref();
   let artwork = ref();
   let student = ref();
@@ -83,6 +83,24 @@ export const getArtistInfo = (artistId) => {
     }
   }
 
+  // AUTHENTIFIED DATA
+
+  // Example POST method implementation:
+  async function getUserProfile() {
+    try {
+      const response = await fetch("", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "JWT token",
+        },
+      });
+      let data = await response.json();
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   onBeforeMount(async () => {
     // await the artist data for get the user url to not exec the function getUser inside
     await getArtist(artistId);
@@ -92,6 +110,10 @@ export const getArtistInfo = (artistId) => {
     getArtworks(artistId);
 
     getStudent(artistId);
+
+    if (auth) {
+      getUserProfile();
+    }
   });
 
   return {

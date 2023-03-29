@@ -25,7 +25,8 @@ const router = useRouter();
 const artistId = router.currentRoute.value.params.id;
 
 // refs from the composable
-const { artist, user, artwork, student } = getArtistInfo(artistId);
+// auth is true for now because method to verif auth is not created
+const { artist, user, artwork, student } = getArtistInfo(artistId, true);
 
 let responsive = ref(false);
 
