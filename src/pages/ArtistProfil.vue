@@ -1,7 +1,7 @@
 <script setup>
 import { useRouter } from "vue-router";
 
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 
 /**
 
@@ -24,11 +24,29 @@ const router = useRouter();
 
 const artistId = router.currentRoute.value.params.id;
 
+let token = !localStorage.getItem("token");
+
 // refs from the composable
 // auth is true for now because method to verif auth is not created
-const { artist, user, artwork, student } = getArtistInfo(artistId, true);
-
+const { artist, user, artwork, student } = getArtistInfo(artistId, token);
 let responsive = ref(false);
+
+/**
+ *
+ *  @params {number} number - the social insurance number
+ *
+ */
+const formatSocialNumber = (number) => {
+  number = number.toString().split("");
+
+  const spaces = ["1", "4", "7", "10", "14", "18"];
+
+  for (let space of spaces) {
+    number.splice(space, 0, " ");
+  }
+
+  return number.toString().replaceAll(",", "");
+};
 
 // Need to remove this and all element using this function for Prod
 function removePreprod(url) {
@@ -85,9 +103,9 @@ function removePreprod(url) {
             />
 
             <div class="w-2/3 flex flex-col">
-              <h4 v-if="user?.profile?.nationality" class="font-medium">
+              <!-- <h4 v-if="user?.profile?.nationality" class="font-medium">
                 {{ user.profile.nationality }}
-              </h4>
+              </h4> -->
 
               <UnderlineTitle
                 class="w-max"
@@ -118,6 +136,88 @@ function removePreprod(url) {
                   {{ student.promotion.name }}
                 </router-link>
               </h4>
+            </div>
+          </div>
+
+          <div v-if="!token" class="flex gap-6">
+            <!-- {{ user?.profile }} -->
+
+            <div class="w-1/2 flex flex-col gap-3">
+              <UnderlineTitle
+                class="w-max"
+                title="Contact"
+                :uppercase="true"
+                :underlineSize="1"
+                :fontSize="2"
+              />
+              <ul class="flex flex-col">
+                <li class="inline-flex gap-2">
+                  <div class="inline-flex gap-1">
+                    <b>Nom:</b>
+                    <p v-if="user?.last_name">
+                      {{ user.last_name }}
+                    </p>
+                  </div>
+                  <div class="inline-flex gap-1">
+                    <b>Prénom:</b>
+                    <p v-if="user?.first_name">
+                      {{ user.first_name }}
+                    </p>
+                  </div>
+                </li>
+                <li class="inline-flex gap-1">
+                  <b>Nationalité:</b>
+                  <p v-if="user?.profile?.nationality">
+                    {{ user.profile.nationality }}
+                  </p>
+                </li>
+                <li class="inline-flex gap-1">
+                  <h5 class="font-bold">Tel:</h5>
+                  <p v-if="user?.profile?.residence_phone">
+                    {{ user.profile.nationality }}
+                  </p>
+                </li>
+                <li class="inline-flex gap-1">
+                  <h5 class="font-bold">E-Mail:</h5>
+                  <p v-if="user?.profile?.nationality">
+                    {{ user.profile.nationality }}
+                  </p>
+                </li>
+                <li class="inline-flex gap-1">
+                  <h5 class="font-bold">Adresse:</h5>
+                  <p v-if="user?.profile?.residence_address">
+                    {{ user.profile.residence_address }}
+                  </p>
+                </li>
+                <li class="inline-flex gap-1">
+                  <h5 class="font-bold">N° sécurité sociale:</h5>
+                  <p v-if="user?.profile?.social_insurance_number">
+                    {{
+                      formatSocialNumber(user.profile.social_insurance_number)
+                    }}
+                  </p>
+                </li>
+              </ul>
+            </div>
+
+            <div class="w-1/2 flex flex-col gap-3">
+              <UnderlineTitle
+                class="w-max"
+                title="Cursus"
+                :uppercase="true"
+                :underlineSize="1"
+                :fontSize="2"
+              />
+
+              <!-- <UiDescription
+                v-if="user?.profile?.cursus"
+                :desc_fr="user?.profile?.cursus"
+                desc_en=""
+              /> -->
+
+              <p v-if="user?.profile?.cursus" class="text-sm">
+                {{ user?.profile?.cursus }}
+              </p>
             </div>
           </div>
 

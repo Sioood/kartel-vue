@@ -37,6 +37,7 @@ export const getArtistInfo = (artistId, auth) => {
       let data = await response.json();
 
       user.value = data;
+      console.log(data);
     } catch (err) {
       console.log(err);
       user.value = {};
@@ -87,15 +88,18 @@ export const getArtistInfo = (artistId, auth) => {
 
   // Example POST method implementation:
   async function getUserProfile() {
+    const token = localStorage.getItem('token');
     try {
-      const response = await fetch("", {
+      const response = await fetch(`${config.rest_uri_v2}people/userprofile/1${user.value.profile.id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "JWT token",
+          Authorization: `JWT ${token}`,
         },
       });
       let data = await response.json();
+
+      user.value.profile = data;
     } catch (err) {
       console.error(err);
     }
@@ -105,13 +109,13 @@ export const getArtistInfo = (artistId, auth) => {
     // await the artist data for get the user url to not exec the function getUser inside
     await getArtist(artistId);
 
-    getUser(getId(artist.value.user));
+    await getUser(getId(artist.value.user));
 
     getArtworks(artistId);
 
     getStudent(artistId);
 
-    if (auth) {
+    if (!auth) {
       getUserProfile();
     }
   });

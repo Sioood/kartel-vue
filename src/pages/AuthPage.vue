@@ -1,7 +1,9 @@
 <script setup>
 import config from "@/config";
+import { useRouter } from "vue-router";
 
 import { ref } from "vue";
+
 /**
  *
  *  COMPONENTS
@@ -11,6 +13,8 @@ import { ref } from "vue";
 import UnderlineTitle from "../components/ui/UnderlineTitle.vue";
 import UiInput from "../components/ui/UiInput.vue";
 import AppButton from "../components/ui/AppButton.vue";
+
+const router = useRouter();
 
 let username = ref();
 let password = ref();
@@ -26,18 +30,21 @@ async function auth() {
   console.log(JSON.stringify(body));
 
   try {
-    const response = await fetch(
-      `${config.rest_uri_v2}rest-auth/login/`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          body: JSON.stringify(body),
-        },
-      }
-    );
+    const response = await fetch(`${config.rest_uri_v2}rest-auth/login/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+      },
+      body: JSON.stringify(body),
+    });
     let data = await response.json();
-    console.log(data);
+
+    if (data) {
+      // https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies secure way
+      // https://dev.to/bcerati/les-cookies-httponly-une-securite-pour-vos-tokens-2p8n
+      localStorage.setItem("token", data.token);
+      router.go(-1);
+    }
   } catch (err) {
     console.error(err);
   }
@@ -62,7 +69,9 @@ async function auth() {
           type="password"
           @update:value="(value) => (password = value)"
         ></UiInput>
-        <AppButton class="mt-4" type="submit" @click.prevent="auth()">connexion</AppButton>
+        <AppButton class="mt-4" type="submit" @click.prevent="auth()"
+          >connexion</AppButton
+        >
       </form>
     </div>
   </main>
