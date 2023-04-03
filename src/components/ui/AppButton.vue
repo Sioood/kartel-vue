@@ -3,7 +3,7 @@
 
 <template>
   <button
-    class="py-2 px-4 w-min bg-black dark:bg-white text-white dark:text-black"
+    class="py-2 px-4 w-fit bg-black dark:bg-white text-white dark:text-black"
   >
   <!-- slot for text or icon -->
     <slot></slot>

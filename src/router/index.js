@@ -16,6 +16,18 @@ const router = createRouter({
     },
 
     /**
+     *
+     *  AUTH
+     *
+     */
+
+    {
+      path: "/auth",
+      name: "auth",
+      component: () => import("../pages/AuthPage.vue"),
+    },
+
+    /**
     
       Routes
     
