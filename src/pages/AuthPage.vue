@@ -16,18 +16,25 @@ import AppButton from "../components/ui/AppButton.vue";
 
 const router = useRouter();
 
+/**
+ * @type {string} username
+ * @type {string} password
+ */
 let username = ref();
 let password = ref();
 
 async function auth() {
   // valid inputs before
 
+  /**
+   * @type {object} body - to send with the post request
+   * @property {string} username - property from ref
+   * @property {string} password - property from ref
+   */
   const body = {
     username: username.value,
     password: password.value,
   };
-
-  console.log(JSON.stringify(body));
 
   try {
     const response = await fetch(`${config.rest_uri_v2}rest-auth/login/`, {
@@ -43,6 +50,8 @@ async function auth() {
       // https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies secure way
       // https://dev.to/bcerati/les-cookies-httponly-une-securite-pour-vos-tokens-2p8n
       localStorage.setItem("token", data.token);
+
+      // go back from the previous page after authentication
       router.go(-1);
     }
   } catch (err) {

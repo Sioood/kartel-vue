@@ -8,13 +8,33 @@ import { ref, onBeforeMount } from "vue";
 
 import { getId } from "@/composables/getId";
 
+/**
+ *  const which store and execute all the functions to fetch artist data
+ *
+ * @param {string} artistId (number id) - the id of the artist by the params url
+ * @param {string} auth - the token of the user
+ *
+ */
 export const getArtistInfo = (artistId, auth) => {
+
+  /**
+ * @type {object} - artist
+ * @type {array} - artwork
+ * @type {object} - student
+ * @type {object} - user
+ */
   let artist = ref();
   let artwork = ref();
   let student = ref();
   let user = ref();
 
-  // get artist based on the current route id
+
+  /**
+   *  function for fetching artist data
+   *
+   * @param {string} id (number id) - the id of the artist
+   *
+   */
   async function getArtist(id) {
     try {
       let response = await fetch(`${config.rest_uri_v2}people/artist/${id}`);
@@ -30,21 +50,30 @@ export const getArtistInfo = (artistId, auth) => {
     // getUser(getId(data.user));
   }
 
-  // get user by artist id
+  /**
+   *  function for fetching user data of artist
+   *
+   * @param {string} id (number id) - the id of the artist
+   *
+   */
   async function getUser(id) {
     try {
       let response = await fetch(`${config.rest_uri_v2}people/user/${id}`);
       let data = await response.json();
 
       user.value = data;
-      console.log(data);
     } catch (err) {
       console.log(err);
       user.value = {};
     }
   }
 
-  // get artwork bound to the current artist id
+  /**
+   *  Fetch artwork data form the artist
+   *
+   * @param {string} id (number id) - the id of the artist
+   *
+   */
   async function getArtworks(id) {
     try {
       let response = await fetch(
@@ -59,7 +88,12 @@ export const getArtistInfo = (artistId, auth) => {
     }
   }
 
-  // get student by artist id
+  /**
+   *  Fetch student data of the artist
+   *
+   * @param {string} id (number id) - the id of the artist
+   *
+   */
   async function getStudent(id) {
     try {
       let response = await fetch(
@@ -86,17 +120,22 @@ export const getArtistInfo = (artistId, auth) => {
 
   // AUTHENTIFIED DATA
 
-  // Example POST method implementation:
+  /**
+   *  Fetch artist data with the user.profile.id
+   */
   async function getUserProfile() {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     try {
-      const response = await fetch(`${config.rest_uri_v2}people/userprofile/1${user.value.profile.id}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `JWT ${token}`,
-        },
-      });
+      const response = await fetch(
+        `${config.rest_uri_v2}people/userprofile/1${user.value.profile.id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `JWT ${token}`,
+          },
+        }
+      );
       let data = await response.json();
 
       user.value.profile = data;
@@ -120,6 +159,9 @@ export const getArtistInfo = (artistId, auth) => {
     }
   });
 
+  /**
+   *  @exports data for access outside
+   */
   return {
     // define access to the ref needed inside the template
     artist,
