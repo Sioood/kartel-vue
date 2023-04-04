@@ -27,8 +27,6 @@ async function auth() {
     password: password.value,
   };
 
-  console.log(JSON.stringify(body));
-
   try {
     const response = await fetch(`${config.rest_uri_v2}rest-auth/login/`, {
       method: "POST",
@@ -39,10 +37,12 @@ async function auth() {
     });
     let data = await response.json();
 
-    if (data) {
+    if (data?.token) {
       // https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies secure way
       // https://dev.to/bcerati/les-cookies-httponly-une-securite-pour-vos-tokens-2p8n
       localStorage.setItem("token", data.token);
+
+      // go on the previous page after successful login
       router.go(-1);
     }
   } catch (err) {
@@ -56,22 +56,29 @@ async function auth() {
     <div class="flex flex-col items-start justify-center divide-y">
       <UnderlineTitle title="Se connecter" :fontSize="2" class="p-1 mb-2" />
 
-      <form action="" class="pt-8 flex flex-col items-end gap-3">
+      <form
+        class="pt-8 flex flex-col items-end gap-3"
+        @submit.prevent="auth()"
+      >
         <UiInput
           label="username"
+          :required="true"
+          pattern="\w{3,16}"
+          inputTitle="Le nom d'utilisateur doit contenir au moins 3 caractères"
           placeholder="Kartel"
           type="text"
           @update:value="(value) => (username = value)"
         ></UiInput>
         <UiInput
           label="password"
+          :required="true"
+          pattern="\w{3,16}"
+          inputTitle="Le mot de passe doit contenir au moins 3 caractères"
           placeholder="Mot de passe"
           type="password"
           @update:value="(value) => (password = value)"
         ></UiInput>
-        <AppButton class="mt-4" type="submit" @click.prevent="auth()"
-          >connexion</AppButton
-        >
+        <AppButton class="mt-4" type="submit">connexion</AppButton>
       </form>
     </div>
   </main>
