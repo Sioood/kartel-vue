@@ -7,7 +7,6 @@ import { ref, onMounted } from "vue";
 
 import { getId } from "@/composables/getId";
 
-
 /**
 
   Composables
@@ -185,29 +184,28 @@ onMounted(() => {
     <div
       class="sticky z-10 top-14 w-full flex justify-around lg:hidden divide-x bg-white"
     >
-      <h2
+      <a
+        href="#content"
         @click="responsive = false"
         class="px-6 py-3 w-full text-xl font-bold hover:bg-gray-extralightest after:block after:w-full after:h-1 after:bg-black cursor-pointer"
         :class="{ 'bg-gray-extralightest': responsive === false }"
       >
         À propos
-      </h2>
-      <h2
+      </a>
+      <a
+        href="#galleries"
         @click="responsive = true"
         class="px-6 py-3 w-full text-xl font-bold hover:bg-gray-extralightest after:block after:w-full after:h-1 after:bg-black cursor-pointer"
         :class="{ 'bg-gray-extralightest': responsive === true }"
       >
         Média
-      </h2>
+      </a>
     </div>
 
     <div
-      class="pt-2 pb-2 w-full min-h-screen flex justify-between gap-10 divide-x"
+      class="pt-2 pb-2 w-full min-h-screen flex flex-col lg:flex-row justify-between gap-10 divide-x"
     >
-      <div
-        class="pl-8 pr-6 py-5 lg:w-3/5 flex flex-col gap-10"
-        :class="{ flex: responsive === false, hidden: responsive === true }"
-      >
+      <div id="content" class="pl-8 pr-6 py-5 lg:w-3/5 flex flex-col gap-10">
         <section class="flex flex-col gap-6">
           <img
             :src="`${config.media_service}?url=${removePreprod(
@@ -315,9 +313,20 @@ onMounted(() => {
 
       <!-- Set to scroll indepentently but can scroll with the entire page -->
       <div
-        class="pl-8 pr-6 pt-5 pb-40 sticky top-16 lg:w-2/5 h-screen overflow-x-scroll lg:flex flex-col gap-6"
-        :class="{ flex: responsive === true, hidden: responsive === false }"
+        id="galleries"
+        class="pl-8 pr-6 pt-5 pb-40 sticky top-16 lg:w-2/5  lg:h-screen lg:overflow-x-scroll flex flex-col gap-6"
       >
+        <div class="lg:hidden flex flex-col">
+          <hr />
+          <UnderlineTitle
+            class="w-max"
+            title="Galleries"
+            :uppercase="true"
+            :underlineSize="1"
+            :fontSize="1"
+          />
+        </div>
+
         <!-- vérfifier la length du mot, si moins de 3 lettres c'est pas un mot exploitable -->
         <div
           v-if="
