@@ -28,7 +28,10 @@ let token = !localStorage.getItem("token");
 
 // refs from the composable
 // auth is true for now because method to verif auth is not created
-const { artist, user, artwork, student } = getArtistInfo(artistId, token);
+const { artist, user, artwork, student, candidature } = getArtistInfo(
+  artistId,
+  token
+);
 let responsive = ref(false);
 
 /**
@@ -138,10 +141,12 @@ function removePreprod(url) {
             </div>
           </div>
 
-          <div v-if="!token" class="flex gap-6">
-            <!-- {{ user?.profile }} -->
+          <!-- {{ user?.username }}
+          {{ user?.profile }} -->
+          {{ candidature }}
 
-            <div class="w-1/2 flex flex-col gap-3">
+          <div v-if="!token" class="flex flex-wrap gap-6">
+            <div class="w-1/2 flex flex-col gap-3 flex-[1_1_20rem]">
               <UnderlineTitle
                 class="w-max"
                 title="Contact"
@@ -151,44 +156,60 @@ function removePreprod(url) {
               />
               <ul class="flex flex-col">
                 <li class="inline-flex gap-2">
-                  <div class="inline-flex gap-1">
+                  <div class="flex flex-wrap gap-1">
                     <b>Nom:</b>
                     <p v-if="user?.last_name">
                       {{ user.last_name }}
                     </p>
                   </div>
-                  <div class="inline-flex gap-1">
+                  <div class="flex flex-wrap gap-1">
                     <b>Prénom:</b>
                     <p v-if="user?.first_name">
                       {{ user.first_name }}
                     </p>
                   </div>
                 </li>
-                <li class="inline-flex gap-1">
+                <li class="flex flex-wrap gap-1">
                   <b>Nationalité:</b>
-                  <p v-if="user?.profile?.nationality">
-                    {{ user.profile.nationality }}
+                  <p
+                    v-if="
+                      user?.profile?.nationality ||
+                      user?.profile?.homeland_country
+                    "
+                  >
+                    {{
+                      user?.profile?.nationality ||
+                      user?.profile?.homeland_country
+                    }}
                   </p>
                 </li>
-                <li class="inline-flex gap-1">
+                <li class="flex flex-wrap gap-1">
                   <h5 class="font-bold">Tel:</h5>
-                  <p v-if="user?.profile?.residence_phone">
-                    {{ user.profile.nationality }}
+                  <p
+                    v-if="
+                      user?.profile?.residence_phone ||
+                      user?.profile?.homeland_phone
+                    "
+                  >
+                    {{
+                      user?.profile?.residence_phone ||
+                      user?.profile?.homeland_phone
+                    }}
                   </p>
                 </li>
-                <li class="inline-flex gap-1">
+                <li class="flex flex-wrap gap-1">
                   <h5 class="font-bold">E-Mail:</h5>
                   <p v-if="user?.profile?.nationality">
                     {{ user.profile.nationality }}
                   </p>
                 </li>
-                <li class="inline-flex gap-1">
+                <li class="flex flex-wrap gap-1">
                   <h5 class="font-bold">Adresse:</h5>
                   <p v-if="user?.profile?.residence_address">
                     {{ user.profile.residence_address }}
                   </p>
                 </li>
-                <li class="inline-flex gap-1">
+                <li class="flex flex-wrap gap-1">
                   <h5 class="font-bold">N° sécurité sociale:</h5>
                   <p v-if="user?.profile?.social_insurance_number">
                     {{
@@ -199,24 +220,128 @@ function removePreprod(url) {
               </ul>
             </div>
 
-            <div class="w-1/2 flex flex-col gap-3">
+            <div class="w-1/2 flex flex-col gap-3 flex-[1_1_20rem]">
+              <details class="group peer">
+                <summary
+                  class="group relative flex items-center gap-3 cursor-pointer"
+                >
+                  <UnderlineTitle
+                    title="Cursus"
+                    :underlineSize="1"
+                    :fontSize="2"
+                  />
+                  <div
+                    class="relative invisible group-hover:visible group-open:visible w-5 h-5 border-0.5 border-gray rounded"
+                  >
+                    <span
+                      class="absolute inset-x-1/2 inset-y-1/2 -translate-x-1/2 -translate-y-1/2 block w-3 h-px bg-gray"
+                    ></span>
+                    <span
+                      class="absolute inset-x-1/2 inset-y-1/2 -translate-x-1/2 -translate-y-1/2 block w-px h-3 bg-gray"
+                    ></span>
+                  </div>
+                </summary>
+              </details>
+
+              <div
+                class="relative max-h-52 peer-open:max-h-full peer-open:after:hidden truncate after:block after:absolute after:bottom-0 after:w-full after:h-1/2 after:bg-gradient-to-t after:from-white after:to-transparent"
+              >
+                <p
+                  v-if="user?.profile?.cursus"
+                  class="text-sm whitespace-pre-line"
+                  v-html="user?.profile?.cursus"
+                ></p>
+              </div>
+            </div>
+
+            <div class="w-1/2 flex flex-col gap-3 flex-[1_1_20rem]">
               <UnderlineTitle
                 class="w-max"
-                title="Cursus"
+                title="Autres informations"
                 :uppercase="true"
                 :underlineSize="1"
                 :fontSize="2"
               />
 
-              <!-- <UiDescription
-                v-if="user?.profile?.cursus"
-                :desc_fr="user?.profile?.cursus"
-                desc_en=""
-              /> -->
+              <ul class="flex flex-col">
+                <li class="inline-flex gap-2">
+                  <div class="flex flex-wrap gap-1">
+                    <b>CV:</b>
+                    <a
+                      v-if="candidature?.curriculum_vitae"
+                      :href="candidature?.curriculum_vitae"
+                      class="underline"
+                    >
+                      {{ candidature?.curriculum_vitae }}
+                    </a>
+                  </div>
+                </li>
+                <li class="inline-flex gap-2">
+                  <div class="flex flex-wrap gap-1">
+                    <b>Justificatif d'identité:</b>
+                    <a
+                      v-if="candidature?.identity_card"
+                      :href="candidature?.identity_card"
+                      class="underline"
+                    >
+                      {{ candidature?.identity_card }}
+                    </a>
+                  </div>
+                </li>
 
-              <p v-if="user?.profile?.cursus" class="text-sm">
-                {{ user?.profile?.cursus }}
-              </p>
+                <UnderlineTitle
+                  class="w-max mt-6 mb-3"
+                  title="Dans le cadre de sa candidature:"
+                  :uppercase="true"
+                  :underlineSize="1"
+                  :fontSize="4"
+                />
+
+                <li class="inline-flex gap-2">
+                  <div class="flex flex-wrap gap-1">
+                    <b>Proposition initiale:</b>
+                    <a
+                      v-if="candidature?.considered_project_1"
+                      :href="candidature?.considered_project_1"
+                      class="underline"
+                    >
+                      1<sup>ère</sup> année
+                    </a>
+                    /
+                    <a
+                      v-if="candidature?.considered_project_2"
+                      :href="candidature?.considered_project_2"
+                      class="underline"
+                    >
+                      2<sup>ème</sup> année
+                    </a>
+                  </div>
+                </li>
+                <li class="inline-flex gap-2">
+                  <div class="flex flex-wrap gap-1">
+                    <b>Document libre:</b>
+                    <a
+                      v-if="candidature?.free_document"
+                      :href="candidature?.free_document"
+                      class="underline"
+                    >
+                      {{ candidature?.free_document }}
+                    </a>
+                  </div>
+                </li>
+                <li class="inline-flex gap-2">
+                  <div class="flex flex-wrap gap-1">
+                    <b>Vidéo de présentation de son travail:</b>
+                    <a
+                      v-if="candidature?.presentation_video"
+                      :href="candidature?.presentation_video"
+                      class="underline"
+                    >
+                      {{ candidature?.presentation_video }}
+                    </a>
+                  </div>
+                </li>
+              </ul>
             </div>
           </div>
 

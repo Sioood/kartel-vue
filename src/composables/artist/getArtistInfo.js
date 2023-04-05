@@ -16,18 +16,26 @@ import { getId } from "@/composables/getId";
  *
  */
 export const getArtistInfo = (artistId, auth) => {
-
   /**
- * @type {object} - artist
- * @type {array} - artwork
- * @type {object} - student
- * @type {object} - user
- */
+   * @type {object} artist
+   * @type {array} artwork
+   * @type {object} student
+   * @type {object} user
+   * @type {object} candidature
+   */
   let artist = ref();
   let artwork = ref();
   let student = ref();
   let user = ref();
+  let candidature = ref();
 
+  /**
+   *  set token and get user information with the id url of artist.user
+   *  If the token is empty it's means that the user is not authenticated and set empty string.
+   *
+   * @type {string} token
+   */
+  let token = localStorage.getItem("token") || "";
 
   /**
    *  function for fetching artist data
@@ -58,13 +66,49 @@ export const getArtistInfo = (artistId, auth) => {
    */
   async function getUser(id) {
     try {
-      let response = await fetch(`${config.rest_uri_v2}people/user/${id}`);
+      let response = await fetch(`${config.rest_uri_v2}people/user/${id}`, {
+        headers: {
+          "Content-Type": "application/json;charset=UTF-8",
+          // set the token everytime, if the user is not authenticated it's empty and the api send only "not authenticated" informations
+          Authorization: `JWT ${token}`,
+        },
+      });
       let data = await response.json();
 
       user.value = data;
     } catch (err) {
       console.log(err);
       user.value = {};
+    }
+  }
+
+  /**
+   *  Fetch candidature from username
+   *
+   * @param {string} username - the username of the artist
+   */
+
+  async function getCandidature(username) {
+    try {
+      let response = await fetch(
+        `${config.rest_uri_v2}school/student-application?search=${username}`,
+        {
+          headers: {
+            "Content-Type": "application/json;charset=UTF-8",
+            // set the token everytime, if the user is not authenticated it's empty and the api send only "not authenticated" informations
+            Authorization: `JWT ${token}`,
+          },
+        }
+      );
+      let data = await response.json();
+
+      if (data.length > 0) {
+        console.log(data);
+        // get the candidature in data which have selected true
+        candidature.value = data.filter((item) => item.selected)[0];
+      }
+    } catch (err) {
+      console.error(err);
     }
   }
 
@@ -123,26 +167,26 @@ export const getArtistInfo = (artistId, auth) => {
   /**
    *  Fetch artist data with the user.profile.id
    */
-  async function getUserProfile() {
-    const token = localStorage.getItem("token");
-    try {
-      const response = await fetch(
-        `${config.rest_uri_v2}people/userprofile/1${user.value.profile.id}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `JWT ${token}`,
-          },
-        }
-      );
-      let data = await response.json();
+  // async function getUserProfile() {
+  //   const token = localStorage.getItem("token");
+  //   try {
+  //     const response = await fetch(
+  //       `${config.rest_uri_v2}people/userprofile/${user.value.profile.id}`,
+  //       {
+  //         method: "GET",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: `JWT ${token}`,
+  //         },
+  //       }
+  //     );
+  //     let data = await response.json();
 
-      user.value.profile = data;
-    } catch (err) {
-      console.error(err);
-    }
-  }
+  //     user.value.profile = data;
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // }
 
   onBeforeMount(async () => {
     // await the artist data for get the user url to not exec the function getUser inside
@@ -150,13 +194,14 @@ export const getArtistInfo = (artistId, auth) => {
 
     await getUser(getId(artist.value.user));
 
+    // auth is checked by invert because if checked by a !local.storage which invert boolean response
+    if (!auth) {
+      getCandidature(user.value.username);
+    }
+
     getArtworks(artistId);
 
     getStudent(artistId);
-
-    if (!auth) {
-      getUserProfile();
-    }
   });
 
   /**
@@ -168,6 +213,7 @@ export const getArtistInfo = (artistId, auth) => {
     user,
     artwork,
     student,
+    candidature,
 
     // export functions for test
     getArtist,

@@ -18,7 +18,7 @@ let bio = ref({
   <div class="w-full flex flex-col items-end">
     <div class="p-4 w-full bg-gray-extralightest dark:bg-black-light">
       <p
-        class="text-xs text-gray dark:text-gray-extralight"
+        class="text-xs text-gray dark:text-gray-extralight whitespace-pre-line"
         v-html="bio.data"
       ></p>
     </div>
