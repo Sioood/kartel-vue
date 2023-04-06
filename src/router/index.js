@@ -86,6 +86,14 @@ const router = createRouter({
       ],
     },
     {
+      path: "/artists",
+      name: "artists",
+      component: () => import("../pages/ContentList.vue"),
+      meta: {
+        title: "Artistes - Kartel",
+      },
+    },
+    {
       path: "/artist/:id",
       name: "artist",
       component: () => import("../pages/ArtistProfil.vue"),
@@ -96,7 +104,7 @@ const router = createRouter({
     {
       path: "/artworks",
       name: "artworks",
-      component: () => import("../pages/artwork/ArtworksPage.vue"),
+      component: () => import("../pages/ContentList.vue"),
       meta: {
         title: "Oeuvres - Kartel"
       },

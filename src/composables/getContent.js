@@ -20,13 +20,16 @@ let load = ref(false);
  * @type {string} url - url for the api request which combine url and query params from stringParams
  */
 let url;
-let stringParams = "";
+let stringParams;
 let params = {};
 
 /**
- * loop which set params in a string into the variable stringParams
+ *
+ *  @param {object} params - the differents params to return
+ *
  */
-function setParams() {
+function setParams(params) {
+  stringParams = "";
   for (let param in params) {
     params[param] && (stringParams = `${stringParams}&${params[param]}`);
   }
@@ -54,8 +57,10 @@ async function getContent(type, parameters) {
   // !artworks.value[0] ? (load.value = true) : (load.value = false);
   load.value = false;
 
+  console.log(type);
+
   // set differents params according to the type of content
-  if (type === "artwork") {
+  if (type === "artworks") {
     const { genres, keywords, productionYear, q, shootingPlace, type } =
       parameters;
 
@@ -80,10 +85,10 @@ async function getContent(type, parameters) {
       type: type ? `type=${type}` : null,
     };
 
-    setParams();
+    setParams(params);
 
     url = `${config.rest_uri_v2}production/artwork?page_size=20&page=${offset.value}${stringParams}`;
-  } else if (type === "artist") {
+  } else if (type === "artists") {
     const { q, nationality } = parameters;
 
     /**
@@ -97,21 +102,43 @@ async function getContent(type, parameters) {
       nationality: nationality ? `nationality=${nationality}` : null,
     };
 
-    setParams();
+    setParams(params);
 
     url = `${config.rest_uri_v2}people/artist?page_size=20&page=${offset.value}${stringParams}`;
   }
+
+  console.log(stringParams);
 
   try {
     let response = await fetch(url);
 
     let data = await response.json();
 
-    if (data) {
-      // can be a simple for loop -> better for async operation
-      data.forEach((contentData) => {
-        content.value.push(contentData);
+    if (data && data !== { details: "Page non valide." }) {
+      let contentData = data.map(async (data) => {
+        if (type === "artists") {
+          try {
+            let response = await fetch(data.user);
+
+            let userData = await response.json();
+
+            data.userData = userData;
+
+            return data;
+            // console.log(userData);
+          } catch (err) {
+            console.log(err);
+
+            return data;
+          }
+        } else {
+          return data;
+        }
       });
+
+      await Promise.all(contentData);
+
+      content.value = [...content.value, ...(await Promise.all(contentData))];
 
       offset.value++;
     }
@@ -125,4 +152,13 @@ async function getContent(type, parameters) {
 /**
  *  @exports data for access outside
  */
-export { content, getContent, offset, load, url, params, stringParams };
+export {
+  content,
+  getContent,
+  offset,
+  load,
+  url,
+  params,
+  setParams,
+  stringParams,
+};
