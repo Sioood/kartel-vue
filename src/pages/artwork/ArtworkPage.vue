@@ -108,11 +108,13 @@ onMounted(() => {
 
           <h3 class="flex flex-wrap items-center text-xl">
             <h3>{{ artwork.type }} de</h3>
-            <UiLink
-              v-if="authorsName"
-              :text="authorsName"
-              :url="`/artist/${getId(authors.url)}`"
-            />
+            <div v-if="authors" class="flex">
+              <UiLink
+                v-for="author in authors"
+                :text="author.username"
+                :url="`/artist/${getId(author.url)}`"
+              />
+            </div>
             —
             {{ artwork.production_date.split("-")[0] }}
           </h3>
