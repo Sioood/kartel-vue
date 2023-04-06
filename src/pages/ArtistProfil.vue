@@ -141,6 +141,7 @@ function removePreprod(url) {
             </div>
           </div>
 
+          <!-- need a method which check the validity of the token instead of just verify it existence -->
           <div v-if="!token" class="flex flex-wrap gap-6">
             <div class="w-1/2 flex flex-col gap-3 flex-[1_1_20rem]">
               <UnderlineTitle
@@ -196,7 +197,7 @@ function removePreprod(url) {
                 <li class="flex flex-wrap gap-1">
                   <h5 class="font-bold">E-Mail:</h5>
                   <p v-if="user?.email">
-                    {{ user.email}}
+                    {{ user.email }}
                   </p>
                 </li>
                 <li class="flex flex-wrap gap-1">
@@ -303,7 +304,7 @@ function removePreprod(url) {
                     >
                       1<sup>ère</sup> année
                     </a>
-                    /
+                    <span v-if="candidature?.considered_project_2">/</span>
                     <a
                       v-if="candidature?.considered_project_2"
                       :href="candidature?.considered_project_2"

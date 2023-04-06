@@ -75,9 +75,24 @@ export const getArtistInfo = (artistId, auth) => {
       });
       let data = await response.json();
 
-      console.log(data.profile.cursus);
+      // prevent if the user have a token but it's not a good token fetch without it
+      if (response.status === 401) {
+        try {
+          let response = await fetch(`${config.rest_uri_v2}people/user/${id}`, {
+            headers: {
+              "Content-Type": "application/json;charset=UTF-8",
+            },
+          });
+          let data = await response.json();
 
-      user.value = data;
+          user.value = data;
+        } catch (err) {
+          console.log(err);
+          user.value = {};
+        }
+      } else {
+        user.value = data;
+      }
     } catch (err) {
       console.log(err);
       user.value = {};
