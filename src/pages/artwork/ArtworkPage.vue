@@ -1,25 +1,31 @@
 <script setup>
+/**
+ * Config
+ */
 import config from "@/config";
 
+/**
+ * Modules
+ */
 import { useRouter } from "vue-router";
-
 import { ref, onMounted } from "vue";
 
+/**
+ * Composables
+ */
 import { getId } from "@/composables/getId";
+import {
+  getArtwork,
+  artwork,
+  authorsStore as authors,
+  galleries,
+  genres,
+  events,
+} from "@/composables/artwork/getArtwork";
 
 /**
-
-  Composables
-
-**/
-
-import toCamelCase from "@/composables/toCamelCase";
-
-/**
-
-  Components
-
-**/
+ * Components
+ */
 import UnderlineTitle from "@/components/ui/UnderlineTitle.vue";
 import UiLink from "@/components/ui/UiLink.vue";
 import UiDescription from "@/components/ui/UiDescription.vue";
@@ -28,139 +34,10 @@ import CreditsSection from "@/components/artwork/CreditsSection.vue";
 
 const router = useRouter();
 
-let artwork = ref();
-let authors = ref();
-let authorsName = ref();
-let galleries = ref({});
-let genres = ref([]);
-let events = ref([]);
-
+/**
+ * @type {boolean} responsive - the status of the responsive menu
+ */
 let responsive = ref(false);
-
-// get artwork by current route id
-async function getArtwork(id) {
-  let response = await fetch(`${config.rest_uri_v2}production/artwork/${id}`);
-  let data = await response.json();
-  artwork.value = data;
-
-  // get authors with only the first author for now
-  getAuthors(data.authors[0]);
-
-  /**
-  
-    get the rest of info for the artwork
-  
-  **/
-  getGalleries(data);
-
-  getGenres(data.genres);
-
-  getDiffusions(data.diffusion);
-}
-
-// get all galleries -> can be refacto with a key include "galleries" and after split to Camel case
-function getGalleries(data) {
-  let galleriesKeys = [];
-
-  Object.keys(data).forEach((key) => {
-    if (key.includes("galleries")) galleriesKeys.push(key);
-  });
-
-  let galleriesKeysCamel = galleriesKeys.map((key) => toCamelCase(key));
-
-  // console.log(galleriesKeys[0], galleriesKeysCamel[0]);
-
-  // get data of each gallery and set it to galleries
-  for (let [index, gallery] of galleriesKeys.entries()) {
-    // gallery Camel work with index but might be good to check with includes or something for 100% certification of the same gallery
-
-    galleries.value[galleriesKeysCamel[index]] = [];
-    data[gallery].forEach((el) => {
-      getGallery(el, galleries.value[galleriesKeysCamel[index]]);
-    });
-  }
-}
-
-// Work for only 1 authors for now
-async function getAuthors(url) {
-  let response = await fetch(url);
-  let data = await response.json();
-  authors.value = data;
-
-  if (data.nickname) {
-    authorsName.value = data.nickname;
-    return;
-  }
-  getUser(data.user);
-}
-
-// get user with api url
-async function getUser(url) {
-  let response = await fetch(url);
-  let data = await response.json();
-
-  return (authorsName.value = `${data.first_name} ${data.last_name}`);
-}
-
-// get specific gallery
-async function getGallery(url, output) {
-  let response = await fetch(url);
-  let data = await response.json();
-
-  data.mediaData = [];
-
-  data.media.forEach((el) => {
-    getMedia(el, data, output);
-  });
-}
-
-async function getMedia(url, galleryData, output) {
-  let response = await fetch(url);
-  let data = await response.json();
-
-  galleryData.mediaData.push(data);
-
-  // Check index of data.media for push in galleries only when all media is here
-  // prevent multipushing and duplicate medias
-  let index = 1;
-
-  if (index === galleryData.media.length) {
-    output.push(galleryData);
-  } else {
-    index++;
-  }
-}
-
-function getGenres(data) {
-  data.forEach((genre) => {
-    async function getGenre(genre) {
-      let response = await fetch(genre);
-      let data = await response.json();
-
-      genres.value.push(data);
-    }
-    getGenre(genre);
-  });
-}
-
-function getDiffusions(diffusions) {
-  diffusions.forEach((diffusion) => {
-    getDiffusion(diffusion);
-  });
-}
-
-async function getDiffusion(diffusion) {
-  let response = await fetch(diffusion);
-  let data = await response.json();
-  getEvent(data.event);
-
-  async function getEvent(event) {
-    let response = await fetch(event);
-    let data = await response.json();
-
-    events.value.push(data);
-  }
-}
 
 // Need to remove this and all element using this function for Prod
 function removePreprod(url) {
@@ -170,8 +47,10 @@ function removePreprod(url) {
 }
 
 onMounted(() => {
+  // get the id of the artwork from the router param
   const artworkId = router.currentRoute.value.params.id;
 
+  // and get the artwork with the id
   getArtwork(artworkId);
 });
 </script>
@@ -314,7 +193,7 @@ onMounted(() => {
       <!-- Set to scroll indepentently but can scroll with the entire page -->
       <div
         id="galleries"
-        class="pl-8 pr-6 pt-5 pb-40 sticky top-16 lg:w-2/5  lg:h-screen lg:overflow-x-scroll flex flex-col gap-6"
+        class="pl-8 pr-6 pt-5 pb-40 sticky top-16 lg:w-2/5 lg:h-screen lg:overflow-x-scroll flex flex-col gap-6"
       >
         <div class="lg:hidden flex flex-col">
           <hr />
