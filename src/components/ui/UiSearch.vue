@@ -5,9 +5,6 @@ import { ref } from "vue";
 
 import { getId } from "@/composables/getId";
 
-import { useConfigApi } from "@/stores/configApi";
-const storeApi = useConfigApi();
-
 let input = ref();
 
 let result = ref({
@@ -87,6 +84,8 @@ function search(input) {
     data.forEach((artwork) => {
       artworks.value[artwork.type.toLowerCase()].artworks.push(artwork);
     });
+    debugger
+
   }
   searchArtworks(input);
 
@@ -97,6 +96,7 @@ function search(input) {
     let data = await response.json();
 
     students.value = data;
+    debugger
   }
   searchStudents(input);
 }
