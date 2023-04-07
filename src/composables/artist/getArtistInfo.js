@@ -4,6 +4,8 @@
 
 import config from "@/config";
 
+import axios from "axios";
+
 import { ref, onBeforeMount } from "vue";
 
 import { getId } from "@/composables/getId";
@@ -45,8 +47,9 @@ export const getArtistInfo = (artistId, auth) => {
    */
   async function getArtist(id) {
     try {
-      let response = await fetch(`${config.rest_uri_v2}people/artist/${id}`);
-      let data = await response.json();
+      const response = await axios.get(`people/artist/${id}`);
+
+      const data = response.data;
 
       artist.value = data;
     } catch (err) {
@@ -66,24 +69,26 @@ export const getArtistInfo = (artistId, auth) => {
    */
   async function getUser(id) {
     try {
-      let response = await fetch(`${config.rest_uri_v2}people/user/${id}`, {
+      const response = await axios.get(`people/user/${id}`, {
         headers: {
           "Content-Type": "application/json;charset=UTF-8",
           // set the token everytime, if the user is not authenticated it's empty and the api send only "not authenticated" informations
           Authorization: `JWT ${token}`,
         },
       });
-      let data = await response.json();
+
+      const data = response.data;
 
       // prevent if the user have a token but it's not a good token fetch without it
       if (response.status === 401) {
         try {
-          let response = await fetch(`${config.rest_uri_v2}people/user/${id}`, {
+          const response = await axios.get(`people/user/${id}`, {
             headers: {
               "Content-Type": "application/json;charset=UTF-8",
             },
           });
-          let data = await response.json();
+
+          const data = response.data;
 
           user.value = data;
         } catch (err) {
@@ -106,8 +111,8 @@ export const getArtistInfo = (artistId, auth) => {
    */
   async function getCandidature(username) {
     try {
-      let response = await fetch(
-        `${config.rest_uri_v2}school/student-application?search=${username}`,
+      const response = await axios.get(
+        `school/student-application?search=${username}`,
         {
           headers: {
             "Content-Type": "application/json;charset=UTF-8",
@@ -116,7 +121,8 @@ export const getArtistInfo = (artistId, auth) => {
           },
         }
       );
-      let data = await response.json();
+
+      const data = response.data;
 
       if (data.length > 0) {
         // get the candidature in data which have selected true
@@ -135,10 +141,9 @@ export const getArtistInfo = (artistId, auth) => {
    */
   async function getArtworks(id) {
     try {
-      let response = await fetch(
-        `${config.rest_uri_v2}production/artwork?authors=${id}`
-      );
-      let data = await response.json();
+      const response = await axios.get(`production/artwork?authors=${id}`);
+
+      const data = response.data;
 
       artwork.value = data;
     } catch (err) {
@@ -155,10 +160,9 @@ export const getArtistInfo = (artistId, auth) => {
    */
   async function getStudent(id) {
     try {
-      let response = await fetch(
-        `${config.rest_uri_v2}school/student?artist=${id}`
-      );
-      let studentData = await response.json();
+      const response = await axios.get(`school/student?artist=${id}`);
+
+      const studentData = response.data;
 
       try {
         let response = await fetch(studentData[0].promotion);
