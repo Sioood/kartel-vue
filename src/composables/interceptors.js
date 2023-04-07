@@ -109,8 +109,6 @@ axios.interceptors.request.use(
       load.value.status = true;
     }
 
-    call++;
-
     // create a new request and add it to the requests array
     let request = new Request(config.url);
     requests.value.push(request);

@@ -1,5 +1,7 @@
 import config from "@/config";
 
+import axios from "axios";
+
 import { ref } from "vue";
 
 /**
@@ -87,7 +89,7 @@ async function getContent(type, parameters) {
 
     setParams(params);
 
-    url = `${config.rest_uri_v2}production/artwork?page_size=20&page=${offset.value}${stringParams}`;
+    url = `production/artwork?page_size=20&page=${offset.value}${stringParams}`;
   } else if (type === "artists") {
     const { q, nationality } = parameters;
 
@@ -104,15 +106,14 @@ async function getContent(type, parameters) {
 
     setParams(params);
 
-    url = `${config.rest_uri_v2}people/artist?page_size=20&page=${offset.value}${stringParams}`;
+    url = `people/artist?page_size=20&page=${offset.value}${stringParams}`;
   }
 
-  console.log(stringParams);
 
   try {
-    let response = await fetch(url);
+    const response = await axios.get(url);
 
-    let data = await response.json();
+    let data = response.data;
 
     if (data && data !== { details: "Page non valide." }) {
       let contentData = data.map(async (data) => {
