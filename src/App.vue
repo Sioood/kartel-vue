@@ -3,6 +3,8 @@ import { ref, onMounted, onUnmounted, watch } from "vue";
 import { RouterLink, RouterView } from "vue-router";
 import { useRouter } from "vue-router";
 
+import { load } from "@/composables/interceptors";
+
 import UiSearch from "@/components/ui/UiSearch.vue";
 import UiLink from "@/components/ui/UiLink.vue";
 
@@ -91,6 +93,14 @@ onUnmounted(() => {
 </script>
 
 <template>
+  <!-- loader -->
+  <span
+    class="z-[9999] fixed top-0 left-0 block w-full h-1 bg-black origin-left"
+    :class="{ hidden: !load.status && load.progress === 0 }"
+    :data-progress="load.progress"
+    :style="{ transform: `scaleX(${load.progress / 100 + 1 / 100})` }"
+  ></span>
+
   <!-- Make a nav component like a burger menu -->
   <header class="z-30 w-full fixed top-0">
     <!-- <nav

@@ -4,8 +4,6 @@ import { useRouter } from "vue-router";
 import { ref } from "vue";
 import axios from "axios";
 
-import { load } from "@/composables/interceptors";
-
 /**
  *
  *  COMPONENTS
@@ -88,6 +86,8 @@ async function auth() {
       // https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies secure way
       // https://dev.to/bcerati/les-cookies-httponly-une-securite-pour-vos-tokens-2p8n
       localStorage.setItem("token", data.token);
+
+      router.go(-1);
     }
   } catch (err) {
     console.error(err);
@@ -96,7 +96,7 @@ async function auth() {
 </script>
 
 <template>
-  <main class="w-full h-screen flex items-center justify-center">
+  <main class="w-full min-h-[75vh] flex items-center justify-center">
     <div class="flex flex-col items-start justify-center divide-y">
       <UnderlineTitle title="Se connecter" :fontSize="2" class="p-1 mb-2" />
 
@@ -120,8 +120,6 @@ async function auth() {
           @update:value="(value) => (password = value)"
         ></UiInput>
         <AppButton class="mt-4" type="submit">connexion</AppButton>
-        <span v-if="load.status">LOADING {{ load.progress }}</span>
-        <span>{{ load }}</span>
       </form>
     </div>
   </main>
