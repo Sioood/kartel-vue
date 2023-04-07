@@ -111,7 +111,7 @@ onMounted(() => {
             <div v-if="authors" class="flex">
               <UiLink
                 v-for="author in authors"
-                :text="author.username"
+                :text="author.username || author.nickname"
                 :url="`/artist/${getId(author.url)}`"
               />
             </div>
