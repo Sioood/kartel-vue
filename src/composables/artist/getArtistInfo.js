@@ -2,8 +2,6 @@
 // There might be a better way
 // import "@/main";
 
-import config from "@/config";
-
 import axios from "axios";
 
 import { ref, onBeforeMount } from "vue";

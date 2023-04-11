@@ -1,7 +1,7 @@
 /**
  * Config
  */
-import config from "@/config";
+import axios from "axios";
 
 /**
  * Modules
@@ -33,8 +33,10 @@ let events = ref([]);
  */
 async function getArtwork(id) {
   try {
-    let response = await fetch(`${config.rest_uri_v2}production/artwork/${id}`);
-    let data = await response.json();
+    const response = await axios.get(`production/artwork/${id}`);
+
+    const data = response.data;
+
     artwork.value = data;
 
     getAuthors(data.authors);
@@ -87,8 +89,9 @@ function getGalleries(data) {
  */
 async function getGallery(url, output) {
   try {
-    let response = await fetch(url);
-    let data = await response.json();
+    const response = await axios.get(url);
+
+    let data = response.data;
 
     data.mediaData = [];
 
@@ -104,8 +107,9 @@ async function getGallery(url, output) {
 
 async function getMedia(url, galleryData, output) {
   try {
-    let response = await fetch(url);
-    let data = await response.json();
+    const response = await axios.get(url);
+
+    const data = response.data;
 
     galleryData.mediaData.push(data);
 
@@ -131,8 +135,9 @@ async function getMedia(url, galleryData, output) {
 async function getAuthors(authors) {
   let authorsData = authors.map(async (author) => {
     try {
-      let response = await fetch(author);
-      let data = await response.json();
+      const response = await axios.get(author);
+
+      const data = response.data;
 
       if (!data.nickname) {
         data.username = await getUsername(data.user);
@@ -155,8 +160,9 @@ async function getAuthors(authors) {
  */
 async function getUsername(url) {
   try {
-    let response = await fetch(url);
-    let data = await response.json();
+    const response = await axios.get(url);
+
+    const data = response.data;
 
     return `${data.first_name} ${data.last_name}`;
   } catch (err) {
@@ -184,8 +190,10 @@ function getGenres(data) {
  */
 async function getGenre(genre) {
   try {
-    let response = await fetch(genre);
-    let data = await response.json();
+    const response = await axios.get(genre);
+
+    const data = response.data;
+    
 
     genres.value.push(data);
   } catch (err) {
@@ -213,8 +221,9 @@ function getDiffusions(diffusions) {
  */
 async function getDiffusion(diffusion) {
   try {
-    let response = await fetch(diffusion);
-    let data = await response.json();
+    const response = await axios.get(diffusion);
+
+    const data = response.data;
 
     getEvent(data.event);
   } catch (err) {
@@ -224,8 +233,9 @@ async function getDiffusion(diffusion) {
 
 async function getEvent(event) {
   try {
-    let response = await fetch(event);
-    let data = await response.json();
+    const response = await axios.get(event);
+
+    const data = response.data;
 
     events.value.push(data);
   } catch (err) {
