@@ -98,6 +98,8 @@ const handleObserver = (entries) => {
     // console.log(entry);
     // console.log(load.value);
 
+    console.log(true);
+
     if (load.value && entry.isIntersecting) {
       // observer cause duplicate request sometimes
       getContent(typeOfContent.value, params.value);
@@ -240,33 +242,31 @@ function removePreprod(url) {
     </div>
     <span class="my-3 w-full h-0.5 block bg-gray-extralight"></span>
 
-    <ul>
-      <li
+    <div>
+      <ul
         v-if="typeOfContent === 'artworks'"
         class="pb-12 grid grid-cols-fluid-14 gap-3"
       >
-        <div v-for="content in contents" :key="content.url">
+        <li v-for="content in contents" :key="content.url">
           <ArtworkCard
             :url="content.url"
             :picture="removePreprod(content.picture)"
             :title="content.title"
           />
-        </div>
-      </li>
+        </li>
+      </ul>
 
-      <li
+      <ul
         v-else-if="typeOfContent === 'artists'"
         class="pb-12 grid grid-cols-fluid-14 gap-3"
       >
-        <div v-for="content in contents" :key="content">
+        <li v-for="content in contents" :key="content">
           <!-- {{ content }} -->
           <ArtistCard :artist="content"></ArtistCard>
-        </div>
-      </li>
-
-      <!-- Need to prevent multiple request in function with a Boolean -->
-      <li ref="watcher" id="watcher"></li>
-    </ul>
+        </li>
+      </ul>
+      <span ref="watcher" id="watcher" class="invisible block w-1 h-1"></span>
+    </div>
   </main>
 </template>
 
