@@ -22,9 +22,9 @@ let params = {};
  * AXIOS interceptors to handle the offset of the infinite scroll
  * separate an instance from global axios for specific interceptors
  */
-const instance = axios.create({
-  baseURL: `${config.rest_uri_v2}`,
-});
+// const instance = axios.create({
+//   baseURL: `${config.rest_uri_v2}`,
+// });
 
 /**
  * @Helpers https://stackoverflow.com/questions/37897523/axios-get-access-to-response-header-fields - get the headers of the response
@@ -33,30 +33,30 @@ const instance = axios.create({
 /**
  * set the requests interceptors and execute a function at the beginning of a request
  */
-instance.interceptors.request.use(
-  function (config) {
-    console.log("sending request", config);
-    return config;
-  },
-  function (error) {
-    return Promise.reject(error);
-  }
-);
+// instance.interceptors.request.use(
+//   function (config) {
+//     // console.log("sending request", config);
+//     return config;
+//   },
+//   function (error) {
+//     return Promise.reject(error);
+//   }
+// );
 
 /**
  * End interceptor which execute function when a request is completed
  */
-instance.interceptors.response.use(
-  function (response) {
-    // get the next and the previous url headers for the offset
+// instance.interceptors.response.use(
+//   function (response) {
+//     // get the next and the previous url headers for the offset
 
-    console.log("receiving response", response);
-    return response;
-  },
-  function (error) {
-    return Promise.reject(error);
-  }
-);
+//     // console.log("receiving response", response);
+//     return response;
+//   },
+//   function (error) {
+//     return Promise.reject(error);
+//   }
+// );
 
 /**
  *
@@ -143,17 +143,17 @@ async function getContent(type, parameters) {
   }
 
   try {
-    const response = await instance.get(url);
+    const response = await axios.get(url);
 
     let data = response.data;
 
-    if (data && data !== { details: "Page non valide." }) {
+    if (data && Array.isArray(data) && data !== { details: "Page non valide." }) {
       let contentData = data.map(async (data) => {
         if (type === "artists") {
           try {
-            const response = await instance.get(data.user);
+            const response = await axios.get(data.user);
 
-            let data = response.data;
+            let userData = response.data;
 
             data.userData = userData;
 

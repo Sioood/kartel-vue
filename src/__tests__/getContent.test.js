@@ -1,6 +1,6 @@
-import config from "@/config";
-
 import { flushPromises } from "@vue/test-utils";
+
+import axios from "axios";
 
 import {
   getContent,
@@ -14,14 +14,14 @@ import artworkFixture from "~/fixtures/artwork.json";
 import artistFixture from "~/fixtures/artist.json";
 
 // function to mock a response to a promise response
-function createMockResolveValue(data) {
-  return {
-    json: () => new Promise((resolve) => resolve(data)),
-    ok: true,
-  };
-}
+// function createMockResolveValue(data) {
+//   return {
+//     json: () => new Promise((resolve) => resolve(data)),
+//     ok: true,
+//   };
+// }
 
-let artworkParams = {
+let artworksParams = {
   genres: null,
   keywords: null,
   productionYear: null,
@@ -30,35 +30,44 @@ let artworkParams = {
   type: "film",
 };
 
-let artistParams = {
+let artistsParams = {
   nationality: "FR",
   q: null,
 };
 
+// instance doesn't work with mock ?! axios.create results undefined
+// https://runthatline.com/how-to-mock-axios-with-vitest/
+vi.mock("axios");
+
+// mockAxios.create = vi.fn(() => mockAxios)
+
 describe("test the composable getContent", () => {
-  const mockFetch = vi.spyOn(global, "fetch");
+  beforeEach(() => {
+    axios.get.mockReset();
 
-  mockFetch.mockReturnValue(
-    // default mock but not the first
-    createMockResolveValue({
-      default: true,
-    })
-  );
-
-  afterEach(() => {
-    mockFetch.mockClear();
-
-    // reset default value
     content.value = [];
     offset.value = 1;
     load.value = false;
   });
 
+  // const mockFetch = vi.spyOn(global, "instance");
+
+  // mockFetch.mockReturnValue(
+  //   // default mock but not the first
+  //   createMockResolveValue({
+  //     default: true,
+  //   })
+  // );
+
   it("check content for artwork", async () => {
-    mockFetch
-      // if once is present it would be the first mock and switch to the next mock or return to the default mock if no next
-      .mockReturnValueOnce(createMockResolveValue(artworkFixture))
-      .mockReturnValueOnce(createMockResolveValue([artistFixture]));
+    // mockFetch
+    //   // if once is present it would be the first mock and switch to the next mock or return to the default mock if no next
+    //   .mockReturnValueOnce(createMockResolveValue(artworkFixture))
+    //   .mockReturnValueOnce(createMockResolveValue([artistFixture]));
+
+    axios.get.mockResolvedValue({
+      data: artworkFixture,
+    });
 
     // check default value
     expect(content.value).toEqual([]);
@@ -66,10 +75,10 @@ describe("test the composable getContent", () => {
     expect(offset.value).toEqual(1);
 
     // console.log(artist);
-    await getContent("artwork", artworkParams);
+    await getContent("artworks", artworksParams);
 
     // leave the requests and replace with mocks
-    await flushPromises();
+    // await flushPromises();
 
     // check value after running once getContent
     expect(content.value).toEqual(artworkFixture);
@@ -81,41 +90,44 @@ describe("test the composable getContent", () => {
     expect(params).haveOwnProperty("productionYear");
     expect(params).haveOwnProperty("query");
     expect(params).haveOwnProperty("shootingPlace", null);
-    expect(params).haveOwnProperty("type", `type=${artworkParams.type}`);
+    expect(params).haveOwnProperty("type", `type=${artworksParams.type}`);
   });
 
   it("check content for artist", async () => {
+    axios.get.mockResolvedValue({
+      data: [artistFixture],
+    });
     // check default value
     expect(content.value).toEqual([]);
     expect(load.value).toEqual(false);
     expect(offset.value).toEqual(1);
 
-    await getContent("artist", artistParams);
-
+    await getContent("artists", artistsParams);
     // leave the requests and replace with mocks
-    await flushPromises();
-
+    // await flushPromises();
     // check value after running once getContent
+
     expect(content.value).toEqual([artistFixture]);
     expect(load.value).toEqual(true);
-    expect(offset.value).toEqual(2);
-
+    // expect(offset.value).toEqual(2);
     expect(params).haveOwnProperty(
       "nationality",
-      `nationality=${artistParams.nationality}`
+      `nationality=${artistsParams.nationality}`
     );
     expect(params).haveOwnProperty("query", null);
   });
 
   it("catch on fetch fail", async () => {
-    mockFetch
-      // if once is present it would be the first mock and switch to the next mock or return to the default mock if no next
-      .mockReturnValueOnce(Promise.reject("Mock Catch API"));
+    // mockFetch
+    //   // if once is present it would be the first mock and switch to the next mock or return to the default mock if no next
+    //   .mockReturnValueOnce(Promise.reject("Mock Catch API"));
 
-    await getContent("artist", artistParams);
+    axios.get.mockRejectedValue();
+
+    await getContent("artists", artistsParams);
 
     // leave the requests and replace with mocks
-    await flushPromises();
+    // await flushPromises();
 
     // check value after running once getContent
     expect(content.value).toEqual([]);

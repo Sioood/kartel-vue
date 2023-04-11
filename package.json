@@ -6,7 +6,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test:unit": "vitest --globals",
+    "test:unit": "vitest watch --globals",
     "test:unit:coverage": "vitest run --coverage",
     "test:e2e": "start-server-and-test preview :5173 'cypress run --e2e'",
     "test:e2e:dev": "start-server-and-test 'vite dev --port 5173' :5173 'cypress open --e2e'",
