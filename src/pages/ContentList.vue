@@ -1,4 +1,6 @@
 <script setup>
+import axios from "axios";
+
 import { useRouter } from "vue-router";
 
 import { ref, onBeforeMount, onMounted, watch } from "vue";

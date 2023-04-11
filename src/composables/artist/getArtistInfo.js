@@ -163,8 +163,9 @@ export const getArtistInfo = (artistId, auth) => {
       const studentData = response.data;
 
       try {
-        let response = await fetch(studentData[0].promotion);
-        let promotionData = await response.json();
+        const response = await axios.get(studentData[0].promotion);
+        
+        let promotionData = response.data;
 
         studentData.promotion = promotionData;
 
