@@ -18,7 +18,7 @@ let load = ref({
 });
 
 /**
- * 
+ *
  * @returns {boolean} requestsStatus - the status of the requests
  */
 const requestsStatus = () => {
@@ -99,23 +99,59 @@ class Request {
   }
 }
 
+
+/**
+ * 
+ * @param {object} config - the config of the request
+ */
+function atRequest(config) {
+  console.log(config);
+  // instance the loader to show loading
+  if (!requests.value[0]) {
+    load.value.status = true;
+  }
+
+  // create a new request and add it to the requests array
+  let request = new Request(config.url);
+  requests.value.push(request);
+}
+
+/**
+ * 
+ * @param {object} response - the response of the request
+ */
+function atResponse(response) {
+  // find the request in the requests array based on the url -> based on a uuid is better for multiple requests with the same url
+  // can be current time of generate uuid in Class but canno't be in response ?!
+
+  // request.completed can overide already ended request and can be an alternative to id
+  // because we don't care of the specific request we care about the total of requests completed
+  let index = requests.value.findIndex(
+    (request) => request.url === response.config.url && !request.completed
+  );
+  requests.value[index].completed = true;
+
+  // clean the requests array if all requests are completed after 3 seconds to prevent new requests with a close timing
+  setTimeout(() => {
+    if (requestsStatus() && requests.value[0]) {
+      requests.value = [];
+    }
+  }, 3000);
+}
+
 /**
  * set the requests interceptors and execute a function at the beginning of a request
+ * return config,error,response... is mandatory to execute the interceptors
  */
 axios.interceptors.request.use(
   function (config) {
-    // instance the loader to show loading
-    if (!requests.value[0]) {
-      load.value.status = true;
-    }
-
-    // create a new request and add it to the requests array
-    let request = new Request(config.url);
-    requests.value.push(request);
+    atRequest(config);
 
     return config;
   },
   function (error) {
+    atRequest(error.config);
+
     return Promise.reject(error);
   }
 );
@@ -125,26 +161,13 @@ axios.interceptors.request.use(
  */
 axios.interceptors.response.use(
   function (response) {
-    // find the request in the requests array based on the url -> based on a uuid is better for multiple requests with the same url
-    // can be current time of generate uuid in Class but canno't be in response ?!
-
-    // request.completed can overide already ended request and can be an alternative to id
-    // because we don't care of the specific request we care about the total of requests completed
-    let index = requests.value.findIndex(
-      (request) => request.url === response.config.url && !request.completed
-    );
-    requests.value[index].completed = true;
-
-    // clean the requests array if all requests are completed after 3 seconds to prevent new requests with a close timing
-    setTimeout(() => {
-      if (requestsStatus() && requests.value[0]) {
-        requests.value = [];
-      }
-    }, 3000);
+    atResponse(response);
 
     return response;
   },
   function (error) {
+    atResponse(error.response);
+
     return Promise.reject(error);
   }
 );
