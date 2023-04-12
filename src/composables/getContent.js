@@ -1,12 +1,7 @@
 import config from "@/config";
+import axios from "axios";
 
 import { ref } from "vue";
-
-/**
- *
- * [TODO] Need to be independant to be artist and artwork
- *
- */
 
 let content = ref([]);
 
@@ -22,6 +17,46 @@ let load = ref(false);
 let url;
 let stringParams;
 let params = {};
+
+/**
+ * AXIOS interceptors to handle the offset of the infinite scroll
+ * separate an instance from global axios for specific interceptors
+ */
+// const instance = axios.create({
+//   baseURL: `${config.rest_uri_v2}`,
+// });
+
+/**
+ * @Helpers https://stackoverflow.com/questions/37897523/axios-get-access-to-response-header-fields - get the headers of the response
+ */
+
+/**
+ * set the requests interceptors and execute a function at the beginning of a request
+ */
+// instance.interceptors.request.use(
+//   function (config) {
+//     // console.log("sending request", config);
+//     return config;
+//   },
+//   function (error) {
+//     return Promise.reject(error);
+//   }
+// );
+
+/**
+ * End interceptor which execute function when a request is completed
+ */
+// instance.interceptors.response.use(
+//   function (response) {
+//     // get the next and the previous url headers for the offset
+
+//     // console.log("receiving response", response);
+//     return response;
+//   },
+//   function (error) {
+//     return Promise.reject(error);
+//   }
+// );
 
 /**
  *
@@ -87,7 +122,7 @@ async function getContent(type, parameters) {
 
     setParams(params);
 
-    url = `${config.rest_uri_v2}production/artwork?page_size=20&page=${offset.value}${stringParams}`;
+    url = `production/artwork?page_size=20&page=${offset.value}${stringParams}`;
   } else if (type === "artists") {
     const { q, nationality } = parameters;
 
@@ -104,23 +139,21 @@ async function getContent(type, parameters) {
 
     setParams(params);
 
-    url = `${config.rest_uri_v2}people/artist?page_size=20&page=${offset.value}${stringParams}`;
+    url = `people/artist?page_size=20&page=${offset.value}${stringParams}`;
   }
 
-  console.log(stringParams);
-
   try {
-    let response = await fetch(url);
+    const response = await axios.get(url);
 
-    let data = await response.json();
+    let data = response.data;
 
-    if (data && data !== { details: "Page non valide." }) {
+    if (data && Array.isArray(data) && data !== { details: "Page non valide." }) {
       let contentData = data.map(async (data) => {
         if (type === "artists") {
           try {
-            let response = await fetch(data.user);
+            const response = await axios.get(data.user);
 
-            let userData = await response.json();
+            let userData = response.data;
 
             data.userData = userData;
 

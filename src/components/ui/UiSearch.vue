@@ -5,9 +5,6 @@ import { ref } from "vue";
 
 import { getId } from "@/composables/getId";
 
-import { useConfigApi } from "@/stores/configApi";
-const storeApi = useConfigApi();
-
 let input = ref();
 
 let result = ref({
