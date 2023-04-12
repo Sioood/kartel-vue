@@ -105,7 +105,6 @@ class Request {
  * @param {object} config - the config of the request
  */
 function atRequest(config) {
-  console.log(config);
   // instance the loader to show loading
   if (!requests.value[0]) {
     load.value.status = true;
