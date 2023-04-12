@@ -7,6 +7,7 @@ import { load } from "@/composables/interceptors";
 
 import UiSearch from "@/components/ui/UiSearch.vue";
 import UiLink from "@/components/ui/UiLink.vue";
+import AuthCard from "@/components/auth/AuthCard.vue";
 
 const router = useRouter();
 
@@ -144,19 +145,7 @@ onUnmounted(() => {
 
       <UiSearch v-if="router.currentRoute.value.path !== '/'" />
 
-      <router-link to="/auth" class="p-2 hover:bg-black-extralightest">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          width="24"
-          height="24"
-        >
-          <path fill="none" d="M0 0h24v24H0z" />
-          <path
-            d="M4 22a8 8 0 1 1 16 0H4zm8-9c-3.315 0-6-2.685-6-6s2.685-6 6-6 6 2.685 6 6-2.685 6-6 6z"
-            fill="rgba(0,0,0,1)"
-          /></svg
-      ></router-link>
+      <AuthCard />
 
       <!-- <button
         @click="switchTheme('toggle')"
@@ -223,6 +212,7 @@ onUnmounted(() => {
         <div class="w-full flex justify-end">
           <UiSearch />
         </div>
+
         <ul class="flex flex-col justify-center gap-2">
           <li v-for="(item, index) in navigation.children" :key="index">
             <RouterLink
@@ -238,6 +228,11 @@ onUnmounted(() => {
             </RouterLink>
           </li>
         </ul>
+
+        <div class="w-full flex justify-end">
+          <AuthCard />
+        </div>
+
         <div></div>
       </div>
     </nav>
