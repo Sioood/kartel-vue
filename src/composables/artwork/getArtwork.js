@@ -26,12 +26,23 @@ let galleries = ref({});
 let genres = ref([]);
 let events = ref([]);
 
+function resetValues() {
+  artwork.value = {};
+  authorsStore.value = {};
+  galleries.value = {};
+  genres.value = [];
+  events.value = [];
+}
+
 /**
  * Get the artwork and run all the function to get the rest of info
  *
  * @param {number} id - id of the artwork
  */
 async function getArtwork(id) {
+  // shit way to reset values and avoid duplicate data
+  resetValues();
+
   try {
     const response = await axios.get(`production/artwork/${id}`);
 
