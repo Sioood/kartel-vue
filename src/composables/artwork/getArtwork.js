@@ -26,12 +26,23 @@ let galleries = ref({});
 let genres = ref([]);
 let events = ref([]);
 
+function resetValues() {
+  artwork.value = {};
+  authorsStore.value = {};
+  galleries.value = {};
+  genres.value = [];
+  events.value = [];
+}
+
 /**
  * Get the artwork and run all the function to get the rest of info
  *
  * @param {number} id - id of the artwork
  */
 async function getArtwork(id) {
+  // shit way to reset values and avoid duplicate data
+  resetValues();
+
   try {
     let response = await fetch(`${config.rest_uri_v2}production/artwork/${id}`);
     let data = await response.json();
@@ -184,8 +195,9 @@ function getGenres(data) {
  */
 async function getGenre(genre) {
   try {
-    let response = await fetch(genre);
-    let data = await response.json();
+    const response = await axios.get(genre);
+
+    const data = response.data;
 
     genres.value.push(data);
   } catch (err) {
