@@ -143,7 +143,7 @@ function removePreprod(url) {
 
           <!-- need a method which check the validity of the token instead of just verify it existence -->
           <div v-if="!token" class="flex flex-wrap gap-6">
-            <div class="w-1/2 flex flex-col gap-3 flex-[1_1_20rem]">
+            <div class="flex flex-col gap-3 flex-[1_1_20rem]">
               <UnderlineTitle
                 class="w-max"
                 title="Contact"
@@ -217,41 +217,7 @@ function removePreprod(url) {
               </ul>
             </div>
 
-            <div class="w-1/2 flex flex-col gap-3 flex-[1_1_20rem]">
-              <details class="group peer">
-                <summary
-                  class="group relative flex items-center gap-3 cursor-pointer"
-                >
-                  <UnderlineTitle
-                    title="Cursus"
-                    :underlineSize="1"
-                    :fontSize="2"
-                  />
-                  <div
-                    class="relative invisible group-hover:visible group-open:visible w-5 h-5 border-0.5 border-gray rounded"
-                  >
-                    <span
-                      class="absolute inset-x-1/2 inset-y-1/2 -translate-x-1/2 -translate-y-1/2 block w-3 h-px bg-gray"
-                    ></span>
-                    <span
-                      class="absolute inset-x-1/2 inset-y-1/2 -translate-x-1/2 -translate-y-1/2 block w-px h-3 bg-gray"
-                    ></span>
-                  </div>
-                </summary>
-              </details>
-
-              <div
-                class="relative max-h-52 peer-open:max-h-full peer-open:after:hidden truncate after:block after:absolute after:bottom-0 after:w-full after:h-1/2 after:bg-gradient-to-t after:from-white after:to-transparent"
-              >
-                <p
-                  v-if="user?.profile?.cursus"
-                  class="text-sm whitespace-pre-line"
-                  v-html="user?.profile?.cursus"
-                ></p>
-              </div>
-            </div>
-
-            <div class="w-1/2 flex flex-col gap-3 flex-[1_1_20rem]">
+            <div class="flex flex-col gap-3 flex-[1_1_20rem] break-all">
               <UnderlineTitle
                 class="w-max"
                 title="Autres informations"
@@ -339,6 +305,38 @@ function removePreprod(url) {
                   </div>
                 </li>
               </ul>
+            </div>
+
+            <div class="flex flex-col gap-3 flex-[1_1_20rem]">
+              <details class="group peer">
+                <summary
+                  class="group relative flex items-center gap-3 cursor-pointer"
+                >
+                  <UnderlineTitle
+                    title="Cursus"
+                    :underlineSize="1"
+                    :fontSize="2"
+                  />
+                  <div class="relative w-5 h-5 border-0.5 border-gray rounded">
+                    <span
+                      class="absolute inset-x-1/2 inset-y-1/2 -translate-x-1/2 -translate-y-1/2 block w-3 h-px bg-gray"
+                    ></span>
+                    <span
+                      class="group-open:rotate-90 absolute inset-x-1/2 inset-y-1/2 -translate-x-1/2 -translate-y-1/2 block w-px h-3 bg-gray transition-all"
+                    ></span>
+                  </div>
+                </summary>
+              </details>
+
+              <div
+                class="relative max-h-52 peer-open:max-h-full peer-open:after:hidden truncate after:block after:absolute after:bottom-0 after:w-full after:h-1/2 after:bg-gradient-to-t after:from-white after:to-transparent after:pointer-events-none"
+              >
+                <p
+                  v-if="user?.profile?.cursus"
+                  class="text-sm whitespace-pre-line"
+                  v-html="user?.profile?.cursus"
+                ></p>
+              </div>
             </div>
           </div>
 
