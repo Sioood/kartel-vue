@@ -1,10 +1,10 @@
 <script setup>
+import config from "@/config";
 import { useRouter } from "vue-router";
 
 import { ref } from "vue";
 
 import { login } from "@/composables/auth/auth";
-
 
 /**
  *
@@ -31,7 +31,10 @@ let password = ref();
     <div class="flex flex-col items-start justify-center divide-y">
       <UnderlineTitle title="Se connecter" :fontSize="2" class="p-1 mb-2" />
 
-      <form class="pt-8 flex flex-col items-end gap-3" @submit.prevent="login(username, password, router)">
+      <form
+        class="pt-8 flex flex-col items-end gap-3"
+        @submit.prevent="login(username, password, router)"
+      >
         <UiInput
           label="username"
           :required="true"
@@ -50,7 +53,10 @@ let password = ref();
           type="password"
           @update:value="(value) => (password = value)"
         ></UiInput>
-        <AppButton class="mt-4" type="submit">connexion</AppButton>
+        <div class="mt-4 w-full flex items-center justify-between">
+          <a :href="`${config.api_url}account/reset_password/`" class="p-2 text-sm underline">Mot de passe oublié ?</a>
+          <AppButton type="submit">connexion</AppButton>
+        </div>
       </form>
     </div>
   </main>
