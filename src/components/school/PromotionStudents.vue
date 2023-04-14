@@ -1,8 +1,5 @@
 <script setup>
-// import { useRouter } from "vue-router";
-
-import { onMounted } from "vue";
-import { useConfigApi } from "../../stores/configApi";
+import { useConfigApi } from "@/stores/configApi";
 
 /**
 
@@ -13,19 +10,7 @@ import StudentCard from "./StudentCard.vue";
 import AppButton from "@/components/ui/AppButton.vue";
 import UnderlineTitle from "@/components/ui/UnderlineTitle.vue";
 
-// const router = useRouter();
 const storeApi = useConfigApi();
-
-const props = defineProps(["promoId"]);
-
-onMounted(() => {
-  // const routerPromoId = router.currentRoute.value.params.id;
-
-  if (props.promoId) {
-    storeApi.getPromoStudents(props.promoId);
-    storeApi.getSelectedPromo(props.promoId);
-  }
-});
 </script>
 
 <template>
@@ -40,8 +25,8 @@ onMounted(() => {
     <div class="w-full flex flex-wrap items-center justify-between gap-3">
       <UnderlineTitle
         class="promo__title"
-        v-if="storeApi.selectedPromo"
-        :title="`${storeApi.selectedPromo.name} — ${storeApi.selectedPromo.starting_year}-${storeApi.selectedPromo.ending_year}`"
+        v-if="storeApi.promotion.data"
+        :title="`${storeApi.promotion.data.name} — ${storeApi.promotion.data.starting_year}-${storeApi.promotion.data.ending_year}`"
         subtitle="Promotion"
         :uppercase="true"
         :underlineSize="1"
@@ -49,7 +34,7 @@ onMounted(() => {
       ></UnderlineTitle>
 
       <div class="my-6 flex justify-end gap-3 text-sm">
-        <AppButton @click="storeApi.sortStudents(storeApi.promoStudents)">
+        <AppButton @click="storeApi.sortStudents(storeApi.promotion.students)">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -63,7 +48,9 @@ onMounted(() => {
           </svg>
         </AppButton>
         <AppButton
-          @click="storeApi.sortStudents(storeApi.promoStudents, 'descending')"
+          @click="
+            storeApi.sortStudents(storeApi.promotion.students, 'descending')
+          "
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -76,28 +63,26 @@ onMounted(() => {
               d="M20 4v12h3l-4 5-4-5h3V4h2zm-8 14v2H3v-2h9zm2-7v2H3v-2h11zm0-7v2H3V4h11z"
               fill="rgba(255,255,255,1)"
             />
-            </svg>
-      </AppButton>
+          </svg>
+        </AppButton>
       </div>
     </div>
 
     <ul
-      v-if="storeApi.promoStudents[0]"
+      v-if="storeApi.promotion.students"
       class="students grid grid-cols-fluid gap-6"
     >
       <!-- <p>{{ storeApi.promoStudents[0] }}</p> -->
       <!-- fetch all student before and not one by one inside the card -> get an array and can iterate it -->
       <!-- :key remplacer par l'index -> (object, index) -->
       <!-- Modèle de destructuration attendu -->
-      <TransitionGroup name="list">
-        <StudentCard
-          class="student"
-          v-for="(student, index) in storeApi.promoStudents"
-          :key="student"
-          :student="student"
-          :data-key="index"
-        ></StudentCard>
-      </TransitionGroup>
+      <StudentCard
+        class="student"
+        v-for="(student, index) in storeApi.promotion.students"
+        :key="student"
+        :student="student"
+        :data-key="index"
+      ></StudentCard>
 
       <!-- </li> -->
     </ul>
@@ -118,6 +103,7 @@ onMounted(() => {
 
 .student {
   overflow: hidden;
+  animation: appear 1s ease forwards;
   transition: all 0.3s ease;
 }
 
@@ -131,33 +117,4 @@ onMounted(() => {
     opacity: 1;
   }
 }
-
-
-/**
-
-  For transtiongroup
-
-**/
-.list-enter {
-  opacity: 0;
-}
-
-.list-move, /* apply transition to moving elements */
-.list-enter-active,
-.list-leave-active {
-   transition: all 1s ease;
-}
-
-.list-enter-from,
-.list-leave-to {
-  opacity: 0;
-  transform: translate(0, 30%);
-}
-
-/* ensure leaving items are taken out of layout flow so that moving
-   animations can be calculated correctly. */
-.list-leave-active {
-  position: absolute;
-}
-
 </style>
