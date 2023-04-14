@@ -23,7 +23,6 @@ let navigation = ref({
   open: false,
   children: [
     { name: "School", path: "/school/promotion/4" },
-    { name: "Artist", path: "/artist/710" },
     { name: "Artists", path: "/artists" },
     { name: "Artworks", path: "/artworks" },
     // { name: "Artwork 1", path: "/artwork/1" },
@@ -250,7 +249,8 @@ onUnmounted(() => {
     </RouterLink>
 
     <!-- key detect changement and reload component if is the same route with a different id (component is already mounted) -->
-    <RouterView :key="$route.path" />
+    <RouterView />
+    <!-- <RouterView :key="$route.path" /> -->
   </div>
 </template>
 
