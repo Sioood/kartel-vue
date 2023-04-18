@@ -3,7 +3,7 @@ import axios from "axios";
 
 import { useRouter } from "vue-router";
 
-import { ref, onBeforeMount, onMounted, watch } from "vue";
+import { ref, computed, onMounted, watch } from "vue";
 
 /**
 
@@ -32,6 +32,14 @@ const router = useRouter();
 
 let typeOfContent = ref();
 let watcher = ref();
+
+const component = computed(() => {
+  if (typeOfContent.value === "artworks") {
+    return ArtworkCard;
+  } else if (typeOfContent.value === "artists") {
+    return ArtistCard;
+  }
+});
 
 /**
  *
@@ -71,10 +79,7 @@ watch([genres, keywords, productionYear, q, shootingPlace, type], () => {
   // can filter only defined parameters for a cleanest URL
   router.push({ path: typeOfContent.value, query: { ...params.value } });
 
-  offset.value = 1;
-  contents.value = [];
-
-  getContent(typeOfContent.value, params.value);
+  // getContent(typeOfContent.value, params.value);
 
   // reobserve
   observer.observe(watcher.value);
@@ -104,52 +109,98 @@ function getTypes() {
 getTypes();
 
 async function getKeywords() {
-  const response = await axios.get("production/artwork-keywords");
+  try {
+    const response = await axios.get("production/artwork-keywords");
 
-  const data = response.data;
+    const data = response.data;
 
-  const keywordsName = data.map((keyword) => {
-    return keyword["name"];
-  });
+    const keywordsName = data.map((keyword) => {
+      return keyword["name"];
+    });
 
-  const sortedKeywords = keywordsName.sort((a, b) => a.localeCompare(b));
+    const sortedKeywords = keywordsName.sort((a, b) => a.localeCompare(b));
 
-  defKeywords.value = sortedKeywords;
+    defKeywords.value = sortedKeywords;
+  } catch (err) {
+    console.error(err);
+  }
 }
 getKeywords();
 
 // each time the watcher intersecting fetch a new load of artworks
 const handleObserver = (entries) => {
-  entries.forEach((entry) => {
+  entries.forEach(async (entry) => {
     // console.log(entry);
     // console.log(load.value);
 
-    console.info("watcher");
+    // console.info("watcher");
 
-    if (load.value && entry.isIntersecting) {
-      // observer cause duplicate request sometimes
-      getContent(typeOfContent.value, params.value);
-    } else if (!load.value && entry.intersectionRatio === 1) {
-      // intersectingRatio equal to the ration visible of the watcher 1 indicate that is it full visible in the page
-      // this is for avoid the watcher to be full visible in the beginning and block the infinite scroll
-      // [BUG] but for small size load to because the page load with nothing from the beginning -> maybe check if artworks is not empty
-      offset.value++;
-      getContent(typeOfContent.value, params.value);
-      offset.value--;
+    function isInViewport(element) {
+      const rect = element.getBoundingClientRect();
+
+      return (
+        rect.top >= 0 &&
+        rect.top <=
+          (window.innerHeight || document.documentElement.clientHeight)
+      );
     }
+
+    async function watcherWorker() {
+      // console.log("entry", entry);
+
+      // setTimeout(async () => {
+      //   console.log(isInViewport(watcher.value));
+      //   await getContent(typeOfContent.value, params.value);
+      // }, 1000);
+
+      if (entry.isIntersecting) {
+        // await getContent(typeOfContent.value, params.value);
+
+        // set an return if no next page (For now based on if a request not results)
+
+        if (isInViewport(watcher.value)) {
+          // check before get content the load value
+          if (!load.value) {
+            return;
+          }
+
+          await getContent(typeOfContent.value, params.value);
+
+          // and check after the getContent
+          if (load.value) {
+            return watcherWorker();
+          }
+        }
+      }
+      return;
+    }
+    watcherWorker();
+
+    // if (load.value && entry.isIntersecting) {
+    //   // observer cause duplicate request sometimes
+    //   await getContent(typeOfContent.value, params.value);
+    // } else if (!load.value && entry.intersectionRatio === 1) {
+    //   // intersectingRatio equal to the ration visible of the watcher 1 indicate that is it full visible in the page
+    //   // this is for avoid the watcher to be full visible in the beginning and block the infinite scroll
+    //   // [BUG] but for small size load to because the page load with nothing from the beginning -> maybe check if artworks is not empty
+    //   offset.value++;
+    //   await getContent(typeOfContent.value, params.value);
+    //   offset.value--;
+    // }
   });
 };
 
 const observer = new IntersectionObserver(handleObserver);
 
 function setup() {
-  contents.value = [];
-  offset.value = 1;
   // name or path to set default content
   typeOfContent.value = router.currentRoute.value.path.replace("/", "");
+  contents.value = [];
+  offset.value = 1;
+  load.value = true;
 
   let queries = router.currentRoute.value.query;
-  let queriesArr = Object.keys(queries).map((key) => queries[key]);
+  // let queriesArr = Object.keys(queries).map((key) => queries[key]);
 
   // set params with type
   if (typeOfContent.value === "artworks") {
@@ -175,9 +226,9 @@ function setup() {
       : (params.value[param] = null);
   }
 
-  if (queriesArr.every((value) => value === null)) {
-    getContent(typeOfContent.value, params.value);
-  }
+  // if (queriesArr.every((value) => value === null)) {
+  //   getContent(typeOfContent.value, params.value);
+  // }
 
   // set the observer
   observer.observe(watcher.value);
@@ -191,6 +242,9 @@ onMounted(() => {
 watch(
   () => router.currentRoute.value,
   () => {
+    // need to dismount the observer to remount another one and prevent observer to not work
+    observer.unobserve(watcher.value);
+
     setup();
   }
 );
@@ -279,28 +333,28 @@ function removePreprod(url) {
 
     <div>
       <ul
-        v-if="typeOfContent === 'artworks'"
         class="pb-12 grid lg:grid-cols-fluid-14-lg grid-cols-fluid-14 flex-grow-0 gap-3"
       >
-        <li class="" v-for="content in contents" :key="content.url">
-          <ArtworkCard
+        <li class="" v-for="content in contents" :key="content">
+          <!-- <ArtworkCard
             :url="content.url"
             :picture="removePreprod(content.picture)"
             :title="content.title"
-          />
+          /> -->
+          <component
+            :is="component"
+            :artist="content"
+            :url="content.url"
+            :picture="removePreprod(content.picture)"
+            :title="content.title"
+          ></component>
         </li>
+        <span
+          ref="watcher"
+          id="watcher"
+          class="block w-full h-full"
+        ></span>
       </ul>
-
-      <ul
-        v-else-if="typeOfContent === 'artists'"
-        class="pb-12 grid grid-cols-fluid-14 gap-3"
-      >
-        <li v-for="content in contents" :key="content">
-          <!-- {{ content }} -->
-          <ArtistCard :artist="content"></ArtistCard>
-        </li>
-      </ul>
-      <span ref="watcher" id="watcher" class="invisible block w-1 h-1"></span>
     </div>
   </main>
 </template>

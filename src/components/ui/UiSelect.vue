@@ -36,6 +36,7 @@ onMounted(() => {
           @change="$emit('update:option', value) && log($event)"
         >
           <option :value="null">{{ props.defaultValue }}</option>
+          <option :value="null" disabled>—————</option>
           <option :value="option" v-for="option in props.options" :key="option">
             {{ option }}
           </option>
