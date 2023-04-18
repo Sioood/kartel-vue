@@ -110,13 +110,13 @@ async function getContent(type, parameters) {
      * @property {string} type
      */
     params = {
-      genres: genres ? `genres=${genres}` : null,
+      // genres: genres ? `genres=${genres}` : null,
       keywords: keywords ? `keywords=${keywords}` : null,
       productionYear: productionYear
         ? `production_year=${productionYear}`
         : null,
       query: q ? `q=${q}` : null,
-      shootingPlace: shootingPlace ? `shooting_place=${shootingPlace}` : null,
+      // shootingPlace: shootingPlace ? `shooting_place=${shootingPlace}` : null,
       type: type ? `type=${type}` : null,
     };
 

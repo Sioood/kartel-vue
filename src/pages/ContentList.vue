@@ -94,13 +94,37 @@ function getYears() {
 }
 getYears();
 
+function getTypes() {
+  const types = ["films", "installation", "performance"];
+
+  const sortedTypes = types.sort((a, b) => a.localeCompare(b));
+
+  defType.value = sortedTypes;
+}
+getTypes();
+
+async function getKeywords() {
+  const response = await axios.get("production/artwork-keywords");
+
+  const data = response.data;
+
+  const keywordsName = data.map((keyword) => {
+    return keyword["name"];
+  });
+
+  const sortedKeywords = keywordsName.sort((a, b) => a.localeCompare(b));
+
+  defKeywords.value = sortedKeywords;
+}
+getKeywords();
+
 // each time the watcher intersecting fetch a new load of artworks
 const handleObserver = (entries) => {
   entries.forEach((entry) => {
     // console.log(entry);
     // console.log(load.value);
 
-    console.log(true);
+    console.info("watcher");
 
     if (load.value && entry.isIntersecting) {
       // observer cause duplicate request sometimes
@@ -118,13 +142,9 @@ const handleObserver = (entries) => {
 
 const observer = new IntersectionObserver(handleObserver);
 
-onBeforeMount(() => {
-  // prevent the switch type of content to have some content of the precedent type and have a offset
+function setup() {
   contents.value = [];
   offset.value = 1;
-});
-
-onMounted(() => {
   // name or path to set default content
   typeOfContent.value = router.currentRoute.value.path.replace("/", "");
 
@@ -161,7 +181,19 @@ onMounted(() => {
 
   // set the observer
   observer.observe(watcher.value);
+}
+
+onMounted(() => {
+  setup();
 });
+
+// refresh content when changing type (artworks, artists)
+watch(
+  () => router.currentRoute.value,
+  () => {
+    setup();
+  }
+);
 
 // Need to remove this and all element using this function for Prod
 function removePreprod(url) {
@@ -181,8 +213,9 @@ function removePreprod(url) {
       :fontSize="1"
     />
     <!-- fluid grid -->
-    <div class="mb-6 flex items-center gap-6">
+    <div class="mb-6 flex items-center flex-wrap gap-6">
       <h3 class="text-lg font-medium text-gray-dark">Filtres :</h3>
+      <!-- TODO need to update to a dynamic way of display filters -->
       <UiSelect
         v-if="params && Object.keys(params).includes('productionYear')"
         :options="defProductionYear"
@@ -201,14 +234,14 @@ function removePreprod(url) {
         @update:option="(newValue) => (nationality = newValue)"
       ></UiSelect>
 
-      <UiSelect
+      <!-- <UiSelect
         v-if="params && Object.keys(params).includes('genres')"
         :options="defGenres"
         defaultValue="tout genres"
         :selectedValue="genres"
         desc="Genres"
         @update:option="(newValue) => (genres = newValue)"
-      ></UiSelect>
+      ></UiSelect> -->
 
       <UiSelect
         v-if="params && Object.keys(params).includes('keywords')"
@@ -219,14 +252,14 @@ function removePreprod(url) {
         @update:option="(newValue) => (keywords = newValue)"
       ></UiSelect>
 
-      <UiSelect
+      <!-- <UiSelect
         v-if="params && Object.keys(params).includes('shootingPlace')"
         :options="defShootingPlace"
         defaultValue="tout"
         :selectedValue="shootingPlace"
         desc="Lieu de tournage"
         @update:option="(newValue) => (shootingPlace = newValue)"
-      ></UiSelect>
+      ></UiSelect> -->
 
       <UiSelect
         v-if="params && Object.keys(params).includes('type')"
@@ -237,19 +270,19 @@ function removePreprod(url) {
         @update:option="(newValue) => (type = newValue)"
       ></UiSelect>
 
-      <FilterSearch
+      <!-- <FilterSearch
         :query="q"
         @update:modelValue="(newValue) => (q = newValue)"
-      ></FilterSearch>
+      ></FilterSearch> -->
     </div>
     <span class="my-3 w-full h-0.5 block bg-gray-extralight"></span>
 
     <div>
       <ul
         v-if="typeOfContent === 'artworks'"
-        class="pb-12 grid grid-cols-fluid-14 gap-3"
+        class="pb-12 grid lg:grid-cols-fluid-14-lg grid-cols-fluid-14 flex-grow-0 gap-3"
       >
-        <li v-for="content in contents" :key="content.url">
+        <li class="" v-for="content in contents" :key="content.url">
           <ArtworkCard
             :url="content.url"
             :picture="removePreprod(content.picture)"
