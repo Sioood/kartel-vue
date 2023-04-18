@@ -13,7 +13,6 @@ const props = defineProps({
     required: true,
   },
   picture: {
-    type: String,
     required: true,
   },
   title: {
