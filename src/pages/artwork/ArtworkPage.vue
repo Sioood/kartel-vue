@@ -106,7 +106,7 @@ onMounted(() => {
             :fontSize="1"
           />
 
-          <h3 class="flex flex-wrap items-center text-xl">
+          <div class="flex flex-wrap items-center text-xl">
             <h3>{{ artwork.type }} de</h3>
             <div v-if="authors" class="flex">
               <UiLink
@@ -115,12 +115,14 @@ onMounted(() => {
                 :url="`/artist/${getId(author.url)}`"
               />
             </div>
-            —
-            {{ artwork.production_date.split("-")[0] }}
-          </h3>
+            <span>—</span>
+            <h3 v-if="artwork.production_date?.split('-')">
+              <!-- {{ "&nbsp" + artwork.production_date?.split("-")[0] }} -->
+            </h3>
+          </div>
         </section>
 
-        <section v-if="events[0]" class="flex flex-col gap-6">
+        <section v-if="events && events[0]" class="flex flex-col gap-6">
           <UnderlineTitle
             class="w-max"
             :title="!events[2] ? 'Diffusion' : 'Diffusions'"
@@ -154,8 +156,8 @@ onMounted(() => {
           v-if="
             artwork.credits_fr ||
             artwork.credits_en ||
-            artwork.collaborators[0] ||
-            artwork.partners[0]
+            (artwork.collaborators && artwork.collaborators[0]) ||
+            (artwork.partners && artwork.partners[0])
           "
           class="flex flex-col gap-6"
         >
@@ -211,6 +213,7 @@ onMounted(() => {
         <!-- vérfifier la length du mot, si moins de 3 lettres c'est pas un mot exploitable -->
         <div
           v-if="
+            genres &&
             genres[0] &&
             genres.length === 1 &&
             genres[0].label.replaceAll(/.| [ ]/g, '') !== ''
@@ -242,32 +245,34 @@ onMounted(() => {
           </div>
         </div>
 
+        <!-- {{ galleries }} -->
+
         <ArtworkGallery
-          v-if="galleries.teaserGalleries[0]"
+          v-if="galleries.teaserGalleries && galleries.teaserGalleries[0]"
           :galleries="galleries.teaserGalleries"
           title="Teaser"
         />
 
         <ArtworkGallery
-          v-if="galleries.inSituGalleries[0]"
+          v-if="galleries.inSituGalleries && galleries.inSituGalleries[0]"
           :galleries="galleries.inSituGalleries"
           title="In Situ"
         />
 
         <ArtworkGallery
-          v-if="galleries.processGalleries[0]"
+          v-if="galleries.processGalleries && galleries.processGalleries[0]"
           :galleries="galleries.processGalleries"
           title="Process"
         />
 
         <ArtworkGallery
-          v-if="galleries.pressGalleries[0]"
+          v-if="galleries.pressGalleries && galleries.pressGalleries[0]"
           :galleries="galleries.pressGalleries"
           title="Press"
         />
 
         <ArtworkGallery
-          v-if="galleries.mediationGalleries[0]"
+          v-if="galleries.mediationGalleries && galleries.mediationGalleries[0]"
           :galleries="galleries.mediationGalleries"
           title="Médiation"
         />
