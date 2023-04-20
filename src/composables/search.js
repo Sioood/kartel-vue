@@ -98,7 +98,9 @@ class Artworks {
       let response = await axios.get(`production/artwork-search?q=${query}`);
       let data = response.data;
 
-      data.length = resultsLength;
+      if (data.length > resultsLength) {
+        data.length = resultsLength;
+      }
 
       if (this.id === instance.artworks.size) {
         for (let artwork of data) {
@@ -133,7 +135,9 @@ class Artists {
       let response = await axios.get(`people/artist-search?q=${query}`);
       let data = response.data;
 
-      data.length = resultsLength;
+      if (data.length > resultsLength) {
+        data.length = resultsLength;
+      }
 
       if (this.id === instance.artists.size) {
         for (let artist of data) {
@@ -173,6 +177,10 @@ class Artwork extends Result {
    * @returns {array} An array of strings containing the names of the authors.
    */
   getAuthorsName() {
+    if (!this.authors) {
+      return "";
+    }
+
     return this.authors.map((author) => {
       return (
         author.nickname || `${author.user.first_name} ${author.user.last_name}`
