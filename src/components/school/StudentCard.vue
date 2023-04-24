@@ -1,4 +1,6 @@
 <script setup>
+import config from "@/config";
+
 import { computed } from "vue";
 
 import { getId } from "@/composables/getId";
@@ -19,11 +21,14 @@ const fullname = computed(() => {
       class="relative h-full border-solid border-2 border-gray hover:border-black dark:hover:border-gray-extralightest"
       :key="props.student.userData.id"
     >
-      <!-- parameters Query with id Student ? User ? Artist ? all ? -->
       <router-link :to="`/artist/${getId(props.student.artist)}`">
         <img
           class="w-full h-44 object-cover"
-          :src="props.student.userData.profile.photo"
+          :src="
+            props.student.userData.profile.photo
+              ? `${config.media_service}?url=${props.student.userData.profile.photo}&mode=adapt&w=300&fmt=jpg`
+              : ''
+          "
           :alt="`Photo de ${fullname}`"
         />
         <div class="p-2 w-full h-full capitalize">
