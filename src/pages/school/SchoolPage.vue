@@ -39,8 +39,12 @@ onMounted(async () => {
 
   if (!storeApi.promotions[0]) {
     await storeApi.getPromotions();
-    storeApi.getSelectedPromo(promoId.value);
+
+    // get the second most recent promotion (avoid the recent because sometimes it's the empty one)
+    router.push(`/school/promotion/${getId(storeApi.promotions[1].url)}`);
   }
+
+  storeApi.getSelectedPromo(promoId.value);
 });
 </script>
 
