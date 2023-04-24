@@ -26,6 +26,10 @@ let galleries = ref({});
 let genres = ref([]);
 let events = ref([]);
 
+/**
+ * Initializes the values of the artwork, authorsStore, galleries, genres, and
+ * events variables to empty objects or arrays.
+ */
 function initValues() {
   artwork.value = {};
   authorsStore.value = {};
