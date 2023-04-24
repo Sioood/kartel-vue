@@ -1,4 +1,6 @@
 <script setup>
+import config from "@/config";
+
 import { computed } from "vue";
 
 import { getId } from "@/composables/getId";
@@ -27,7 +29,11 @@ const fullname = computed(() => {
         <img
           v-if="props.artist?.userData?.profile?.photo"
           class="w-full h-44 object-cover"
-          :src="props.artist.userData.profile.photo"
+          :src="
+            props.artist?.userData?.profile?.photo
+              ? `${config.media_service}?url=${props.artist.userData.profile.photo}&mode=adapt&w=300&fmt=jpg`
+              : ''
+          "
           :alt="`Photo de ${fullname}`"
         />
         <!-- Lorem photo ? -->
