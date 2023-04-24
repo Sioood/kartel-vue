@@ -231,8 +231,6 @@ onUnmounted(() => {
         <div class="w-full flex justify-end">
           <AuthCard />
         </div>
-
-        <div></div>
       </div>
     </nav>
     <hr />

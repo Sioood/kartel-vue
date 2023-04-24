@@ -99,9 +99,8 @@ class Request {
   }
 }
 
-
 /**
- * 
+ *
  * @param {object} config - the config of the request
  */
 function atRequest(config) {
@@ -116,7 +115,7 @@ function atRequest(config) {
 }
 
 /**
- * 
+ *
  * @param {object} response - the response of the request
  */
 function atResponse(response) {
@@ -138,12 +137,33 @@ function atResponse(response) {
   }, 3000);
 }
 
+let controller = new AbortController();
+
+/**
+ * Abort all requests and reset the load and requests.
+ */
+function abortAllRequests() {
+  // abort the signal and create a new controller
+  controller.abort();
+  controller = new AbortController();
+
+  // reset the load
+  load.value.status = false;
+  load.value.progress = 0;
+
+  // reset the requests
+  requests.value = [];
+}
+
 /**
  * set the requests interceptors and execute a function at the beginning of a request
  * return config,error,response... is mandatory to execute the interceptors
  */
 axios.interceptors.request.use(
   function (config) {
+    // set a signal to handle abort
+    config.signal = controller.signal;
+
     atRequest(config);
 
     return config;
@@ -165,7 +185,9 @@ axios.interceptors.response.use(
     return response;
   },
   function (error) {
-    atResponse(error.response);
+    if (!error.config.signal.aborted) {
+      atResponse(error.response);
+    }
 
     return Promise.reject(error);
   }
@@ -174,4 +196,4 @@ axios.interceptors.response.use(
 /**
  * @export {object} load - the status of the loader
  */
-export { load };
+export { load, abortAllRequests };

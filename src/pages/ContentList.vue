@@ -7,7 +7,7 @@ import { ref, computed, onMounted, watch } from "vue";
 
 /**
 
-  Components
+  Composables
 
 **/
 import {
@@ -16,6 +16,8 @@ import {
   offset,
   load,
 } from "@/composables/getContent";
+
+import { abortAllRequests } from "@/composables/interceptors";
 
 /**
 
@@ -242,6 +244,8 @@ onMounted(() => {
 watch(
   () => router.currentRoute.value,
   () => {
+    abortAllRequests();
+
     // need to dismount the observer to remount another one and prevent observer to not work
     observer.unobserve(watcher.value);
 
@@ -349,11 +353,7 @@ function removePreprod(url) {
             :title="content.title"
           ></component>
         </li>
-        <span
-          ref="watcher"
-          id="watcher"
-          class="block w-full h-full"
-        ></span>
+        <span ref="watcher" id="watcher" class="block w-full h-full"></span>
       </ul>
     </div>
   </main>

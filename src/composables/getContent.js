@@ -164,8 +164,14 @@ class Content {
 
       let data = response.data;
 
+      const validator = () =>
+        Content.isLastRequest(this.getLastRequest(), {
+          type,
+          id: this.id,
+        });
+
       // check if it's the last request to set results
-      if (Content.isLastRequest(this.getLastRequest(), { type, id: this.id })) {
+      if (validator()) {
         if (
           data &&
           Array.isArray(data) &&
@@ -180,9 +186,7 @@ class Content {
           }
 
           // second verification of it is the last request because timing can pass and request contentData
-          if (
-            Content.isLastRequest(this.getLastRequest(), { type, id: this.id })
-          ) {
+          if (validator() && !contentData.some((data) => data.aborted)) {
             content.value = [...content.value, ...contentData];
             offset.value++;
           }
@@ -191,10 +195,10 @@ class Content {
         }
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
 
       // catch 404 and stop observer -> if the method change from offset to next headers it will be much easier to handle the observer
-      if (err.response.status === 404) {
+      if (err.response?.status === 404) {
         load.value = false;
       }
     }
@@ -207,7 +211,6 @@ class Content {
    * @returns {Array<Promise<Object>>} - An array of promises that resolve to the
    * transformed data objects. The promises may reject if the GET request fails.
    */
-
   contentData(data) {
     return data.map(async (data) => {
       try {
@@ -216,9 +219,15 @@ class Content {
 
         data.userData = userData;
         return data;
-        // console.log(userData);
       } catch (err) {
-        console.log(err);
+        data.aborted = err.config.signal.aborted;
+
+        if (err.config.signal.aborted) {
+          return data;
+        }
+
+        console.error(err);
+
         return data;
       }
     });
@@ -256,7 +265,7 @@ async function getContent(type, parameters) {
   const newContent = new Content(type, parameters);
 
   // fetch the content with instance function (not doing that inside the constructor because can deal with async await)
-  return await newContent.fetchContent(newContent.url, newContent.type);;
+  return await newContent.fetchContent(newContent.url, newContent.type);
 }
 
 /**
