@@ -117,7 +117,7 @@ onMounted(() => {
             </div>
             <span>—</span>
             <h3 v-if="artwork.production_date?.split('-')">
-              <!-- {{ "&nbsp" + artwork.production_date?.split("-")[0] }} -->
+              {{ "&nbsp" + artwork.production_date?.split("-")[0] }}
             </h3>
           </div>
         </section>
