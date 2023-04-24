@@ -26,7 +26,7 @@ let galleries = ref({});
 let genres = ref([]);
 let events = ref([]);
 
-function resetValues() {
+function initValues() {
   artwork.value = {};
   authorsStore.value = {};
   galleries.value = {};
@@ -40,8 +40,7 @@ function resetValues() {
  * @param {number} id - id of the artwork
  */
 async function getArtwork(id) {
-  // shit way to reset values and avoid duplicate data
-  resetValues();
+  initValues();
 
   try {
     const response = await axios.get(`production/artwork/${id}`);
@@ -116,6 +115,10 @@ async function getGallery(url, output) {
   }
 }
 
+// Check index of data.media for push in galleries only when all media is here
+// prevent multipushing and duplicate medias
+let index = 1;
+
 async function getMedia(url, galleryData, output) {
   try {
     const response = await axios.get(url);
@@ -124,12 +127,9 @@ async function getMedia(url, galleryData, output) {
 
     galleryData.mediaData.push(data);
 
-    // Check index of data.media for push in galleries only when all media is here
-    // prevent multipushing and duplicate medias
-    let index = 1;
-
     if (index === galleryData.media.length) {
       output.push(galleryData);
+      index = 1
     } else {
       index++;
     }
@@ -204,7 +204,6 @@ async function getGenre(genre) {
     const response = await axios.get(genre);
 
     const data = response.data;
-    
 
     genres.value.push(data);
   } catch (err) {
@@ -252,6 +251,7 @@ async function getEvent(event) {
   } catch (err) {
     console.error(err);
   }
+
 }
 
 export { getArtwork, artwork, authorsStore, galleries, genres, events };

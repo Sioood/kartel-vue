@@ -4,7 +4,7 @@ import { useRouter } from "vue-router";
 import { getId } from "@/composables/getId";
 
 import { useConfigApi } from "../../stores/configApi";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 
 /**
 
@@ -12,6 +12,7 @@ import { onMounted, ref } from "vue";
 
 **/
 import UnderlineTitle from "@/components/ui/UnderlineTitle.vue";
+import PromotionStudents from "@/components/school/PromotionStudents.vue";
 
 const router = useRouter();
 
@@ -20,15 +21,25 @@ const storeApi = useConfigApi();
 let promoId = ref();
 let promoSelected = ref(promoId);
 
+watch(
+  () => router.currentRoute.value.params.id,
+  () => {
+    promoId.value = router.currentRoute.value.params.id;
+
+    storeApi.getSelectedPromo(promoId.value);
+  }
+);
+
 function selectPromotion(id) {
   router.push(`/school/promotion/${id}`);
 }
 
-onMounted(() => {
-  promoId.value = router.currentRoute.value.params.id;;
+onMounted(async () => {
+  promoId.value = router.currentRoute.value.params.id;
 
   if (!storeApi.promotions[0]) {
-    storeApi.getPromotions();
+    await storeApi.getPromotions();
+    storeApi.getSelectedPromo(promoId.value);
   }
 });
 </script>
@@ -104,7 +115,9 @@ onMounted(() => {
       </ul>
     </div>
     <!-- Key reload everytime a changement occur -->
-    <router-view v-if="promoId" :promoId="promoId" />
+    <!-- <router-view v-if="promoId" :promoId="promoId" /> -->
+    <PromotionStudents />
+    <!-- {{ storeApi.promotion.students }} -->
   </main>
 </template>
 
