@@ -4,7 +4,7 @@ import { useRouter } from "vue-router";
 
 import { ref } from "vue";
 
-import { login } from "@/composables/auth/auth";
+import { login, message } from "@/composables/auth/auth";
 
 /**
  *
@@ -22,8 +22,8 @@ const router = useRouter();
  * @type {string} username
  * @type {string} password
  */
-let username = ref();
-let password = ref();
+let username = ref("");
+let password = ref("");
 </script>
 
 <template>
@@ -54,9 +54,21 @@ let password = ref();
           @update:value="(value) => (password = value)"
         ></UiInput>
         <div class="mt-4 w-full flex items-center justify-between">
-          <a :href="`${config.api_url}account/reset_password/`" class="p-2 text-sm underline">Mot de passe oublié ?</a>
+          <a
+            :href="`${config.api_url}account/reset_password/`"
+            class="p-2 text-sm underline"
+            >Mot de passe oublié ?</a
+          >
           <AppButton type="submit">connexion</AppButton>
         </div>
+          <span
+            class="w-72 flex items-center justify-center text-sm break-words"
+            :class="{
+              'text-red-400': message.status === 'error',
+              'text-black': message.status === 'normal',
+            }"
+            >{{ message.data }}</span
+          >
       </form>
     </div>
   </main>
