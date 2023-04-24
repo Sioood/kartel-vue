@@ -2,6 +2,11 @@ import axios from "axios";
 
 import { ref } from "vue";
 
+let message = ref({
+  status: "normal",
+  data: "",
+});
+
 /**
  * @type {object} user - the user ref with his data and the token
  */
@@ -59,6 +64,11 @@ async function login(username, password, router) {
     }
   } catch (err) {
     console.error(err);
+
+    if (err.response.status === 400) {
+      message.value.status = "error";
+      message.value.data = err.response.data.non_field_errors[0];
+    }
   }
 }
 
@@ -78,4 +88,4 @@ function logout(router) {
   router.go(0);
 }
 
-export { user, login, logout };
+export { message, user, login, logout };

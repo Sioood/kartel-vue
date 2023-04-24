@@ -10,7 +10,7 @@ const { user, token } = toRefs(auth.value);
 <template>
   <div class="inline-flex items-center justify-center gap-1">
     <h5 v-if="user" class="text-base font-semibold capitalize">
-      {{ user.username }}
+      {{  `${user.first_name} ${user.last_name}` }}
     </h5>
     <router-link
       v-if="!token"
