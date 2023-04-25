@@ -137,7 +137,7 @@ class Content {
 
       return (this.url = `production/artwork?page_size=${Content.pageSize}&page=${offset.value}${stringParams}`);
     } else if (type === "artists") {
-      const { q, nationality } = parameters;
+      const { q, nationality, guests } = parameters;
 
       /**
        * Artist parameters
@@ -148,6 +148,7 @@ class Content {
       params = {
         query: q ? `q=${q}` : null,
         nationality: nationality ? `nationality=${nationality}` : null,
+        guests: guests ? `artworks__isnull=${guests}` : null,
       };
 
       setParams(params);
@@ -156,6 +157,11 @@ class Content {
     }
   }
 
+  /**
+   * Fetches content from a given URL and type.
+   * @param {string} url - The URL to fetch content from.
+   * @param {string} type - The type of content to fetch.
+   */
   async fetchContent(url, type) {
     try {
       // need to double verif before the second requests with contentData
@@ -207,7 +213,6 @@ class Content {
    * @returns {Array<Promise<Object>>} - An array of promises that resolve to the
    * transformed data objects. The promises may reject if the GET request fails.
    */
-
   contentData(data) {
     return data.map(async (data) => {
       try {
@@ -216,9 +221,9 @@ class Content {
 
         data.userData = userData;
         return data;
-        // console.log(userData);
       } catch (err) {
         console.log(err);
+
         return data;
       }
     });
@@ -256,7 +261,7 @@ async function getContent(type, parameters) {
   const newContent = new Content(type, parameters);
 
   // fetch the content with instance function (not doing that inside the constructor because can deal with async await)
-  return await newContent.fetchContent(newContent.url, newContent.type);;
+  return await newContent.fetchContent(newContent.url, newContent.type);
 }
 
 /**
