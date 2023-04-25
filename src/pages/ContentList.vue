@@ -3,7 +3,7 @@ import axios from "axios";
 
 import { useRouter } from "vue-router";
 
-import { ref, computed, onMounted, watch } from "vue";
+import { ref, computed, onMounted, watch, vModelCheckbox } from "vue";
 
 /**
 
@@ -68,16 +68,23 @@ let productionYear = ref(null);
 let q = ref(null);
 let shootingPlace = ref(null);
 let type = ref(null);
+let guests = ref(null);
 
 // let typeOfContent define the params and display them inside the dom with a includes or something like a dictionnary
 let params = ref();
 
-watch([genres, keywords, productionYear, q, shootingPlace, type], () => {
+// watcher execute once after moving to another page -> he watch the ref be reseted ?!
+watch([genres, keywords, productionYear, q, shootingPlace, type, guests], () => {
   // prevent the observer to fetch at the same time
   observer.unobserve(watcher.value);
 
+  // authorized path to execute router
+  let paths = ["/artists", "/artworks"]
+
   // can filter only defined parameters for a cleanest URL
-  router.push({ path: typeOfContent.value, query: { ...params.value } });
+  if (paths.includes(router.currentRoute.value.path)) {
+    router.push({ path: typeOfContent.value, query: { ...params.value } });
+  }
 
   // getContent(typeOfContent.value, params.value);
 
@@ -216,6 +223,7 @@ function setup() {
     params.value = {
       nationality,
       q,
+      guests
     };
   }
 
@@ -261,7 +269,7 @@ function removePreprod(url) {
   <main class="pt-10 lg:pr-20 px-10 lg:px-0 w-full">
     <UnderlineTitle
       class="w-max mb-6"
-      title="Oeuvres"
+      :title="typeOfContent === 'artworks' ? 'Oeuvres' : 'Artistes'"
       :uppercase="true"
       :underlineSize="1"
       :fontSize="1"
@@ -287,6 +295,21 @@ function removePreprod(url) {
         desc="Nationalité"
         @update:option="(newValue) => (nationality = newValue)"
       ></UiSelect>
+
+      <label v-if="params && Object.keys(params).includes('guests')" for="checkbox" class="relative inline-flex items-center gap-2">
+        Artistes invités
+        <div class="relative h-4 flex items-center justify-center">
+          <input
+            v-model="guests"
+            name="guests"
+            type="checkbox"
+            class="peer appearance-none w-4 h-4 border border-black cursor-pointer rounded"
+          />
+          <span class="peer-checked:block hidden absolute origin-left -rotate-[55deg] top-[65%] left-1/2 w-full h-[2px] bg-black outline outline-white rounded-3xl pointer-events-none"></span>
+          <span class="peer-checked:block hidden absolute origin-left -rotate-[130deg] top-[65%] left-1/2 w-1/2 h-[2px] bg-black rounded-3xl pointer-events-none"></span>
+          <!-- <span class="peer-checked:block hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-black pointer-events-none rounded-sm"></span> -->
+        </div>
+      </label>
 
       <!-- <UiSelect
         v-if="params && Object.keys(params).includes('genres')"
@@ -349,11 +372,7 @@ function removePreprod(url) {
             :title="content.title"
           ></component>
         </li>
-        <span
-          ref="watcher"
-          id="watcher"
-          class="block w-full h-full"
-        ></span>
+        <span ref="watcher" id="watcher" class="block w-full h-full"></span>
       </ul>
     </div>
   </main>
