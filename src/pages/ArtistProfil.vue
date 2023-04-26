@@ -3,6 +3,9 @@ import { useRouter } from "vue-router";
 
 import { ref } from "vue";
 
+import { marked } from "marked";
+
+
 /**
 
   Composables
@@ -50,6 +53,15 @@ const formatSocialNumber = (number) => {
 
   return number.toString().replaceAll(",", "");
 };
+
+
+/**
+ * parsed raw description from markdown or html (or both) and parse it
+ * @param {string} content - desc from props via bio.data
+ */
+function parsedContent(content) {
+  return marked(content);
+}
 
 // Need to remove this and all element using this function for Prod
 function removePreprod(url) {
@@ -334,7 +346,7 @@ function removePreprod(url) {
                 <p
                   v-if="user?.profile?.cursus"
                   class="text-sm whitespace-pre-line"
-                  v-html="user?.profile?.cursus"
+                  v-html="parsedContent(user?.profile?.cursus)"
                 ></p>
               </div>
             </div>
