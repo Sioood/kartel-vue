@@ -108,10 +108,10 @@ function removePreprod(url) {
     >
       <div class="pl-8 pr-6 pt-5 pb-12 lg:w-3/5 flex flex-col">
         <div id="content" class="flex flex-col gap-10">
-          <div class="flex items-end gap-6">
+          <div class="flex flex-col lg:flex-row lg:items-end gap-6">
             <img
               v-if="user?.profile?.photo"
-              class="w-1/3 min-h-[15rem] bg-black-extralightest object-cover"
+              class="lg:w-1/3 min-h-[25vh] bg-black-extralightest object-cover"
               :src="user.profile.photo"
               :alt="`Photo de ${user.first_name} ${user.last_name}`"
             />

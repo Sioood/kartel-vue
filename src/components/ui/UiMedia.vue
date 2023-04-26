@@ -32,16 +32,17 @@ const open = ref(false);
         class="z-40 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-black/[.5]"
       ></div>
       <div
-        class="z-50 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2/3 h-screen flex items-center justify-center overflow-y-scroll"
+        class="z-50 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95vw] lg:w-2/3 max-h-[90svh] flex flex-col items-center justify-center overflow-y-scroll"
       >
+      <span class="block w-full h-1 bg-black"></span>
         <div
-          class="h-full max-w-max flex flex-col items-center justify-center gap-3 bg-gray-extralightest border"
+          class="h-full max-w-max flex flex-col items-center justify-center bg-gray-extralightest"
         >
-          <div class="px-4 py-2 w-full flex items-center justify-between gap-3">
+          <div class="px-2 py-2 w-full flex items-center justify-between gap-3">
             <h2 class="w-3/4 text-2xl font-medium">
               {{ props.title }}
             </h2>
-            <button @click="open = false" class="px-4 py-2 border">
+            <button @click="open = false" class="px-4 py-2 bg-black text-white text-sm">
               Close
             </button>
           </div>
