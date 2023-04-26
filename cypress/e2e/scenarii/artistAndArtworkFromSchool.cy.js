@@ -85,7 +85,7 @@ describe("Artist and artworks informations from school, navigate through all pag
 
       // check if the page have the good artist
       cy.get("h2").contains("Amélie Agbo");
-      cy.get("h2").contains("Oeuvres");
+      cy.get("h2").contains("Œuvres");
     });
 
     it("Check data of an artwork of the precedent artist", () => {

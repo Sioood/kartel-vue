@@ -106,7 +106,7 @@ const router = createRouter({
       name: "artworks",
       component: () => import("../pages/ContentList.vue"),
       meta: {
-        title: "Oeuvres - Kartel"
+        title: "Œuvres - Kartel"
       },
     },
     {

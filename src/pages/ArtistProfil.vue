@@ -366,7 +366,7 @@ function removePreprod(url) {
 
         <UnderlineTitle
           class="w-max"
-          title="Oeuvres"
+          title="Œuvres"
           subtitle="Artist"
           :uppercase="true"
           :underlineSize="1"

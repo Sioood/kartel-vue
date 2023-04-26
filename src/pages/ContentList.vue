@@ -269,7 +269,7 @@ function removePreprod(url) {
   <main class="pt-10 lg:pr-20 px-10 lg:px-0 w-full">
     <UnderlineTitle
       class="w-max mb-6"
-      :title="typeOfContent === 'artworks' ? 'Oeuvres' : 'Artistes'"
+      :title="typeOfContent === 'artworks' ? 'Œuvres' : 'Artistes'"
       :uppercase="true"
       :underlineSize="1"
       :fontSize="1"
