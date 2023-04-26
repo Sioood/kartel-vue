@@ -95,12 +95,8 @@ class Artworks {
    */
   async getArtworks(query) {
     try {
-      let response = await axios.get(`production/artwork-search?q=${query}`);
+      let response = await axios.get(`production/artwork-search?q=${query}&page_size=${resultsLength}`);
       let data = response.data;
-
-      if (data.length > resultsLength) {
-        data.length = resultsLength;
-      }
 
       if (this.id === instance.artworks.size) {
         for (let artwork of data) {
@@ -132,12 +128,8 @@ class Artists {
    */
   async getArtists(query) {
     try {
-      let response = await axios.get(`people/artist-search?q=${query}`);
+      let response = await axios.get(`people/artist-search?q=${query}&page_size=${resultsLength}`);
       let data = response.data;
-
-      if (data.length > resultsLength) {
-        data.length = resultsLength;
-      }
 
       if (this.id === instance.artists.size) {
         for (let artist of data) {
