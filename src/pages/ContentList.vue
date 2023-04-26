@@ -68,7 +68,7 @@ let productionYear = ref(null);
 let q = ref(null);
 let shootingPlace = ref(null);
 let type = ref(null);
-let guests = ref(null);
+let guests = ref(false);
 
 // let typeOfContent define the params and display them inside the dom with a includes or something like a dictionnary
 let params = ref();
