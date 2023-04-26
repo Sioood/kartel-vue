@@ -246,7 +246,15 @@ onUnmounted(() => {
     </RouterLink>
 
     <!-- key detect changement and reload component if is the same route with a different id (component is already mounted) -->
-    <RouterView />
+    <!-- <RouterView /> -->
+
+    <Suspense>
+      <!-- component with nested async dependencies -->
+      <RouterView />
+
+      <!-- loading state via #fallback slot -->
+      <template #fallback> Loading... </template>
+    </Suspense>
     <!-- <RouterView :key="$route.path" /> -->
   </div>
 </template>

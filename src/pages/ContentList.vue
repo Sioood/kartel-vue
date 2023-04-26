@@ -3,7 +3,7 @@ import axios from "axios";
 
 import { useRouter } from "vue-router";
 
-import { ref, computed, onMounted, watch, vModelCheckbox } from "vue";
+import { ref, computed, onMounted, watch } from "vue";
 
 /**
 
@@ -26,7 +26,6 @@ import UnderlineTitle from "@/components/ui/UnderlineTitle.vue";
 import ArtworkCard from "@/components/artwork/ArtworkCard.vue";
 import ArtistCard from "@/components/artist/ArtistCard.vue";
 import UiSelect from "@/components/ui/UiSelect.vue";
-import FilterSearch from "@/components/ui/FilterSearch.vue";
 
 const router = useRouter();
 
@@ -74,25 +73,28 @@ let guests = ref(false);
 let params = ref();
 
 // watcher execute once after moving to another page -> he watch the ref be reseted ?!
-watch([genres, keywords, productionYear, q, shootingPlace, type, guests], () => {
-  // prevent the observer to fetch at the same time
-  observer.unobserve(watcher.value);
+watch(
+  [genres, keywords, productionYear, q, shootingPlace, type, guests],
+  () => {
+    // prevent the observer to fetch at the same time
+    observer.unobserve(watcher.value);
 
-  // authorized path to execute router
-  let paths = ["/artists", "/artworks"]
+    // authorized path to execute router
+    let paths = ["/artists", "/artworks"];
 
-  // can filter only defined parameters for a cleanest URL
-  if (paths.includes(router.currentRoute.value.path)) {
-    router.push({ path: typeOfContent.value, query: { ...params.value } });
+    // can filter only defined parameters for a cleanest URL
+    if (paths.includes(router.currentRoute.value.path)) {
+      router.push({ path: typeOfContent.value, query: { ...params.value } });
+    }
+
+    // getContent(typeOfContent.value, params.value);
+
+    // reobserve
+    observer.observe(watcher.value);
+
+    // getContent("artwork", params.value);
   }
-
-  // getContent(typeOfContent.value, params.value);
-
-  // reobserve
-  observer.observe(watcher.value);
-
-  // getContent("artwork", params.value);
-});
+);
 
 // set option of production year for select based on a min (1998) to now
 function getYears() {
@@ -223,7 +225,7 @@ function setup() {
     params.value = {
       nationality,
       q,
-      guests
+      guests,
     };
   }
 
@@ -296,7 +298,11 @@ function removePreprod(url) {
         @update:option="(newValue) => (nationality = newValue)"
       ></UiSelect>
 
-      <label v-if="params && Object.keys(params).includes('guests')" for="checkbox" class="relative inline-flex items-center gap-2">
+      <label
+        v-if="params && Object.keys(params).includes('guests')"
+        for="checkbox"
+        class="relative inline-flex items-center gap-2"
+      >
         Artistes invités
         <div class="relative h-4 flex items-center justify-center">
           <input
@@ -305,8 +311,12 @@ function removePreprod(url) {
             type="checkbox"
             class="peer appearance-none w-4 h-4 border border-black cursor-pointer rounded"
           />
-          <span class="peer-checked:block hidden absolute origin-left -rotate-[55deg] top-[65%] left-1/2 w-full h-[2px] bg-black outline outline-white rounded-3xl pointer-events-none"></span>
-          <span class="peer-checked:block hidden absolute origin-left -rotate-[130deg] top-[65%] left-1/2 w-1/2 h-[2px] bg-black rounded-3xl pointer-events-none"></span>
+          <span
+            class="peer-checked:block hidden absolute origin-left -rotate-[55deg] top-[65%] left-1/2 w-full h-[2px] bg-black outline outline-white rounded-3xl pointer-events-none"
+          ></span>
+          <span
+            class="peer-checked:block hidden absolute origin-left -rotate-[130deg] top-[65%] left-1/2 w-1/2 h-[2px] bg-black rounded-3xl pointer-events-none"
+          ></span>
           <!-- <span class="peer-checked:block hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-black pointer-events-none rounded-sm"></span> -->
         </div>
       </label>
@@ -354,9 +364,9 @@ function removePreprod(url) {
     </div>
     <span class="my-3 w-full h-0.5 block bg-gray-extralight"></span>
 
-    <div>
+    <div class="pb-12">
       <ul
-        class="pb-12 grid lg:grid-cols-fluid-14-lg grid-cols-fluid-14 flex-grow-0 gap-3"
+        class="grid lg:grid-cols-fluid-14-lg grid-cols-fluid-14 flex-grow-0 gap-3"
       >
         <li class="" v-for="content in contents" :key="content">
           <!-- <ArtworkCard
@@ -374,8 +384,33 @@ function removePreprod(url) {
         </li>
         <span ref="watcher" id="watcher" class="block w-full h-full"></span>
       </ul>
+      <ul
+        v-if="contents.length === 0"
+        class="pb-12 grid lg:grid-cols-fluid-14-lg grid-cols-fluid-14 flex-grow-0 gap-3"
+      >
+        <li
+          class="suspense-item relative h-44 flex flex-col-reverse"
+          v-for="item in 10"
+          :key="item"
+        >
+          <span class="block w-full h-1 bg-black"></span>
+        </li>
+      </ul>
     </div>
   </main>
 </template>
 
-<style scoped></style>
+<style scoped>
+.suspense-item {
+  animation: wave 2s infinite ease-in alternate;
+}
+
+@keyframes wave {
+  from {
+    background-color: rgb(238, 238, 238);
+  }
+  to {
+    background-color: rgb(225, 225, 225);
+  }
+}
+</style>
