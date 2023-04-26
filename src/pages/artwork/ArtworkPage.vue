@@ -95,7 +95,7 @@ onBeforeUnmount(() => {
       >
         <section class="flex flex-col gap-6">
           <img
-            class="min-h-[20rem] bg-black-extralightest"
+            class="min-h-[30vh] bg-black-extralightest"
             :src="`${config.media_service}?url=${removePreprod(
               artwork.picture
             )}&mode=adapt&w=1000&fmt=jpg`"
