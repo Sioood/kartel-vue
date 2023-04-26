@@ -22,7 +22,7 @@ import {
   <div class="relative flex flex-col items-center">
     <label
       for="search"
-      class="p-1 flex flex-col items-end text-xs text-gray-500"
+      class="p-1 flex flex-col items-end"
     >
       <input
         v-model="input"
@@ -38,7 +38,7 @@ import {
         class="px-2 py-1 box-border w-full text-lg text-black font-bold capitalize focus:bg-gray-100 transition-all duration-500"
       />
       <span class="w-full h-1 bg-black dark:bg-white"></span>
-      SEARCH
+      <span class="text-xs text-gray-500">SEARCH</span>
     </label>
     <div
       @mousemove="result.disabled = true"
@@ -92,7 +92,6 @@ import {
                 <h5 v-else class="text-base font-medium">
                   {{ `${artist.user.first_name}  ${artist.user.last_name}` }}
                 </h5>
-                <h6 class="text-sm">promotion</h6>
               </div>
               <div class="flex flex-col">
                 <h6

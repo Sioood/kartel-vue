@@ -51,7 +51,7 @@ onMounted(async () => {
 <!-- Rename to be Student / Artist view -> Promo list only for student or hidden with button for artist -->
 <template>
   <main
-    class="h-screen md:pr-20 pb-10 w-full flex flex-col md:flex-row md:divide-x divide-y md:divide-y-0"
+    class="md:pr-20 w-full h-[91svh] flex flex-col md:flex-row md:divide-x divide-y md:divide-y-0"
   >
     <div class="md:sticky top-0 py-2 px-2 flex flex-col justify-between gap-4">
       <div class="p-2 flex flex-col gap-3">

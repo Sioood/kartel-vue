@@ -80,7 +80,7 @@ function removePreprod(url) {
 
   <!-- max h-screen ?? -> overflow scroll for component ? -->
   <main
-    class="pt-2 lg:pr-20 pb-2 w-full min-h-screen flex flex-col gap-1 lg:gap-5 divide-y lg:divide-y-0"
+    class="lg:pr-20 w-full min-h-screen flex flex-col gap-1 lg:gap-5 divide-y lg:divide-y-0"
   >
     <div
       class="sticky z-10 top-14 w-full flex justify-around lg:hidden divide-x bg-white"
@@ -104,9 +104,9 @@ function removePreprod(url) {
     </div>
 
     <div
-      class="pt-2 pb-2 w-full min-h-screen flex flex-col lg:flex-row justify-between gap-10 divide-x"
+      class="pb-2 w-full min-h-screen flex flex-col lg:flex-row justify-between gap-10 divide-x"
     >
-      <div class="pl-8 pr-6 py-5 lg:w-3/5 flex flex-col">
+      <div class="pl-8 pr-6 pt-5 pb-12 lg:w-3/5 flex flex-col">
         <div id="content" class="flex flex-col gap-10">
           <div class="flex items-end gap-6">
             <img
@@ -363,7 +363,7 @@ function removePreprod(url) {
       <div
         v-if="artwork"
         id="artwork"
-        class="pl-8 pr-6 py-5 sticky top-16 w-full lg:w-2/5 lg:h-screen lg:overflow-x-scroll flex flex-col gap-6"
+        class="pl-8 pr-6 pb-5 sticky top-16 w-full lg:w-2/5 lg:h-[90svh] lg:overflow-x-scroll flex flex-col gap-6"
       >
         <div class="lg:hidden flex flex-col">
           <hr />
