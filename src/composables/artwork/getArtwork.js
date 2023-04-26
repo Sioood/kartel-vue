@@ -258,4 +258,4 @@ async function getEvent(event) {
 
 }
 
-export { getArtwork, artwork, authorsStore, galleries, genres, events };
+export { getArtwork, artwork, authorsStore, galleries, genres, events,initValues };

@@ -8,7 +8,7 @@ import config from "@/config";
  * Modules
  */
 import { useRouter } from "vue-router";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onBeforeUnmount } from "vue";
 
 /**
  * Composables
@@ -21,6 +21,7 @@ import {
   galleries,
   genres,
   events,
+  initValues
 } from "@/composables/artwork/getArtwork";
 
 /**
@@ -53,6 +54,10 @@ onMounted(() => {
   // and get the artwork with the id
   getArtwork(artworkId);
 });
+
+onBeforeUnmount(() => {
+  initValues()
+})
 </script>
 
 <template>
@@ -84,9 +89,13 @@ onMounted(() => {
     <div
       class="pb-2 w-full min-h-screen flex flex-col lg:flex-row justify-between gap-10 divide-x"
     >
-      <div id="content" class="pl-8 pr-6 pt-5 pb-12 lg:w-3/5 flex flex-col gap-10">
+      <div
+        id="content"
+        class="pl-8 pr-6 pt-5 pb-12 lg:w-3/5 flex flex-col gap-10"
+      >
         <section class="flex flex-col gap-6">
           <img
+            class="min-h-[20rem] bg-black-extralightest"
             :src="`${config.media_service}?url=${removePreprod(
               artwork.picture
             )}&mode=adapt&w=1000&fmt=jpg`"
