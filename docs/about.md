@@ -10,7 +10,7 @@ Le Fresnoy - Studio national des arts contemporains est une institution de forma
 
 Kartel est un outil qui référence toutes choses étant passées par le Fresnoy ou en lien avec celui-ci.
 
-Il référence promotions, étudiants, artistes, oeuvres, expostions et bien d'autres...
+Il référence promotions, étudiants, artistes, œuvres, expostions et bien d'autres...
 
 ## Technos
 
