@@ -69,7 +69,7 @@ const storeApi = useConfigApi();
     </div>
 
     <ul
-      v-if="storeApi.promotion.students"
+      v-if="storeApi.promotion.students[0]"
       class="students grid grid-cols-[repeat(auto-fill,_minmax(10rem,_1fr))] gap-3"
     >
       <!-- <p>{{ storeApi.promoStudents[0] }}</p> -->
@@ -83,10 +83,10 @@ const storeApi = useConfigApi();
         :student="student"
         :data-key="index"
       ></StudentCard>
-
-      <!-- </li> -->
     </ul>
-    <p v-else>Aucun étudiants n'a était trouvé pour cette promotion</p>
+    <p v-else-if="!storeApi.promotion.students[0] && !storeApi.promotion.load">
+      Aucun étudiants n'a était trouvé pour cette promotion
+    </p>
   </div>
 </template>
 

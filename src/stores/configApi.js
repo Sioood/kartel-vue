@@ -14,6 +14,7 @@ export const useConfigApi = defineStore("configApi", () => {
     id: "",
     data: "",
     students: [],
+    load: false,
   });
 
   class Students {
@@ -54,6 +55,8 @@ export const useConfigApi = defineStore("configApi", () => {
         ));
       }
 
+      promotion.value.load = true;
+
       promotion.value.map.set(
         this.promoId,
         await this.fetchStudents(this.promoId)
@@ -62,6 +65,7 @@ export const useConfigApi = defineStore("configApi", () => {
       if (this.promoId === promotion.value.id) {
         promotion.value.students = promotion.value.map.get(this.promoId);
       }
+      promotion.value.load = false;
     }
 
     /**
