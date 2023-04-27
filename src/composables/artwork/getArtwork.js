@@ -110,8 +110,8 @@ async function getGallery(url, output) {
     data.mediaData = [];
 
     if (data?.media) {
-      data.media.forEach((el) => {
-        getMedia(el, data, output);
+      data.media.forEach((url) => {
+        new Media(url, data, output);
       });
     }
   } catch (err) {
@@ -119,26 +119,71 @@ async function getGallery(url, output) {
   }
 }
 
-// Check index of data.media for push in galleries only when all media is here
-// prevent multipushing and duplicate medias
-let index = 1;
+/**
+ * Media class for fetching media of a specific gallery
+ */
+class Media {
+  static index = new Map();
 
-async function getMedia(url, galleryData, output) {
-  try {
-    const response = await axios.get(url);
+  constructor(url, galleryData, output) {
+    this.url = url;
+    this.galleryData = galleryData;
+    this.output = output;
 
-    const data = response.data;
+    this._fetchMedia(this.url, this.galleryData, this.output);
+  }
 
-    galleryData.mediaData.push(data);
+  /**
+   * Get a specific gallery from index Map
+   * @returns {object} - object from the index Map with the gallery id
+   */
+  indexData = () => Media.index.get(this.galleryData.id);
 
-    if (index === galleryData.media.length) {
-      output.push(galleryData);
-      index = 1
-    } else {
-      index++;
+  /**
+   * Set a gallery in index Map with the gallery id the media offset and the total of media needed
+   * @param {boolean} increment
+   */
+  indexSet = (increment) => {
+    Media.index.set(this.galleryData.id, {
+      id: this.galleryData.id,
+      medias: increment ? this.indexData().medias + 1 : 1,
+      total: this.galleryData.media.length,
+    });
+  };
+
+  /**
+   * Fetches media data from the given URL and updates the galleryData and output
+   * arrays as necessary.
+   *
+   * @param {string} url - The URL to fetch media data from.
+   * @param {Object} galleryData - The galleryData object to update with the fetched
+   * media data.
+   * @param {Array} output - The output array to update with the galleryData object
+   * if all media data has been fetched.
+   * @returns {Promise} - A promise that resolves when the media data has been fetched
+   * and the galleryData and output arrays have been updated.
+   * @throws {Error} - If there is an error fetching the media data.
+   */
+  async _fetchMedia(url, galleryData, output) {
+    try {
+      const response = await axios.get(url);
+
+      const data = response.data;
+
+      galleryData.mediaData.push(data);
+
+      if (Media.index.has(galleryData.id)) {
+        this.indexSet(true);
+      } else {
+        this.indexSet();
+      }
+
+      if (this.indexData().medias === this.indexData().total) {
+        output.push(galleryData);
+      }
+    } catch (err) {
+      console.error(err);
     }
-  } catch (err) {
-    console.error(err);
   }
 }
 
@@ -255,7 +300,14 @@ async function getEvent(event) {
   } catch (err) {
     console.error(err);
   }
-
 }
 
-export { getArtwork, artwork, authorsStore, galleries, genres, events,initValues };
+export {
+  getArtwork,
+  artwork,
+  authorsStore,
+  galleries,
+  genres,
+  events,
+  initValues,
+};
