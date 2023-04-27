@@ -148,7 +148,10 @@ class Content {
       params = {
         query: q ? `q=${q}` : null,
         nationality: nationality ? `nationality=${nationality}` : null,
-        guests: `artworks__isnull=${guests}&student__isnull=${guests}`,
+        guests:
+          guests === "true"
+            ? `artworks__isnull=false&student__isnull=true`
+            : `artworks__isnull=false`,
       };
 
       setParams(params);
