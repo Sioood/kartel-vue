@@ -10,6 +10,9 @@ import config from "@/config";
 import { useRouter } from "vue-router";
 import { ref, onMounted, onBeforeUnmount, watch } from "vue";
 
+import { Fancybox } from "@fancyapps/ui";
+import "@fancyapps/ui/dist/fancybox/fancybox.css";
+
 /**
  * Composables
  */
@@ -47,12 +50,18 @@ function removePreprod(url) {
   }
 }
 
+let gallery = ref();
+let preview = ref();
+
 onMounted(() => {
   // get the id of the artwork from the router param
   const artworkId = router.currentRoute.value.params.id;
 
   // and get the artwork with the id
   getArtwork(artworkId);
+
+  Fancybox.bind(gallery.value, "[data-fancybox]");
+  Fancybox.bind(preview.value, "[data-fancybox]");
 });
 
 watch(
@@ -68,6 +77,7 @@ watch(
 
 onBeforeUnmount(() => {
   initValues();
+  Fancybox.destroy();
 });
 </script>
 
@@ -104,8 +114,9 @@ onBeforeUnmount(() => {
         id="content"
         class="pl-8 pr-6 pt-5 pb-12 lg:w-3/5 flex flex-col gap-10"
       >
-        <section class="flex flex-col gap-6">
+        <section class="flex flex-col gap-6" ref="preview">
           <img
+            data-fancybox="preview"
             class="min-h-[30vh] bg-black-extralightest"
             :src="`${config.media_service}?url=${removePreprod(
               artwork.picture
@@ -216,6 +227,7 @@ onBeforeUnmount(() => {
 
       <!-- Set to scroll indepentently but can scroll with the entire page -->
       <div
+        ref="gallery"
         id="galleries"
         class="pl-8 pr-6 py-5 sticky top-16 lg:w-2/5 lg:h-[90svh] lg:overflow-x-scroll flex flex-col gap-6"
       >
