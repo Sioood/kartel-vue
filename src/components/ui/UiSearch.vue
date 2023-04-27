@@ -1,6 +1,8 @@
 <script setup>
 import config from "@/config";
 
+import { watch } from "vue";
+
 import { load } from "@/composables/interceptors";
 
 import { getId } from "@/composables/getId";
@@ -13,17 +15,24 @@ import {
   hiddenInput,
 } from "@/composables/search";
 
+import { useRouter } from "vue-router";
+const router = useRouter();
+
 // Function to get authors of an artwork
 
 // Function to get Artworks of a student
+
+watch(
+  () => router.currentRoute.value,
+  () => {
+    input.value = "";
+  }
+);
 </script>
 
 <template>
   <div class="relative flex flex-col items-center">
-    <label
-      for="search"
-      class="p-1 flex flex-col items-end"
-    >
+    <label for="search" class="p-1 flex flex-col items-end">
       <input
         v-model="input"
         @input="search(input)"

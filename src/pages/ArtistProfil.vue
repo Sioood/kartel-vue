@@ -78,8 +78,6 @@ watch(
   () => {
     artistId = router.currentRoute.value.params.id;
     setup(artistId, token);
-
-    console.log(artist.value);
   }
 );
 

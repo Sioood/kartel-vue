@@ -71,7 +71,6 @@ async function getUser(id) {
   };
 
   if (token) {
-    console.log(true);
     headers.Authorization = `JWT ${token}`;
   }
 
@@ -188,7 +187,6 @@ async function getStudent(id) {
 }
 
 async function setup(artistId, auth) {
-  console.log(artistId);
   // await the artist data for get the user url to not exec the function getUser inside
   await getArtist(artistId);
 
@@ -200,7 +198,6 @@ async function setup(artistId, auth) {
 
   // auth is checked by invert because if checked by a !local.storage which invert boolean response
   if (!auth) {
-    console.log(auth);
     getCandidature(user.value.username);
   }
 }
