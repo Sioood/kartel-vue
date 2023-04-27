@@ -8,7 +8,7 @@ import config from "@/config";
  * Modules
  */
 import { useRouter } from "vue-router";
-import { ref, onMounted, onBeforeUnmount } from "vue";
+import { ref, onMounted, onBeforeUnmount, watch } from "vue";
 
 /**
  * Composables
@@ -21,7 +21,7 @@ import {
   galleries,
   genres,
   events,
-  initValues
+  initValues,
 } from "@/composables/artwork/getArtwork";
 
 /**
@@ -55,9 +55,20 @@ onMounted(() => {
   getArtwork(artworkId);
 });
 
+watch(
+  () => router.currentRoute.value,
+  () => {
+    initValues();
+
+    const artworkId = router.currentRoute.value.params.id;
+
+    getArtwork(artworkId);
+  }
+);
+
 onBeforeUnmount(() => {
-  initValues()
-})
+  initValues();
+});
 </script>
 
 <template>
@@ -206,7 +217,7 @@ onBeforeUnmount(() => {
       <!-- Set to scroll indepentently but can scroll with the entire page -->
       <div
         id="galleries"
-        class="pl-8 pr-6 pb-40 sticky top-16 lg:w-2/5 lg:h-[90svh] lg:overflow-x-scroll flex flex-col gap-6"
+        class="pl-8 pr-6 py-5 sticky top-16 lg:w-2/5 lg:h-[90svh] lg:overflow-x-scroll flex flex-col gap-6"
       >
         <div class="lg:hidden flex flex-col">
           <hr />

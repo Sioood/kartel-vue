@@ -1,17 +1,24 @@
 <script setup>
+import config from "@/config";
 import { useRouter } from "vue-router";
 
-import { ref } from "vue";
+import { ref, onMounted, watch } from "vue";
 
 import { marked } from "marked";
-
 
 /**
 
   Composables
 
 **/
-import { getArtistInfo } from "@/composables/artist/getArtistInfo";
+import {
+  artist,
+  user,
+  artwork,
+  student,
+  candidature,
+  setup,
+} from "@/composables/artist/getArtistInfo";
 import { getId } from "@/composables/getId";
 
 /**
@@ -25,16 +32,16 @@ import ArtworkCard from "@/components/artwork/ArtworkCard.vue";
 
 const router = useRouter();
 
-const artistId = router.currentRoute.value.params.id;
+let artistId = router.currentRoute.value.params.id;
 
 let token = !localStorage.getItem("token");
 
 // refs from the composable
 // auth is true for now because method to verif auth is not created
-const { artist, user, artwork, student, candidature } = getArtistInfo(
-  artistId,
-  token
-);
+// const { artist, user, artwork, student, candidature, setup } = getArtistInfo(
+//   artistId,
+//   token
+// );
 let responsive = ref(false);
 
 /**
@@ -54,7 +61,6 @@ const formatSocialNumber = (number) => {
   return number.toString().replaceAll(",", "");
 };
 
-
 /**
  * parsed raw description from markdown or html (or both) and parse it
  * @param {string} content - desc from props via bio.data
@@ -62,6 +68,20 @@ const formatSocialNumber = (number) => {
 function parsedContent(content) {
   return marked(content);
 }
+
+onMounted(() => {
+  setup(artistId, token);
+});
+
+watch(
+  () => router.currentRoute.value,
+  () => {
+    artistId = router.currentRoute.value.params.id;
+    setup(artistId, token);
+
+    console.log(artist.value);
+  }
+);
 
 // Need to remove this and all element using this function for Prod
 function removePreprod(url) {
@@ -112,7 +132,7 @@ function removePreprod(url) {
             <img
               v-if="user?.profile?.photo"
               class="lg:w-1/3 min-h-[25vh] bg-black-extralightest object-cover"
-              :src="user.profile.photo"
+              :src="`${config.media_service}?url=${user.profile.photo}&mode=adapt&w=1000&fmt=jpg`"
               :alt="`Photo de ${user.first_name} ${user.last_name}`"
             />
 
@@ -363,7 +383,7 @@ function removePreprod(url) {
       <div
         v-if="artwork"
         id="artwork"
-        class="pl-8 pr-6 pb-5 sticky top-16 w-full lg:w-2/5 lg:h-[90svh] lg:overflow-x-scroll flex flex-col gap-6"
+        class="pl-8 pr-6 py-5 sticky top-16 w-full lg:w-2/5 lg:h-[90svh] lg:overflow-x-scroll flex flex-col gap-6"
       >
         <div class="lg:hidden flex flex-col">
           <hr />

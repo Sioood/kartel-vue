@@ -6,7 +6,6 @@ import { ref } from "vue";
 
 const props = defineProps({
   url: {
-    type: String,
     required: true,
   },
   // medium is the media to display in lightbox
@@ -14,7 +13,7 @@ const props = defineProps({
     required: false,
   },
   title: {
-    type: String,
+    required: false,
   },
 });
 
@@ -34,7 +33,7 @@ const open = ref(false);
       <div
         class="z-50 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95vw] lg:w-2/3 max-h-[90svh] flex flex-col items-center justify-center overflow-y-scroll"
       >
-      <span class="block w-full h-1 bg-black"></span>
+        <span class="block w-full h-1 bg-black"></span>
         <div
           class="h-full max-w-max flex flex-col items-center justify-center bg-gray-extralightest"
         >
@@ -42,7 +41,10 @@ const open = ref(false);
             <h2 class="w-3/4 text-2xl font-medium">
               {{ props.title }}
             </h2>
-            <button @click="open = false" class="px-4 py-2 bg-black text-white text-sm">
+            <button
+              @click="open = false"
+              class="px-4 py-2 bg-black text-white text-sm"
+            >
               Close
             </button>
           </div>
@@ -50,7 +52,11 @@ const open = ref(false);
           <img
             v-if="!props.medium"
             class="w-full h-full object-cover aspect-video"
-            :src="`${config.media_service}?url=${props.url}&mode=adapt&w=1000&fmt=jpg`"
+            :src="
+              props.url
+                ? `${config.media_service}?url=${props.url}&mode=adapt&w=1000&fmt=jpg`
+                : ''
+            "
             :alt="props.title"
           />
           <video
@@ -70,7 +76,11 @@ const open = ref(false);
     >
       <img
         class="w-full h-full object-cover aspect-video"
-        :src="`${config.media_service}?url=${props.url}&mode=adapt&w=300&fmt=jpg`"
+        :src="
+          props.url
+            ? `${config.media_service}?url=${props.url}&mode=adapt&w=300&fmt=jpg`
+            : ''
+        "
         :alt="props.title"
       />
     </div>
