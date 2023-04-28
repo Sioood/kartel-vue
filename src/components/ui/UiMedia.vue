@@ -14,6 +14,27 @@ const props = defineProps({
     required: false,
   },
 });
+
+/**
+ * Determine the type of medium based on props.medium and props.url.
+ * @returns {string|null} - Returns "iframe" if the medium is a soundcloud link, "pdf" if the url is a pdf, and null if neither.
+ */
+
+function type() {
+  const item = props.medium
+    ? props.medium
+    : `${config.media_service}?url=${props.url}&mode=adapt&w=1000&fmt=jpg`;
+
+  if (item.includes("soundcloud")) {
+    return "iframe";
+  }
+
+  if (item.includes(".pdf")) {
+    return "pdf";
+  }
+
+  return null;
+}
 </script>
 
 <!-- Change the name with MediaCard might be better for reuse -->
@@ -26,6 +47,7 @@ const props = defineProps({
     >
       <a
         data-fancybox="gallery"
+        :data-type="type()"
         :data-caption="props.title"
         :href="
           props.medium
