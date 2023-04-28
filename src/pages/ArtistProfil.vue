@@ -50,6 +50,13 @@ let responsive = ref(false);
  *
  */
 const formatSocialNumber = (number) => {
+  const socialNumberRegex =
+    /\S{1}\s{1}\S{2}\s{1}\S{2}\s{1}\S{2}\s{1}\S{3}\s{1}\S{3}\s{1}\S{2}/gm;
+
+  if (number.match(socialNumberRegex)) {
+    return number;
+  }
+
   number = number.toString().split("");
 
   const spaces = ["1", "4", "7", "10", "14", "18"];
@@ -67,6 +74,18 @@ const formatSocialNumber = (number) => {
  */
 function parsedContent(content) {
   return marked(content);
+}
+
+function formatUrlToText(url) {
+  const filenameRegex = /\S{0,}[.]\S{0,}/gm;
+
+  const split = url.split("/");
+
+  if (!!split[split.length - 1].match(filenameRegex)) {
+    return split[split.length - 1];
+  }
+
+  return url;
 }
 
 onMounted(() => {
@@ -266,7 +285,7 @@ function removePreprod(url) {
                       :href="candidature?.curriculum_vitae"
                       class="underline"
                     >
-                      {{ candidature?.curriculum_vitae }}
+                      {{ formatUrlToText(candidature?.curriculum_vitae) }}
                     </a>
                   </div>
                 </li>
@@ -278,7 +297,7 @@ function removePreprod(url) {
                       :href="candidature?.identity_card"
                       class="underline"
                     >
-                      {{ candidature?.identity_card }}
+                      {{ formatUrlToText(candidature?.identity_card) }}
                     </a>
                   </div>
                 </li>
@@ -319,7 +338,7 @@ function removePreprod(url) {
                       :href="candidature?.free_document"
                       class="underline"
                     >
-                      {{ candidature?.free_document }}
+                      {{ formatUrlToText(candidature?.free_document) }}
                     </a>
                   </div>
                 </li>
@@ -331,7 +350,7 @@ function removePreprod(url) {
                       :href="candidature?.presentation_video"
                       class="underline"
                     >
-                      {{ candidature?.presentation_video }}
+                      {{ formatUrlToText(candidature?.presentation_video) }}
                     </a>
                   </div>
                 </li>
