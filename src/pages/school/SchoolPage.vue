@@ -24,9 +24,13 @@ let promoSelected = ref(promoId);
 watch(
   () => router.currentRoute.value.params.id,
   () => {
-    promoId.value = router.currentRoute.value.params.id;
+    const route = router.currentRoute.value.fullPath;
 
-    storeApi.getSelectedPromo(promoId.value);
+    if (route.includes("school/promotion")) {
+      promoId.value = router.currentRoute.value.params.id;
+
+      storeApi.getSelectedPromo(promoId.value);
+    }
   }
 );
 

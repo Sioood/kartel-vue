@@ -65,7 +65,7 @@ onMounted(() => {
 });
 
 watch(
-  () => router.currentRoute.value,
+  () => router.currentRoute.value.path,
   () => {
     initValues();
 

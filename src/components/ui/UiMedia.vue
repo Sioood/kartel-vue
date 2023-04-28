@@ -26,6 +26,7 @@ const props = defineProps({
     >
       <a
         data-fancybox="gallery"
+        :data-caption="props.title"
         :href="
           props.medium
             ? props.medium
