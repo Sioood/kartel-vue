@@ -99,9 +99,8 @@ class Request {
   }
 }
 
-
 /**
- * 
+ *
  * @param {object} config - the config of the request
  */
 function atRequest(config) {
@@ -116,7 +115,7 @@ function atRequest(config) {
 }
 
 /**
- * 
+ *
  * @param {object} response - the response of the request
  */
 function atResponse(response) {
@@ -165,6 +164,18 @@ axios.interceptors.response.use(
     return response;
   },
   function (error) {
+    // handle 401 status response like wrong token auth
+    if (error.response.status === 401) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+
+      // reload the page to begin navigation as an anonymous user
+      window.location.reload();
+
+      // can be a automatic redirect to auth
+      // window.location.href = "/auth";
+    }
+
     atResponse(error.response);
 
     return Promise.reject(error);
