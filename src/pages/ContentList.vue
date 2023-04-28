@@ -248,7 +248,7 @@ onMounted(() => {
 
 // refresh content when changing type (artworks, artists)
 watch(
-  () => router.currentRoute.value,
+  () => router.currentRoute.value.path,
   () => {
     // need to dismount the observer to remount another one and prevent observer to not work
     observer.unobserve(watcher.value);

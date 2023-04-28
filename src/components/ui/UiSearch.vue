@@ -23,7 +23,7 @@ const router = useRouter();
 // Function to get Artworks of a student
 
 watch(
-  () => router.currentRoute.value,
+  () => router.currentRoute.value.path,
   () => {
     input.value = "";
   }

@@ -74,7 +74,7 @@ onMounted(() => {
 });
 
 watch(
-  () => router.currentRoute.value,
+  () => router.currentRoute.value.path,
   () => {
     artistId = router.currentRoute.value.params.id;
     setup(artistId, token);
@@ -134,11 +134,10 @@ function removePreprod(url) {
               :alt="`Photo de ${user.first_name} ${user.last_name}`"
             />
 
-            <div class="w-2/3 flex flex-col">
+            <div v-if="artist" class="w-2/3 flex flex-col">
               <!-- <h4 v-if="user?.profile?.nationality" class="font-medium">
                 {{ user.profile.nationality }}
               </h4> -->
-
               <UnderlineTitle
                 class="w-max"
                 v-if="artist?.nickname"
@@ -151,7 +150,9 @@ function removePreprod(url) {
 
               <UnderlineTitle
                 class="w-max"
-                v-else-if="user && !artist.nickname"
+                v-else-if="
+                  user?.first_name && user?.last_name && !artist.nickname
+                "
                 :title="`${user.first_name} ${user.last_name}`"
                 subtitle="Artist"
                 :uppercase="true"
@@ -371,7 +372,7 @@ function removePreprod(url) {
           </div>
 
           <UiDescription
-            v-if="artist"
+            v-if="artist?.bio_fr || artist?.bio_en"
             :desc_fr="artist.bio_fr"
             :desc_en="artist.bio_en"
           />

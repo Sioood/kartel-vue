@@ -29,6 +29,14 @@ let student = ref();
 let user = ref();
 let candidature = ref();
 
+function initValues() {
+  artist.value = {};
+  artwork.value = [];
+  student.value = {};
+  user.value = {};
+  candidature.value = {};
+}
+
 /**
  *  set token and get user information with the id url of artist.user
  *  If the token is empty it's means that the user is not authenticated and set empty string.
@@ -187,6 +195,8 @@ async function getStudent(id) {
 }
 
 async function setup(artistId, auth) {
+  initValues();
+
   // await the artist data for get the user url to not exec the function getUser inside
   await getArtist(artistId);
 

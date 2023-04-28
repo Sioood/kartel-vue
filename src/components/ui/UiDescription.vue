@@ -17,7 +17,7 @@ let bio = ref({
 /**
  * parsed raw description from markdown or html (or both) and parse it
  * @param {string} content - desc from props via bio.data
- * 
+ *
  * @todo use a sanatize function ? Sanatizer it's another dependency
  */
 function parsedContent(content) {
