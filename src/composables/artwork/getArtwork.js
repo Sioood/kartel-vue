@@ -36,6 +36,7 @@ function initValues() {
   galleries.value = {};
   genres.value = [];
   events.value = [];
+  Media.index = new Map();
 }
 
 /**
