@@ -2,16 +2,40 @@
 import { ref } from "vue";
 
 /**
- * props
+ * Props
+ * @property {string} label - label of the input
+ * @property {string} pattern - Regex pattern validation
+ * @required @property {string} placeholder - placeholder of the input
+ * @property {Boolean} required - if the input is required or not
+ * @property {string} inputTitle - title of the input when required is triggered
+ * @required @property {string} type - type of input
  */
-const props = defineProps([
-  "label",
-  "pattern",
-  "placeholder",
-  "required",
-  "inputTitle",
-  "type",
-]);
+const props = defineProps({
+  label: {
+    type: String,
+    required: false,
+  },
+  pattern: {
+    type: String,
+    required: false,
+  },
+  placeholder: {
+    type: String,
+    required: true,
+  },
+  required: {
+    type: Boolean,
+    required: false,
+  },
+  inputTitle: {
+    type: String,
+    required: false,
+  },
+  type: {
+    type: String,
+    required: true,
+  },
+});
 
 /**
  * @type {string} input - ref model of the input
