@@ -38,7 +38,7 @@ Vary: Accept
     "school/student-application-setup": "https://api.lefresnoy.net/v2/school/student-application-setup",
     "school/student-search": "https://api.lefresnoy.net/v2/school/student-search",
     "production/artwork": "https://api.lefresnoy.net/v2/production/artwork",
-    "production/artwork-keywords": "http://localhost:8000/v2/production/artwork-keywords",
+    "production/artwork-keywords": "https://api.lefresnoy.net/v2/production/artwork-keywords",
     "production/artwork-search": "https://api.lefresnoy.net/v2/production/artwork-search",
     "production/film": "https://api.lefresnoy.net/v2/production/film",
     "production/film-keywords": "https://api.lefresnoy.net/v2/production/film-keywords",
@@ -277,6 +277,7 @@ page_size={Number}
 page={Number}
 artworks__isnull={Boolean}
 student__isnull={Boolean}
+user__profile__nationality__icontains={string}
 ```
 
 ### Example
@@ -290,7 +291,7 @@ https://api.lefresnoy.net/v2/people/artist?search=selestane
 ```
 
 ```
-https://api.lefresnoy.net/v2/people/artist?page=2&page_size=20
+https://api.lefresnoy.net/v2/people/artist?page=2&page_size=20&user__profile__nationality__icontains=FR+FRA
 ```
 
 ### Response
@@ -630,7 +631,6 @@ Pas à jour
 https://api.lefresnoy.net/v2/school/student-search
 ```
 
-
 ## Production
 
 ### Artwork / Event
@@ -640,7 +640,6 @@ https://api.lefresnoy.net/v2/school/student-search
 ```
 https://api.lefresnoy.net/v2/production/artwork
 ```
-
 
 ### Parameters
 
@@ -736,6 +735,28 @@ http://api.lefresnoy.net/v2/production/artwork?production_year=2022&page_size=3&
     "genres": ["https://api.lefresnoy.net/v2/production/installation-genre/2"],
     "type": "Installation"
   }
+]
+```
+
+---
+
+<br/><br/>
+
+```
+https://api.lefresnoy.net/v2/production/artwork-keywords
+```
+
+### Response
+
+```json
+// 🟢 200 - Result
+|
+[
+  {
+        "id": 1,
+        "name": "Amour",
+        "slug": "Amour"
+    },
 ]
 ```
 
@@ -1404,6 +1425,8 @@ http://api.lefresnoy.net/v2/production/artwork-search
 
 ```
 ?q={String}
+page={Number}
+page_size={Number}
 type={String(film,installation...)}
 genres={String(photographie, fiction, documentaire...)}
 keywords={String}
@@ -1482,7 +1505,7 @@ http://api.lefresnoy.net/v2/school/student-search
 ### Parameters
 
 ```
-?q={something}
+?q={string}
 ```
 
 ### Example
