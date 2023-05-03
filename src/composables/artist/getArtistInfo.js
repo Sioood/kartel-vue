@@ -24,14 +24,14 @@ import { getId } from "@/composables/getId";
  * @type {object} candidature
  */
 let artist = ref();
-let artwork = ref();
+let artworks = ref();
 let student = ref();
 let user = ref();
 let candidature = ref();
 
 function initValues() {
   artist.value = {};
-  artwork.value = [];
+  artworks.value = [];
   student.value = {};
   user.value = {};
   candidature.value = {};
@@ -90,26 +90,6 @@ async function getUser(id) {
     const data = response.data;
 
     user.value = data;
-
-    // prevent if the user have a token but it's not a good token fetch without it
-    // if (response.status === 401) {
-    //   try {
-    //     const response = await axios.get(`people/user/${id}`, {
-    //       headers: {
-    //         "Content-Type": "application/json;charset=UTF-8",
-    //       },
-    //     });
-
-    //     const data = response.data;
-
-    //     user.value = data;
-    //   } catch (err) {
-    //     console.error(err);
-    //     user.value = {};
-    //   }
-    // } else {
-    //   user.value = data;
-    // }
   } catch (err) {
     console.error(err);
     user.value = {};
@@ -142,6 +122,8 @@ async function getCandidature(username) {
     }
   } catch (err) {
     console.error(err);
+
+    candidature.value = {};
   }
 }
 
@@ -157,10 +139,10 @@ async function getArtworks(id) {
 
     const data = response.data;
 
-    artwork.value = data;
+    artworks.value = data;
   } catch (err) {
     console.error(err);
-    artwork.value = {};
+    artworks.value = [];
   }
 }
 
@@ -185,11 +167,13 @@ async function getStudent(id) {
 
       student.value = studentData;
     } catch (err) {
+      console.error(err);
       student.value = {};
     }
 
     // student.value = data;
   } catch (err) {
+    console.error(err);
     student.value = {};
   }
 }
@@ -220,14 +204,16 @@ export {
   // define access to the ref needed inside the template
   artist,
   user,
-  artwork,
+  artworks,
   student,
   candidature,
 
   // export functions for test
+  initValues,
   getArtist,
   getUser,
   getArtworks,
   getStudent,
+  getCandidature,
 };
 // };

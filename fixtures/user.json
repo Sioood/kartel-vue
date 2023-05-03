@@ -1,7 +1,53 @@
 {
-  "id": 670,
-  "url": "http://127.0.0.1:8000/v2/people/user/670",
-  "username": "jdominati",
-  "first_name": "Juliette",
-  "last_name": "Dominati"
+  "default": {
+    "id": 1,
+    "url": "https://api.lefresnoy.net/v2/people/user/1",
+    "username": "selestane",
+    "first_name": "Selene",
+    "last_name": "Lamstane",
+    "profile": {
+      "id": 23,
+      "photo": "http://api.lefresnoy.net/media/people/fresnoyprofile/selestane.jpg",
+      "nationality": "FRA",
+      "is_artist": true,
+      "is_staff": false,
+      "is_student": true
+    }
+  },
+  "auth": {
+    "id": 1,
+    "is_superuser": false,
+    "url": "http://localhost:8000/v2/people/user/1",
+    "username": "selestane",
+    "first_name": "Selene",
+    "last_name": "Lamstane",
+    "email": "selestane@kartel.net",
+    "profile": {
+      "id": 1,
+      "photo": null,
+      "gender": "female",
+      "cursus": "",
+      "nationality": "FR",
+      "birthdate": "24/03/2004",
+      "birthplace": "Tourcoing",
+      "birthplace_country": "France",
+      "mother_tongue": "Français",
+      "other_language": "Anglais",
+      "homeland_country": "FR",
+      "homeland_address": "123 Rue du Fresnoy",
+      "homeland_zipcode": "59200",
+      "homeland_town": "Tourcoing",
+      "homeland_phone": "06 59 84 23 97",
+      "residence_phone": "06 59 84 23 97",
+      "residence_country": "France",
+      "residence_zipcode": "59200",
+      "residence_address": "123 Rue du Fresnoy",
+      "residence_town": "Tourcoing",
+      "social_insurance_number": "",
+      "family_status": "Célibataire",
+      "is_artist": true,
+      "is_staff": false,
+      "is_student": false
+    }
+  }
 }

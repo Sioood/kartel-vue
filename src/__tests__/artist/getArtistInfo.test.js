@@ -3,10 +3,21 @@ import config from "@/config";
 import { flushPromises } from "@vue/test-utils";
 import axios from "axios";
 
-
 import { withSetup } from "@/__tests__/withSetup";
-import { getArtistInfo } from "@/composables/artist/getArtistInfo";
-import { getId } from "@/composables/getId";
+import {
+  setup,
+  artist,
+  user,
+  artworks,
+  student,
+  candidature,
+  initValues,
+  getArtist,
+  getUser,
+  getArtworks,
+  getStudent,
+  getCandidature,
+} from "@/composables/artist/getArtistInfo";
 
 /**
 
@@ -18,6 +29,7 @@ import userFixture from "~/fixtures/user.json";
 import artworkFixture from "~/fixtures/artwork.json";
 import studentFixture from "~/fixtures/student.json";
 import promotionFixture from "~/fixtures/promotion.json";
+import applicationFixture from "~/fixtures/studentApplication.json";
 
 // function to mock a response to a promise response
 // function createMockResolveValue(data) {
@@ -34,43 +46,17 @@ describe("test the composable getArtistInfo", () => {
     axios.get.mockReset();
   });
 
-  // const mockFetch = vi.spyOn(global, "fetch");
+  it("Init values", () => {
+    initValues();
 
-  // need to deal with multiple request
-  // mockReturnValueOnce return value once with that we can control with the timelime of request inside the composables
-  // but the problem is once concern a function and is nested function
+    expect(artist.value).toEqual({});
+    expect(artworks.value).toEqual([]);
+    expect(student.value).toEqual({});
+    expect(user.value).toEqual({});
+    expect(candidature.value).toEqual({});
+  });
 
-  // Like this
-  // function one() {
-  //   response === firstMock;
-  //   function two() {
-  //     response === firstMock;
-  //   }
-  // }
-  //
-  // function three() {
-  //   response === secondMock;
-  // }
-
-  // mockFetch
-  //   .mockReturnValue(
-  //     // default mock but not the first
-  //     createMockResolveValue({
-  //       default: true,
-  //     })
-  //   )
-  //   // if once is present it would be the first mock and switch to the next mock or return to the default mock if no next
-  //   .mockReturnValueOnce(createMockResolveValue(artistFixture))
-  //   .mockReturnValueOnce(createMockResolveValue(userFixture))
-  //   .mockReturnValueOnce(createMockResolveValue(artworkFixture))
-  //   .mockReturnValueOnce(createMockResolveValue(studentFixture))
-  //   .mockReturnValueOnce(createMockResolveValue(promotionFixture));
-
-  // afterEach(() => {
-  //   mockFetch.mockClear();
-  // });
-
-  it("check every result", async () => {
+  it("Get artist", async () => {
     axios.get
       .mockResolvedValue(
         // default mock but not the first
@@ -79,95 +65,171 @@ describe("test the composable getArtistInfo", () => {
             default: true,
           },
         }
-        // createMockResolveValue({
-        //   default: true,
-        // })
       )
-      // if once is present it would be the first mock and switch to the next mock or return to the default mock if no next
+      // success once and fail once
       .mockResolvedValueOnce({ data: artistFixture })
-      .mockResolvedValueOnce({ data: userFixture })
-      .mockResolvedValueOnce({ data: artworkFixture })
-      .mockResolvedValueOnce({ data: studentFixture })
-      .mockResolvedValueOnce({ data: promotionFixture });
-
-    const [results, app] = withSetup(getArtistInfo, artistFixture.id, true);
-
-
-    // leave the requests and replace with mocks -> deal with the async await
-    await flushPromises();
-
-    // check the mock has be use the right number of times (Correspond to the number of fetch inside getArtistInfo)
-    // expect(mockFetch).toHaveBeenCalledTimes(5);
-    // and check if the last time is called it is with the right url. Supposed to be the student request
-    // expect(mockFetch).toHaveBeenLastCalledWith(
-    //   `${config.rest_uri_v2}school/promotion/${getId(promotionFixture.url)}`
-    // );
-
-    const { artist, user, artwork, student } = results;
+      .mockRejectedValueOnce({ mockMessage: "Error" });
 
     /**
-    
-      Check results
-    
-    **/
+     * Test with success
+     */
+    await getArtist(artistFixture.id);
 
-    // Artist result
-    expect(artist.value)
-      .toBeTypeOf("object")
-      .toEqual(artistFixture)
-      .haveOwnProperty("user");
+    expect(axios.get).toHaveBeenCalledTimes(1);
+    expect(artist.value).toEqual(artistFixture);
 
-    // User result
-    expect(user.value)
-    .toBeTypeOf("object")
-    .toEqual(userFixture)
-    .haveOwnProperty("username");
+    /**
+     * Test with Fail
+     */
+    await getArtist(artistFixture.id);
 
-    // Artwork result
-    expect(artwork.value).toBeTypeOf("object").toEqual(artworkFixture);
-    expect(artwork.value[0]).haveOwnProperty("title");
-
-    // Student result
-    expect(student.value).toBeTypeOf("object").toEqual(studentFixture);
-    expect(student.value[0]).haveOwnProperty("promotion");
-    expect(student.value[0].promotion).toEqual(promotionFixture);
-
-    app.unmount();
+    expect(axios.get).toHaveBeenCalledTimes(2);
+    expect(artist.value).toEqual({});
   });
 
-  it("catch on fetch fail", async () => {
-    // mockFetch
-    //   // if once is present it would be the first mock and switch to the next mock or return to the default mock if no next
-    //   .mockReturnValue(Promise.reject("Mock Catch API"));
-
+  it("Get user", async () => {
     axios.get
-      .mockRejectedValue()
-
-    const [results, app] = withSetup(getArtistInfo, artistFixture.id);
-
-    // leave the requests and replace with mocks
-    await flushPromises();
-
-    const { artist, user, artwork, student } = results;
+      .mockResolvedValue(
+        // default mock but not the first
+        {
+          data: {
+            default: true,
+          },
+        }
+      )
+      // success once and fail once
+      .mockResolvedValueOnce({ data: userFixture.default })
+      .mockRejectedValueOnce({ mockMessage: "Error" });
 
     /**
+     * Test with success
+     */
+    await getUser(userFixture.default.id);
 
-      Check results
+    expect(axios.get).toHaveBeenCalledTimes(1);
+    expect(user.value).toEqual(userFixture.default);
 
-    **/
+    /**
+     * Test with Fail
+     */
+    await getUser(userFixture.default.id);
 
-    // Artist result
-    expect(artist.value).toEqual({});
-
-    // User result
+    expect(axios.get).toHaveBeenCalledTimes(2);
     expect(user.value).toEqual({});
+  });
 
-    // Artwork result
-    expect(artwork.value).toEqual({});
+  it("Get artworks", async () => {
+    axios.get
+      .mockResolvedValue(
+        // default mock but not the first
+        {
+          data: {
+            default: true,
+          },
+        }
+      )
+      // success once and fail once
+      // the response of the request is always a array even if it's just one artwork
+      .mockResolvedValueOnce({ data: artworkFixture })
+      .mockRejectedValueOnce({ mockMessage: "Error" });
 
-    // Student result
+    /**
+     * Test with success
+     */
+    await getArtworks(artistFixture.id);
+
+    expect(axios.get).toHaveBeenCalledTimes(1);
+    expect(artworks.value).toEqual(artworkFixture);
+
+    // /**
+    //  * Test with Fail
+    //  */
+    await getArtworks(artistFixture.id);
+
+    expect(axios.get).toHaveBeenCalledTimes(2);
+    expect(artworks.value).toEqual([]);
+  });
+
+  it("Get student", async () => {
+    axios.get
+      .mockResolvedValue(
+        // default mock but not the first
+        {
+          data: {
+            default: true,
+          },
+        }
+      )
+      // success once and fail once
+      // the response of the request is always a array even if it's just one artwork
+      .mockResolvedValueOnce({ data: studentFixture })
+      .mockResolvedValueOnce({ data: promotionFixture })
+      .mockRejectedValueOnce({ mockMessage: "Error" })
+      .mockResolvedValueOnce({ data: studentFixture })
+      .mockRejectedValueOnce({ mockMessage: "Error" });
+
+    /**
+     * Test with success
+     */
+    await getStudent(artistFixture.id);
+
+    expect(axios.get).toHaveBeenCalledTimes(2);
+
+    const mockResult = studentFixture;
+    mockResult[0].promotion = promotionFixture;
+
+    expect(student.value).toEqual(mockResult);
+
+    /**
+     * Test with fail on first request
+     */
+    await getStudent(artistFixture.id);
+
+    expect(axios.get).toHaveBeenCalledTimes(3);
+
     expect(student.value).toEqual({});
 
-    app.unmount();
+    /**
+     * Test with fail on second request
+     */
+    await getStudent(artistFixture.id);
+
+    expect(axios.get).toHaveBeenCalledTimes(5);
+
+    expect(student.value).toEqual({});
+  });
+
+  it("Get candidature", async () => {
+    axios.get
+      .mockResolvedValue(
+        // default mock but not the first
+        {
+          data: {
+            default: true,
+          },
+        }
+      )
+      // success once and fail once
+      // the response of the request is always a array even if it's just one artwork
+      .mockResolvedValueOnce({ data: [applicationFixture] })
+      .mockRejectedValueOnce({ mockMessage: "Error" });
+
+    /**
+     * Test with success
+     */
+    await getCandidature(userFixture.default.username);
+
+    expect(axios.get).toHaveBeenCalledTimes(1);
+
+    expect(candidature.value).toEqual(applicationFixture);
+
+    /**
+     * Test with fail
+     */
+    await getCandidature(userFixture.default.username);
+
+    expect(axios.get).toHaveBeenCalledTimes(2);
+
+    expect(candidature.value).toEqual({});
   });
 });

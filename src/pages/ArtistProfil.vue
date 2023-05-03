@@ -14,7 +14,7 @@ import { marked } from "marked";
 import {
   artist,
   user,
-  artwork,
+  artworks,
   student,
   candidature,
   setup,
@@ -399,7 +399,7 @@ function removePreprod(url) {
       </div>
 
       <div
-        v-if="artwork"
+        v-if="artworks"
         id="artwork"
         class="pl-8 pr-6 py-5 sticky top-16 w-full lg:w-2/5 lg:h-[90svh] lg:overflow-x-scroll flex flex-col gap-6"
       >
@@ -424,7 +424,7 @@ function removePreprod(url) {
         />
         <ul class="grid grid-cols-2 gap-3">
           <!-- {{ artwork }} -->
-          <li v-for="artwork in artwork" :key="artwork.url">
+          <li v-for="artwork in artworks" :key="artwork.url">
             <ArtworkCard
               :url="artwork.url"
               :picture="removePreprod(artwork.picture)"
