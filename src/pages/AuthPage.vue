@@ -36,7 +36,7 @@ let password = ref("");
         @submit.prevent="login(username, password, router)"
       >
         <UiInput
-          label="username"
+          :label="$t('username')"
           :required="true"
           pattern="\w{3,16}"
           inputTitle="Le nom d'utilisateur doit contenir au moins 3 caractères"
@@ -45,11 +45,11 @@ let password = ref("");
           @update:value="(value) => (username = value)"
         ></UiInput>
         <UiInput
-          label="password"
+          :label="$t('password')"
           :required="true"
           pattern="\w{3,16}"
           inputTitle="Le mot de passe doit contenir au moins 3 caractères"
-          placeholder="Mot de passe"
+          :placeholder="$t('password')"
           type="password"
           @update:value="(value) => (password = value)"
         ></UiInput>
@@ -61,14 +61,14 @@ let password = ref("");
           >
           <AppButton type="submit">connexion</AppButton>
         </div>
-          <span
-            class="w-72 flex items-center justify-center text-sm break-words"
-            :class="{
-              'text-red-400': message.status === 'error',
-              'text-black': message.status === 'normal',
-            }"
-            >{{ message.data }}</span
-          >
+        <span
+          class="w-72 flex items-center justify-center text-sm break-words"
+          :class="{
+            'text-red-400': message.status === 'error',
+            'text-black': message.status === 'normal',
+          }"
+          >{{ message.data }}</span
+        >
       </form>
     </div>
   </main>

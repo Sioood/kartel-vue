@@ -42,12 +42,11 @@ watch(
             result.disabled === false ? (result.open = false) : null
         "
         type="search"
-        name="search"
         id="search"
         class="px-2 py-1 box-border w-full text-lg text-black font-bold capitalize focus:bg-gray-100 transition-all duration-500"
       />
       <span class="w-full h-1 bg-black dark:bg-white"></span>
-      <span class="text-xs text-gray-500">SEARCH</span>
+      <span class="text-xs text-gray-500 uppercase">{{$t('search')}}</span>
     </label>
     <div
       @mousemove="result.disabled = true"

@@ -134,7 +134,7 @@ onUnmounted(() => {
         />
 
         <li v-for="(item, index) in navigation.children" :key="index">
-          <UiLink :url="item.path" :text="item.name" data-test="nav-link" />
+          <UiLink :url="item.path" :text="$t(item.name)" data-test="nav-link" />
         </li>
         <!-- </div> -->
       </ul>
