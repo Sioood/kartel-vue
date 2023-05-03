@@ -100,7 +100,7 @@ required: false.
 https://api.lefresnoy.net/v2/people/user
 ```
 
-### parameters
+### Parameters
 
 ::: tip
 Pour constuire des paramètres de recherche il faut fonctionner de la manière suivante :<br/>
@@ -119,19 +119,13 @@ Remplacer ce qui se trouve entre accolades par la donnée voulue.
 Exemple : _{username}_ -> selestane
 :::
 
-```
-Params:
-/:id
+| **Parameter** | **Type** | **Description**  | **Example**       |
+| ------------- | -------- | ---------------- | ----------------- |
+| /:id          | Number   | The id of a user | /v2/people/user/1 |
 
-Queries:
-?search={username}
-```
-
-### Example
-
-```
-https://api.lefresnoy.net/v2/people/user?search=selestane
-```
+| **Query** | **Type** | **Description** | **Example**                      |
+| --------- | -------- | --------------- | -------------------------------- |
+| search    | String   | A search text   | /v2/people/user?search=selestane |
 
 ### Response
 
@@ -211,17 +205,19 @@ authentification: true,
 required: true.
 :::
 
+```
 https://api.lefresnoy.net/v2/people/userprofile
-
-### parameters
-
 ```
-Params:
-/:id
 
-Queries:
-?search={username}
-```
+### Parameters
+
+| **Parameter** | **Type** | **Description**         | **Example**              |
+| ------------- | -------- | ----------------------- | ------------------------ |
+| /:id          | Number   | The id of a userprofile | /v2/people/userprofile/1 |
+
+| **Query** | **Type** | **Description** | **Example**                             |
+| --------- | -------- | --------------- | --------------------------------------- |
+| search    | String   | A search text   | /v2/people/userprofile?search=selestane |
 
 ### Response
 
@@ -265,34 +261,20 @@ Queries:
 https://api.lefresnoy.net/v2/people/artist
 ```
 
-### parameters
+### Parameters
 
-```
-Params:
-/:id
+| **Parameter** | **Type** | **Description**     | **Example**         |
+| ------------- | -------- | ------------------- | ------------------- |
+| /:id          | Number   | The id of an artist | /v2/people/artist/1 |
 
-Queries:
-?search={username}
-page_size={Number}
-page={Number}
-artworks__isnull={Boolean}
-student__isnull={Boolean}
-user__profile__nationality__icontains={string}
-```
-
-### Example
-
-```
-https://api.lefresnoy.net/v2/people/artist/1
-```
-
-```
-https://api.lefresnoy.net/v2/people/artist?search=selestane
-```
-
-```
-https://api.lefresnoy.net/v2/people/artist?page=2&page_size=20&user__profile__nationality__icontains=FR+FRA
-```
+| **Query**                                   | **Type** | **Description**                                   | **Example**                                                          |
+| ------------------------------------------- | -------- | ------------------------------------------------- | -------------------------------------------------------------------- |
+| search                                      | String   | A username of an artist based on an user          | /v2/people/artist?search=selestane                                   |
+| page_size                                   | Number   | The length result of the page                     | /v2/people/artist?page_size=10                                       |
+| page                                        | Number   | The offset result of the page                     | /v2/people/artist?page=3                                             |
+| artworks\_\_isnull                          | Boolean  | Results based on artist have artworks or not      | /v2/people/artist?artworks\_\_isnull=false                           |
+| student\_\_isnull                           | Boolean  | Results based on artist is a student or not       | /v2/people/artist?student\_\_isnull=false                            |
+| user\_\_profile\_\_nationality\_\_icontains | String   | Nationality of an artist based on his userprofile | /v2/people/artist?user\_\_profile\_\_nationality\_\_icontains=FR+FRA |
 
 ### Response
 
@@ -333,21 +315,15 @@ https://api.lefresnoy.net/v2/people/artist?page=2&page_size=20&user__profile__na
 https://api.lefresnoy.net/v2/people/staff
 ```
 
-### parameters
+### Parameters
 
-```
-Params:
-/:id
+| **Parameter** | **Type** | **Description**   | **Example**        |
+| ------------- | -------- | ----------------- | ------------------ |
+| /:id          | Number   | The id of a staff | /v2/people/staff/1 |
 
-Queries:
-?search={username}
-```
-
-### Example
-
-```
-https://api.lefresnoy.net/v2/people/staff?search=selestane
-```
+| **Query** | **Type** | **Description**                        | **Example**                       |
+| --------- | -------- | -------------------------------------- | --------------------------------- |
+| search    | String   | A search string based on user username | /v2/people/staff?search=selestane |
 
 ### Response
 
@@ -382,12 +358,11 @@ https://api.lefresnoy.net/v2/people/staff?search=selestane
 https://api.lefresnoy.net/v2/people/organization
 ```
 
-### parameters
+### Parameters
 
-```
-Params:
-/:id
-```
+| **Parameter** | **Type** | **Description**           | **Example**               |
+| ------------- | -------- | ------------------------- | ------------------------- |
+| /:id          | Number   | The id of an organization | /v2/people/organization/1 |
 
 ### Response
 
@@ -414,12 +389,11 @@ Params:
 https://api.lefresnoy.net/v2/people/organization-staff
 ```
 
-### parameters
+### Parameters
 
-```
-Params:
-/:id
-```
+| **Parameter** | **Type** | **Description**                 | **Example**                     |
+| ------------- | -------- | ------------------------------- | ------------------------------- |
+| /:id          | Number   | The id of an organization-staff | /v2/people/organization-staff/1 |
 
 ### Response
 
@@ -444,12 +418,11 @@ Params:
 https://api.lefresnoy.net/v2/school/promotion
 ```
 
-### parameters
+### Parameters
 
-```
-Params:
-/:id
-```
+| **Parameter** | **Type** | **Description**       | **Example**             |
+| ------------- | -------- | --------------------- | ----------------------- |
+| /:id          | Number   | The id of a promotion | /v2/school/promotion/26 |
 
 ### Response
 
@@ -479,18 +452,18 @@ Params:
 https://api.lefresnoy.net/v2/school/student
 ```
 
-### parameters
+### Parameters
 
-```
-Params:
-/:id
+| **Parameter** | **Type** | **Description**     | **Example**          |
+| ------------- | -------- | ------------------- | -------------------- |
+| /:id          | Number   | The id of a student | /v2/school/student/1 |
 
-Queries:
-?artist={Number}
-&ordering={user__last_name or -user__last_name}
-&promotion={Number}
-&user={Number}
-```
+| **Query** | **Type** | **Description**                                            | **Example**                                   |
+| --------- | -------- | ---------------------------------------------------------- | --------------------------------------------- |
+| artist    | Number   | An id based on his artist profile                          | /v2/school/student?artist=1                   |
+| ordering  | String   | Order results with user\_\_last_name or -user\_\_last_name | /v2/school/student?ordering=user\_\_last_name |
+| promotion | Number   | An id based on a promotion                                 | /v2/school/student?promotion=26               |
+| user      | Number   | An id based of his user profile                            | /v2/school/student?user=1                     |
 
 ### Response
 
@@ -529,23 +502,23 @@ required: true.
 https://api.lefresnoy.net/v2/school/student-application
 ```
 
-### parameters
+### Parameters
 
-```
-Params:
-/:id
+| **Parameter** | **Type** | **Description**                 | **Example**                      |
+| ------------- | -------- | ------------------------------- | -------------------------------- |
+| /:id          | Number   | The id of a student-application | /v2/school/student-application/1 |
 
-Queries:
-?search={string}
-&application_completed={true or false}
-&application_complete=&selected_for_interview={true or false}
-&remote_interview={true or false}
-&wait_listed_for_interview={true or false}
-&selected={true or false}
-&unselected={true or false}
-&campaign__is_current_setup={true or false}
-&wait_listed={true or false}
-```
+| **Query**                    | **Type** | **Description**                                    | **Example**                                           |
+| ---------------------------- | -------- | -------------------------------------------------- | ----------------------------------------------------- |
+| search                       | String   | A search string based on a user username           | /v2/school/student?search=selestane                   |
+| application_completed        | Boolean  | If the application is fully completed              | /v2/school/student?application_completed=true         |
+| selected_for_interview       | Boolean  | If the applicant got selected for an interview     | /v2/school/student?selected_for_interview=true        |
+| remote_interview             | Boolean  | If the interview is in remote                      | /v2/school/student?remote_interview=false             |
+| wait_listed_for_interview    | Boolean  | If the applicant is in a waitlist for an interview | /v2/school/student?wait_listed_for_interview=true     |
+| selected                     | Boolean  | If the applicant is selected                       | /v2/school/student?selected=true                      |
+| unselected                   | Boolean  | If the applicant is unselected                     | /v2/school/student?unselected=true                    |
+| campaign\_\_is_current_setup | Boolean  | If the applicant is in the current campaign        | /v2/school/student?ucampaign\_\_is_current_setup=true |
+| wait_listed                  | Boolean  | If the applicant is in a waitlist                  | /v2/school/student?wait_listed=true                   |
 
 ### Response
 
@@ -650,17 +623,17 @@ Si _production_year_ n'est pas précisé, c'est une liste de tous les artworks q
 _page_size_ et _page_ ne pas sont obligatoires
 :::
 
-```
-Params:
-/:id
+| **Parameter** | **Type** | **Description**                 | **Example**              |
+| ------------- | -------- | ------------------------------- | ------------------------ |
+| /:id          | Number   | The id of a student-application | /v2/production/artwork/1 |
 
-Queries:
-page_size={Number}
-page={Number}
-keywords={string}
-production_year={Number}
-type={string}
-```
+| **Query**       | **Type** | **Description**                                    | **Example**                                 |
+| --------------- | -------- | -------------------------------------------------- | ------------------------------------------- |
+| page_size       | Number   | The length result of the page                      | /v2/production/artwork?page_size=10         |
+| page            | Number   | The offset result of the page                      | /v2/production/artwork?page=3               |
+| keywords        | String   | A tag keyword                                      | /v2/production/artwork?keyword=amour        |
+| production_year | Number   | The production year of an artwork                  | /v2/production/artwork?production_year=2020 |
+| type            | Number   | The artwork type [film, installation, performance] | /v2/production/artwork?type=film            |
 
 ### List and filters
 
@@ -904,15 +877,9 @@ https://api.lefresnoy.net/v2/production/itinerary
 
 ### Parameters
 
-```
-?event={id}
-```
-
-### Example
-
-```
-https://api.lefresnoy.net/v2/production/itinerary?event=1
-```
+| **Query** | **Type** | **Description** | **Example**                      |
+| --------- | -------- | --------------- | -------------------------------- |
+| event     | Number   | An event id     | /v2/production/itinerary?event=1 |
 
 ### Response
 
@@ -1423,21 +1390,16 @@ http://api.lefresnoy.net/v2/production/artwork-search
 
 ### Parameters
 
-```
-?q={String}
-page={Number}
-page_size={Number}
-type={String(film,installation...)}
-genres={String(photographie, fiction, documentaire...)}
-keywords={String}
-shooting_place={String(Paris, Marseille, Tourcoing...)}
-```
-
-### Example
-
-```
-http://api.lefresnoy.net/v2/school/artwork-search?q=10:10
-```
+| **Query**       | **Type** | **Description**                                    | **Example**                                        |
+| --------------- | -------- | -------------------------------------------------- | -------------------------------------------------- |
+| q               | String   | A string search query based on artwork title       | /v2/production/artwork-search?q=10:10              |
+| page_size       | Number   | The length result of the page                      | /v2/production/artwork-search?page_size=10         |
+| page            | Number   | The offset result of the page                      | /v2/production/artwork-search?page=3               |
+| keywords        | String   | A tag keyword                                      | /v2/production/artwork-search?keyword=amour        |
+| production_year | Number   | The production year of an artwork                  | /v2/production/artwork-search?production_year=2020 |
+| type            | Number   | The artwork type [film, installation, performance] | /v2/production/artwork-search?type=film            |
+| genres          | String   | A genre (only for film type)                       | /v2/production/artwork-search?genres=documentaire  |
+| shooting_place  | String   | A shooting_place (only for film type)              | /v2/production/artwork-search?shooting_place=paris |
 
 ### Response
 
@@ -1504,15 +1466,9 @@ http://api.lefresnoy.net/v2/school/student-search
 
 ### Parameters
 
-```
-?q={string}
-```
-
-### Example
-
-```
-http://api.lefresnoy.net/v2/school/student-search?q=selestane
-```
+| **Query** | **Type** | **Description**                              | **Example**                               |
+| --------- | -------- | -------------------------------------------- | ----------------------------------------- |
+| q         | String   | A string search query based on user username | /v2/production/student-search?q=selestane |
 
 ### Response
 
@@ -1551,16 +1507,10 @@ Les Country code ont iso 2 et 3 lettres. La recherche d'un peut exclure l'autre 
 Pour l'instant il faut donc combiner les 2 dans la recherche : nationality=FR{operator or (!need to update)}FRA.
 :::
 
-```
-?q={something}
-&nationality={Country Code iso2,3}
-```
-
-### Example
-
-```
-http://api.lefresnoy.net/v2/people/artist-search?q=selestane&nationality=FR{operator or (!need to update)}FRA
-```
+| **Query**   | **Type** | **Description**                              | **Example**                              |
+| ----------- | -------- | -------------------------------------------- | ---------------------------------------- |
+| q           | String   | A string search query based on user username | /v2/production/artist-search?q=selestane |
+| nationality | String   | A nationality based on userprofile           | /v2/production/artist-search?q=FR+FRA    |
 
 ### Response
 
