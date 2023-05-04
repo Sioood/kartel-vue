@@ -1,9 +1,5 @@
-import config from "@/config";
-
-import { flushPromises } from "@vue/test-utils";
 import axios from "axios";
 
-import { withSetup } from "@/__tests__/withSetup";
 import {
   setup,
   artist,

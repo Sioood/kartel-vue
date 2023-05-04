@@ -311,4 +311,7 @@ export {
   genres,
   events,
   initValues,
+  getAuthors,
+  getUsername,
+  getGalleries,
 };
