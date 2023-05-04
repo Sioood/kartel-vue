@@ -1,14 +1,14 @@
 {
   "id": 710,
   "url": "http://127.0.0.1:8000/v2/people/artist/710",
-  "nickname": "",
-  "bio_short_fr": "",
-  "bio_short_en": "",
-  "bio_fr": "Née à Paris en 1990, Juliette Dominati est réalisatrice et plasticienne. Son travail est régulièrement exposé en France et à l’étranger (Argentine, États-Unis, Chine, Islande, Royaume-Uni) et sera prochainement présenté au Salon de Montrouge, puis à Londres pour sa prochaine exposition personnelle.",
-  "bio_en": "Born in Paris in 1990, Juliette Dominati is a filmmaker and artist. Her work is regularly exhibited in France and abroad (Argentina, United States, China, Iceland, United Kingdom) and will feature at the forthcoming Salon de Montrouge, as well as in her next solo show in London.",
-  "twitter_account": "",
-  "facebook_profile": "",
-  "user": "http://127.0.0.1:8000/v2/people/user/670",
+  "nickname": "Selestane",
+  "bio_short_fr": "Selene est une artiste talentueuse qui se concentre sur la création de sculptures uniques et expressives.",
+  "bio_short_en": "Selene is a talented artist who focuses on creating unique and expressive sculptures.",
+  "bio_fr": "Selene Lamstane est née à Paris en 1990 et a étudié l'art à l'École nationale supérieure des beaux-arts de Paris. Elle est connue pour son approche innovante de la sculpture, qui combine des éléments de l'art abstrait et du réalisme. Son travail a été exposé dans des galeries à travers l'Europe et les États-Unis, notamment au Salon de Montrouge et à la Biennale de Venise.",
+  "bio_en": "Selene Lamstane was born in Paris in 1990 and studied art at the École nationale supérieure des beaux-arts in Paris. She is known for her innovative approach to sculpture, which combines elements of abstract art and realism. Her work has been exhibited in galleries across Europe and the United States, including at the Salon de Montrouge and the Venice Biennale.",
+  "twitter_account": "@selenelamstaneart",
+  "facebook_profile": "https://www.facebook.com/selene.lamstane.art",
+  "user": "http://127.0.0.1:8000/v2/people/user/999",
   "websites": [
     "http://127.0.0.1:8000/v2/common/website/1372",
     "http://127.0.0.1:8000/v2/common/website/1263"

@@ -11,6 +11,7 @@ import {
   getAuthors,
   getUsername,
   getGalleries,
+  Media,
 } from "@/composables/artwork/getArtwork";
 
 /**
@@ -22,6 +23,7 @@ import artistFixture from "~/fixtures/artist.json";
 import userFixture from "~/fixtures/user.json";
 import artworkFixture from "~/fixtures/artwork.json";
 import galleryFixture from "~/fixtures/gallery.json";
+import mediaFixture from "~/fixtures/media.json";
 import studentFixture from "~/fixtures/student.json";
 import promotionFixture from "~/fixtures/promotion.json";
 import applicationFixture from "~/fixtures/studentApplication.json";
@@ -80,6 +82,10 @@ describe("test the composable getArtistInfo", () => {
   // });
 
   it("Get authors", async () => {
+    // remove nickname of artist to generate username from getUsername
+    const mockArtist = artistFixture;
+    mockArtist.nickname = "";
+
     axios.get
       .mockResolvedValue(
         // default mock but not the first
@@ -89,7 +95,7 @@ describe("test the composable getArtistInfo", () => {
           },
         }
       )
-      .mockResolvedValueOnce({ data: artistFixture })
+      .mockResolvedValueOnce({ data: mockArtist })
       .mockResolvedValueOnce({ data: userFixture.default })
       .mockRejectedValueOnce({ mockMessage: "Error" });
 
@@ -155,12 +161,36 @@ describe("test the composable getArtistInfo", () => {
           },
         }
       )
-      .mockResolvedValueOnce({ data: userFixture.default })
-      .mockRejectedValueOnce({ mockMessage: "Error" });
+      .mockResolvedValueOnce({ data: galleryFixture })
+      .mockRejectedValue({ mockMessage: "Error" });
 
     getGalleries(artworkFixture[0]);
 
     // Number of not empty galleries in artworkFixture
     expect(axios.get).toHaveBeenCalledTimes(3);
+  });
+
+  // following of getGallery
+  it("New Media", async () => {
+    axios.get
+      .mockResolvedValue(
+        // default mock but not the first
+        {
+          data: {
+            default: true,
+          },
+        }
+      )
+      .mockResolvedValueOnce({ data: galleryFixture })
+      .mockResolvedValueOnce({ data: galleryFixture })
+      .mockRejectedValue({ mockMessage: "Error" });
+
+    let mockGalleryData = galleryFixture;
+
+    const media = new Media(galleryFixture.media[0], mockGalleryData, galleries.value["inSituGalleries"]);
+    // await media._fetchMedia();
+    console.log(media);
+
+    console.log(galleries.value);
   });
 });
