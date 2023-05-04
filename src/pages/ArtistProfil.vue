@@ -34,7 +34,7 @@ const router = useRouter();
 
 let artistId = router.currentRoute.value.params.id;
 
-let token = !localStorage.getItem("token");
+let token = !!localStorage.getItem("token");
 
 // refs from the composable
 // auth is true for now because method to verif auth is not created

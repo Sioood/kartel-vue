@@ -188,12 +188,11 @@ async function setup(artistId, auth) {
 
   getArtworks(artistId);
 
-  getStudent(artistId);
-
-  // auth is checked by invert because if checked by a !local.storage which invert boolean response
-  if (!auth) {
+  if (auth) {
     getCandidature(user.value.username);
   }
+
+  await getStudent(artistId);
 }
 
 /**

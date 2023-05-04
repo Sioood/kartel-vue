@@ -76,6 +76,9 @@ describe("test the composable getArtistInfo", () => {
     await getArtist(artistFixture.id);
 
     expect(axios.get).toHaveBeenCalledTimes(1);
+    expect(Number(axios.get.calls[0][0].split("/").pop())).toEqual(
+      artistFixture.id
+    );
     expect(artist.value).toEqual(artistFixture);
 
     /**
@@ -107,6 +110,9 @@ describe("test the composable getArtistInfo", () => {
     await getUser(userFixture.default.id);
 
     expect(axios.get).toHaveBeenCalledTimes(1);
+    expect(Number(axios.get.calls[0][0].split("/").pop())).toEqual(
+      userFixture.default.id
+    );
     expect(user.value).toEqual(userFixture.default);
 
     /**
@@ -139,6 +145,9 @@ describe("test the composable getArtistInfo", () => {
     await getArtworks(artistFixture.id);
 
     expect(axios.get).toHaveBeenCalledTimes(1);
+    expect(Number(axios.get.calls[0][0].split("=").pop())).toEqual(
+      artistFixture.id
+    );
     expect(artworks.value).toEqual(artworkFixture);
 
     // /**
@@ -174,6 +183,12 @@ describe("test the composable getArtistInfo", () => {
     await getStudent(artistFixture.id);
 
     expect(axios.get).toHaveBeenCalledTimes(2);
+    expect(Number(axios.get.calls[0][0].split("=").pop())).toEqual(
+      artistFixture.id
+    );
+    expect(axios.get.calls[1][0].split("/").pop()).toEqual(
+      promotionFixture.url.split("/").pop()
+    );
 
     const mockResult = studentFixture;
     mockResult[0].promotion = promotionFixture;
@@ -186,6 +201,9 @@ describe("test the composable getArtistInfo", () => {
     await getStudent(artistFixture.id);
 
     expect(axios.get).toHaveBeenCalledTimes(3);
+    expect(Number(axios.get.calls[2][0].split("=").pop())).toEqual(
+      artistFixture.id
+    );
 
     expect(student.value).toEqual({});
 
@@ -220,6 +238,9 @@ describe("test the composable getArtistInfo", () => {
     await getCandidature(userFixture.default.username);
 
     expect(axios.get).toHaveBeenCalledTimes(1);
+    expect(axios.get.calls[0][0].split("=").pop()).toEqual(
+      userFixture.default.username
+    );
 
     expect(candidature.value).toEqual(applicationFixture);
 
@@ -231,5 +252,60 @@ describe("test the composable getArtistInfo", () => {
     expect(axios.get).toHaveBeenCalledTimes(2);
 
     expect(candidature.value).toEqual({});
+  });
+
+  it("Check setup with auth", async () => {
+    axios.get
+      .mockResolvedValue(
+        // default mock but not the first
+        {
+          data: {
+            default: true,
+          },
+        }
+      )
+      // success once and fail once
+      // the response of the request is always a array even if it's just one artwork
+      .mockResolvedValueOnce({ data: artistFixture })
+      .mockResolvedValueOnce({ data: userFixture.default })
+      .mockResolvedValueOnce({ data: artworkFixture })
+      .mockResolvedValueOnce({ data: [applicationFixture] })
+      .mockResolvedValueOnce({ data: studentFixture });
+
+    await setup(artistFixture.id, true);
+
+    expect(axios.get).toHaveBeenCalledTimes(6);
+    expect(artist.value).toEqual(artistFixture);
+    expect(user.value).toEqual(userFixture.default);
+    expect(artworks.value).toEqual(artworkFixture);
+    expect(candidature.value).toEqual(applicationFixture);
+    expect(student.value).toEqual(studentFixture);
+  });
+
+  it("Check setup without", async () => {
+    axios.get
+      .mockResolvedValue(
+        // default mock but not the first
+        {
+          data: {
+            default: true,
+          },
+        }
+      )
+      // success once and fail once
+      // the response of the request is always a array even if it's just one artwork
+      .mockResolvedValueOnce({ data: artistFixture })
+      .mockResolvedValueOnce({ data: userFixture.default })
+      .mockResolvedValueOnce({ data: artworkFixture })
+      .mockResolvedValueOnce({ data: studentFixture });
+
+    await setup(artistFixture.id, false);
+
+    expect(axios.get).toHaveBeenCalledTimes(5);
+    expect(artist.value).toEqual(artistFixture);
+    expect(user.value).toEqual(userFixture.default);
+    expect(artworks.value).toEqual(artworkFixture);
+    expect(candidature.value).toEqual({});
+    expect(student.value).toEqual(studentFixture);
   });
 });
