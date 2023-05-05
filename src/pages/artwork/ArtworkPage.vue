@@ -64,9 +64,16 @@ onMounted(() => {
   Fancybox.bind(preview.value, "[data-fancybox]");
 });
 
+// Save the first route which mount the component and store it
+const routeName = router.currentRoute.value.name;
 watch(
   () => router.currentRoute.value.path,
   () => {
+    // if the route is not the same as the first, prevent a new setup call
+    if (router.currentRoute.value.name !== routeName) {
+      return;
+    }
+
     initValues();
 
     const artworkId = router.currentRoute.value.params.id;
@@ -142,6 +149,7 @@ onBeforeUnmount(() => {
             <div v-if="authors" class="flex">
               <UiLink
                 v-for="author in authors"
+                :key="author"
                 :text="author.username || author.nickname"
                 :url="`/artist/${getId(author.url)}`"
               />
@@ -229,7 +237,7 @@ onBeforeUnmount(() => {
       <div
         ref="gallery"
         id="galleries"
-        class="pl-8 pr-6 py-5 sticky top-16 lg:w-2/5 lg:h-[90svh] lg:overflow-x-scroll flex flex-col gap-6"
+        class="pl-8 pr-6 py-5 sticky top-16 lg:w-2/5 lg:h-[90svh] lg:overflow-y-auto flex flex-col gap-6"
       >
         <div class="lg:hidden flex flex-col">
           <hr />

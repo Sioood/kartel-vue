@@ -165,7 +165,7 @@ async function getStudent(id) {
 
       studentData[0].promotion = promotionData;
 
-      student.value = studentData;
+      student.value = studentData[0];
     } catch (err) {
       console.error(err);
       student.value = {};

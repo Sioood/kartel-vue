@@ -314,4 +314,5 @@ export {
   getAuthors,
   getUsername,
   getGalleries,
+  Media,
 };
