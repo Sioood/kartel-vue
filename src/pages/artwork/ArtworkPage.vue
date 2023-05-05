@@ -237,7 +237,7 @@ onBeforeUnmount(() => {
       <div
         ref="gallery"
         id="galleries"
-        class="pl-8 pr-6 py-5 sticky top-16 lg:w-2/5 lg:h-[90svh] lg:overflow-y-auto flex flex-col gap-6"
+        class="pl-8 pr-6 py-5 sticky top-20 lg:w-2/5 lg:h-[90svh] lg:overflow-y-auto flex flex-col gap-6"
       >
         <div class="lg:hidden flex flex-col">
           <hr />

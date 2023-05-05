@@ -153,17 +153,24 @@ function removePreprod(url) {
       <div class="pl-8 pr-6 pt-5 pb-12 lg:w-3/5 flex flex-col">
         <div id="content" class="flex flex-col gap-10">
           <div class="flex flex-col lg:flex-row lg:items-end gap-6">
-            <img
-              v-if="user?.profile"
-              class="lg:w-1/3 min-h-[25vh] bg-black-extralightest object-cover"
-              :class="{ 'p-5': !user?.profile?.photo }"
-              :src="
-                user?.profile?.photo
-                  ? `${config.media_service}?url=${user.profile.photo}&mode=adapt&w=1000&fmt=jpg`
-                  : '/src/assets/placeholder_user.svg'
-              "
-              :alt="`Photo de ${user.first_name} ${user.last_name}`"
-            />
+            <div class="relative w-fit h-full flex">
+              <img
+                v-if="user?.profile"
+                class="min-h-[25vh] bg-black-extralightest object-cover"
+                :class="{ 'p-5': !user?.profile?.photo }"
+                :src="
+                  user?.profile?.photo
+                    ? `${config.media_service}?url=${user.profile.photo}&mode=adapt&w=1000&fmt=jpg`
+                    : '/src/assets/placeholder_user.svg'
+                "
+                :alt="`Photo de ${user.first_name} ${user.last_name}`"
+              />
+              <svg v-if="student?.graduate" class="absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path
+                  d="M12 2L0 9L12 16L22 10.1667V17.5H24V9L12 2Z M3.99902 13.4905V18.0001C5.82344 20.429 8.72812 22.0001 11.9998 22.0001C15.2714 22.0001 18.1761 20.429 20.0005 18.0001L20.0001 13.4913L12.0003 18.1579L3.99902 13.4905Z"
+                ></path>
+              </svg>
+            </div>
 
             <div v-if="artist" class="w-2/3 flex flex-col">
               <!-- <h4 v-if="user?.profile?.nationality" class="font-medium">
@@ -471,7 +478,7 @@ function removePreprod(url) {
       <div
         v-if="artworks"
         id="artwork"
-        class="pl-8 pr-6 py-5 sticky top-16 w-full lg:w-2/5 lg:h-[90svh] lg:overflow-y-auto flex flex-col gap-6"
+        class="pl-8 pr-6 py-5 sticky top-20 w-full lg:w-2/5 lg:h-[90svh] lg:overflow-y-auto flex flex-col gap-6"
       >
         <div class="lg:hidden flex flex-col">
           <hr />

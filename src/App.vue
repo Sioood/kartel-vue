@@ -235,7 +235,7 @@ onUnmounted(() => {
     <hr />
   </header>
 
-  <div class="mt-12 lg:mt-16 w-full flex gap-8">
+  <div class="mt-12 lg:mt-20 w-full flex gap-8">
     <RouterLink class="sticky top-0 hidden lg:block" to="/">
       <img
         class="m-4 sticky top-20"
