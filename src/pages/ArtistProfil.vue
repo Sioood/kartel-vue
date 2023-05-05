@@ -209,20 +209,46 @@ function removePreprod(url) {
                 :fontSize="2"
               />
               <ul class="flex flex-col">
-                <li class="inline-flex gap-2">
+                <li v-if="artist?.nickname" class="inline-flex gap-2">
+                  <div class="flex flex-wrap gap-1">
+                    <b>Pseudonyme:</b>
+                    <p>
+                      {{ artist.nickname }}
+                    </p>
+                  </div>
+                </li>
+                <li
+                  v-else-if="user?.first && user?.last_name"
+                  class="inline-flex gap-2"
+                >
                   <div class="flex flex-wrap gap-1">
                     <b>Nom:</b>
-                    <p v-if="user?.last_name">
+                    <p>
                       {{ user.last_name }}
                     </p>
                   </div>
                   <div class="flex flex-wrap gap-1">
                     <b>Prénom:</b>
-                    <p v-if="user?.first_name">
+                    <p>
                       {{ user.first_name }}
                     </p>
                   </div>
                 </li>
+                <li v-else class="inline-flex gap-2">
+                  <div v-if="user?.first_name" class="flex flex-wrap gap-1">
+                    <b>Nom:</b>
+                    <p>
+                      {{ user.last_name }}
+                    </p>
+                  </div>
+                  <div v-if="user?.last_name" class="flex flex-wrap gap-1">
+                    <b>Prénom:</b>
+                    <p>
+                      {{ user.first_name }}
+                    </p>
+                  </div>
+                </li>
+
                 <li class="flex flex-wrap gap-1">
                   <b>Nationalité:</b>
                   <p
@@ -236,6 +262,7 @@ function removePreprod(url) {
                       user?.profile?.homeland_country
                     }}
                   </p>
+                  <p v-else class="text-gray italic">Non renseigné.</p>
                 </li>
                 <li class="flex flex-wrap gap-1">
                   <h5 class="font-bold">Tel:</h5>
@@ -250,18 +277,22 @@ function removePreprod(url) {
                       user?.profile?.homeland_phone
                     }}
                   </p>
+                  <p v-else class="text-gray italic">Non renseigné.</p>
                 </li>
                 <li class="flex flex-wrap gap-1">
                   <h5 class="font-bold">E-Mail:</h5>
                   <p v-if="user?.email">
                     {{ user.email }}
                   </p>
+                  <p v-else class="text-gray italic">Non renseigné.</p>
                 </li>
                 <li class="flex flex-wrap gap-1">
                   <h5 class="font-bold">Adresse:</h5>
                   <p v-if="user?.profile?.residence_address">
                     {{ user.profile.residence_address }}
                   </p>
+                  <p v-else class="text-gray italic">Non renseigné.</p>
+
                 </li>
                 <li class="flex flex-wrap gap-1">
                   <h5 class="font-bold">N° sécurité sociale:</h5>
@@ -270,6 +301,7 @@ function removePreprod(url) {
                       formatSocialNumber(user.profile.social_insurance_number)
                     }}
                   </p>
+                  <p v-else class="text-gray italic">Non renseigné.</p>
                 </li>
               </ul>
             </div>
@@ -294,6 +326,7 @@ function removePreprod(url) {
                     >
                       {{ formatUrlToText(candidature?.curriculum_vitae) }}
                     </a>
+                    <p v-else class="text-gray italic">Non renseigné.</p>
                   </div>
                 </li>
                 <li class="inline-flex gap-2">
@@ -306,6 +339,7 @@ function removePreprod(url) {
                     >
                       {{ formatUrlToText(candidature?.identity_card) }}
                     </a>
+                    <p v-else class="text-gray italic">Non renseigné.</p>
                   </div>
                 </li>
 
@@ -335,6 +369,15 @@ function removePreprod(url) {
                     >
                       2<sup>ème</sup> année
                     </a>
+                    <p
+                      v-else-if="
+                        !candidature?.considered_project_1 &&
+                        !candidature?.considered_project_2
+                      "
+                      class="text-gray italic"
+                    >
+                      Non renseigné.
+                    </p>
                   </div>
                 </li>
                 <li class="inline-flex gap-2">
@@ -347,6 +390,7 @@ function removePreprod(url) {
                     >
                       {{ formatUrlToText(candidature?.free_document) }}
                     </a>
+                    <p v-else class="text-gray italic">Non renseigné.</p>
                   </div>
                 </li>
                 <li class="inline-flex gap-2">
@@ -359,6 +403,7 @@ function removePreprod(url) {
                     >
                       {{ formatUrlToText(candidature?.presentation_video) }}
                     </a>
+                    <p v-else class="text-gray italic">Non renseigné.</p>
                   </div>
                 </li>
               </ul>
