@@ -199,7 +199,7 @@ function removePreprod(url) {
           </div>
 
           <!-- need a method which check the validity of the token instead of just verify it existence -->
-          <div v-if="!token" class="flex flex-wrap gap-6">
+          <div v-if="token" class="flex flex-wrap gap-6">
             <div class="flex flex-col gap-3 flex-[1_1_20rem]">
               <UnderlineTitle
                 class="w-max"

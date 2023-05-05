@@ -29,21 +29,23 @@ let student = ref();
 let user = ref();
 let candidature = ref();
 
-function initValues() {
-  artist.value = {};
-  artworks.value = [];
-  student.value = {};
-  user.value = {};
-  candidature.value = {};
-}
-
 /**
  *  set token and get user information with the id url of artist.user
  *  If the token is empty it's means that the user is not authenticated and set empty string.
  *
  * @type {string} token
  */
-let token = localStorage.getItem("token") || "";
+let token;
+
+function initValues() {
+  token = localStorage.getItem("token") || "";
+
+  artist.value = {};
+  artworks.value = [];
+  student.value = {};
+  user.value = {};
+  candidature.value = {};
+}
 
 /**
  *  function for fetching artist data
@@ -78,7 +80,7 @@ async function getUser(id) {
     "Content-Type": "application/json;charset=UTF-8",
   };
 
-  if (token) {
+  if (!!token) {
     headers.Authorization = `JWT ${token}`;
   }
 
