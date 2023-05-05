@@ -27,12 +27,15 @@ const fullname = computed(() => {
     >
       <div class="w-full h-44">
         <img
-          v-if="props.artist?.userData?.profile?.photo"
-          class="w-full h-44 object-cover"
+          class="w-full h-44 bg-gray-extralightest"
+          :class="{
+            'object-cover': props.artist?.userData?.profile?.photo,
+            'p-2': !props.artist?.userData?.profile?.photo,
+          }"
           :src="
             props.artist?.userData?.profile?.photo
               ? `${config.media_service}?url=${props.artist.userData.profile.photo}&mode=adapt&w=300&fmt=jpg`
-              : ''
+              : '/src/assets/placeholder_user.svg'
           "
           :alt="`Photo de ${fullname}`"
         />

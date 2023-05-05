@@ -23,11 +23,15 @@ const fullname = computed(() => {
     >
       <router-link :to="`/artist/${getId(props.student.artist)}`">
         <img
-          class="w-full h-44 object-cover"
+          class="w-full h-44 bg-gray-extralightest"
+          :class="{
+            'object-cover': props.student?.userData?.profile?.photo,
+            'p-4': !props.student?.userData?.profile?.photo,
+          }"
           :src="
             props.student.userData.profile.photo
               ? `${config.media_service}?url=${props.student.userData.profile.photo}&mode=adapt&w=300&fmt=jpg`
-              : ''
+              : '/src/assets/placeholder_user.svg'
           "
           :alt="`Photo de ${fullname}`"
         />

@@ -154,9 +154,14 @@ function removePreprod(url) {
         <div id="content" class="flex flex-col gap-10">
           <div class="flex flex-col lg:flex-row lg:items-end gap-6">
             <img
-              v-if="user?.profile?.photo"
+              v-if="user?.profile"
               class="lg:w-1/3 min-h-[25vh] bg-black-extralightest object-cover"
-              :src="`${config.media_service}?url=${user.profile.photo}&mode=adapt&w=1000&fmt=jpg`"
+              :class="{ 'p-5': !user?.profile?.photo }"
+              :src="
+                user?.profile?.photo
+                  ? `${config.media_service}?url=${user.profile.photo}&mode=adapt&w=1000&fmt=jpg`
+                  : '/src/assets/placeholder_user.svg'
+              "
               :alt="`Photo de ${user.first_name} ${user.last_name}`"
             />
 
@@ -217,6 +222,7 @@ function removePreprod(url) {
                     </p>
                   </div>
                 </li>
+
                 <li
                   v-else-if="user?.first && user?.last_name"
                   class="inline-flex gap-2"
@@ -234,6 +240,7 @@ function removePreprod(url) {
                     </p>
                   </div>
                 </li>
+
                 <li v-else class="inline-flex gap-2">
                   <div v-if="user?.first_name" class="flex flex-wrap gap-1">
                     <b>Nom:</b>
@@ -264,6 +271,7 @@ function removePreprod(url) {
                   </p>
                   <p v-else class="text-gray italic">Non renseigné.</p>
                 </li>
+
                 <li class="flex flex-wrap gap-1">
                   <h5 class="font-bold">Tel:</h5>
                   <p
@@ -279,6 +287,7 @@ function removePreprod(url) {
                   </p>
                   <p v-else class="text-gray italic">Non renseigné.</p>
                 </li>
+
                 <li class="flex flex-wrap gap-1">
                   <h5 class="font-bold">E-Mail:</h5>
                   <p v-if="user?.email">
@@ -286,14 +295,15 @@ function removePreprod(url) {
                   </p>
                   <p v-else class="text-gray italic">Non renseigné.</p>
                 </li>
+
                 <li class="flex flex-wrap gap-1">
                   <h5 class="font-bold">Adresse:</h5>
                   <p v-if="user?.profile?.residence_address">
                     {{ user.profile.residence_address }}
                   </p>
                   <p v-else class="text-gray italic">Non renseigné.</p>
-
                 </li>
+
                 <li class="flex flex-wrap gap-1">
                   <h5 class="font-bold">N° sécurité sociale:</h5>
                   <p v-if="user?.profile?.social_insurance_number">
@@ -419,7 +429,10 @@ function removePreprod(url) {
                     :underlineSize="1"
                     :fontSize="2"
                   />
-                  <div class="relative w-5 h-5 border-0.5 border-gray rounded">
+                  <div
+                    v-if="user?.profile?.cursus"
+                    class="relative w-5 h-5 border-0.5 border-gray rounded"
+                  >
                     <span
                       class="absolute inset-x-1/2 inset-y-1/2 -translate-x-1/2 -translate-y-1/2 block w-3 h-px bg-gray"
                     ></span>
@@ -431,13 +444,18 @@ function removePreprod(url) {
               </details>
 
               <div
-                class="relative max-h-52 peer-open:max-h-full peer-open:after:hidden truncate after:block after:absolute after:bottom-0 after:w-full after:h-1/2 after:bg-gradient-to-t after:from-white after:to-transparent after:pointer-events-none"
+                class="relative max-h-52 peer-open:max-h-full peer-open:after:hidden truncate"
+                :class="{
+                  ' after:block after:absolute after:bottom-0 after:w-full after:h-1/2 after:bg-gradient-to-t after:from-white after:to-transparent after:pointer-events-none':
+                    user?.profile?.cursus,
+                }"
               >
                 <p
                   v-if="user?.profile?.cursus"
                   class="text-sm whitespace-pre-line"
                   v-html="parsedContent(user?.profile?.cursus)"
                 ></p>
+                <p v-else class="text-gray italic">Non renseigné.</p>
               </div>
             </div>
           </div>

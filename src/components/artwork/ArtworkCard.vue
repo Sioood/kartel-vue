@@ -36,7 +36,11 @@ const props = defineProps({
       <img
         class="w-full object-cover aspect-video"
         :alt="props.title"
-        :src="`${config.media_service}?url=${props.picture}&mode=adapt&w=300&fmt=jpg`"
+        :src="
+          props.picture
+            ? `${config.media_service}?url=${props.picture}&mode=adapt&w=300&fmt=jpg`
+            : '/src/assets/placeholder_media.svg'
+        "
       />
     </div>
     <span class="block w-full h-1 bg-black"></span>

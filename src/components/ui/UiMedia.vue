@@ -60,10 +60,11 @@ function type() {
           :src="
             props.url
               ? `${config.media_service}?url=${props.url}&mode=adapt&w=300&fmt=jpg`
-              : ''
+              : '/src/assets/placeholder_media.svg'
           "
           :alt="props.title"
         />
+        
       </a>
     </div>
     <span class="block w-full h-1 bg-black"></span>
