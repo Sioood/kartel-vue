@@ -25,6 +25,7 @@ import { getId } from "@/composables/getId";
  */
 let artist = ref();
 let artworks = ref();
+let websites = ref();
 let student = ref();
 let user = ref();
 let candidature = ref();
@@ -42,6 +43,7 @@ function initValues() {
 
   artist.value = {};
   artworks.value = [];
+  websites.value = [];
   student.value = {};
   user.value = {};
   candidature.value = {};
@@ -58,6 +60,8 @@ async function getArtist(id) {
     const response = await axios.get(`people/artist/${id}`);
 
     const data = response.data;
+
+    console.log(data);
 
     artist.value = data;
   } catch (err) {
@@ -149,6 +153,32 @@ async function getArtworks(id) {
 }
 
 /**
+ * Retrieves data from a list of artist websites.
+ *
+ * @param {Array} artistWebsites - List of artist websites to retrieve data from.
+ * @return {Promise} Resolves with an array of website data.
+ */
+async function getWebsites(artistWebsites) {
+  if (!artistWebsites) {
+    return;
+  }
+
+  const websitesData = artistWebsites.map(async (website) => {
+    try {
+      const response = await axios.get(website);
+
+      const data = response.data;
+
+      return data;
+    } catch (err) {
+      console.error(err);
+    }
+  });
+
+  websites.value = await Promise.all(websitesData);
+}
+
+/**
  *  Fetch student data of the artist
  *
  * @param {string} id (number id) - the id of the artist
@@ -190,6 +220,8 @@ async function setup(artistId, auth) {
 
   getArtworks(artistId);
 
+  getWebsites(artist.value.websites);
+
   if (auth) {
     getCandidature(user.value.username);
   }
@@ -206,6 +238,7 @@ export {
   artist,
   user,
   artworks,
+  websites,
   student,
   candidature,
 

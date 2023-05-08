@@ -15,6 +15,7 @@ import {
   artist,
   user,
   artworks,
+  websites,
   student,
   candidature,
   setup,
@@ -165,7 +166,12 @@ function removePreprod(url) {
                 "
                 :alt="`Photo de ${user.first_name} ${user.last_name}`"
               />
-              <svg v-if="student?.graduate" class="absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <svg
+                v-if="student?.graduate"
+                class="absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 w-6"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+              >
                 <path
                   d="M12 2L0 9L12 16L22 10.1667V17.5H24V9L12 2Z M3.99902 13.4905V18.0001C5.82344 20.429 8.72812 22.0001 11.9998 22.0001C15.2714 22.0001 18.1761 20.429 20.0005 18.0001L20.0001 13.4913L12.0003 18.1579L3.99902 13.4905Z"
                 ></path>
@@ -208,6 +214,27 @@ function removePreprod(url) {
                 </router-link>
               </h4>
             </div>
+          </div>
+
+          <div
+            v-if="websites && websites.length !== 0"
+            class="flex flex-col gap-3"
+          >
+            <UnderlineTitle
+              class="w-max"
+              title="Sites et liens"
+              :uppercase="true"
+              :underlineSize="1"
+              :fontSize="2"
+            />
+
+            <ul class="flex flex-col gap-2">
+              <li class="" v-for="website in websites" :key="website.id">
+                <a :href="website.link" class="underline">
+                  {{ website.title_fr || website.title_en }}
+                </a>
+              </li>
+            </ul>
           </div>
 
           <!-- need a method which check the validity of the token instead of just verify it existence -->
