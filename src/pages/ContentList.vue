@@ -287,14 +287,14 @@ function removePreprod(url) {
         @update:option="(newValue) => (productionYear = newValue)"
       ></UiSelect>
 
-      <UiSelect
+      <!-- <UiSelect
         v-if="params && Object.keys(params).includes('nationality')"
         :options="defNationality"
         defaultValue="toutes nationalités"
         :selectedValue="nationality"
         desc="Nationalité"
         @update:option="(newValue) => (nationality = newValue)"
-      ></UiSelect>
+      ></UiSelect> -->
 
       <label v-if="params && Object.keys(params).includes('guests')" for="checkbox" class="relative inline-flex items-center gap-2">
         Artistes invités

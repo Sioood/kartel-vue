@@ -87,7 +87,7 @@ watch(
             hidden: !artists[0],
           }"
         >
-          <h6 class="ml-2 text-xs font-medium text-gray uppercase">artists</h6>
+          <h6 class="ml-2 text-xs font-medium text-gray uppercase">{{$t('Artists')}}</h6>
           <li v-for="artist in artists" :key="artist">
             <router-link
               :to="`/artist/${getId(artist.url)}`"
@@ -137,7 +137,7 @@ watch(
             hidden: !artworks[0],
           }"
         >
-          <h6 class="ml-2 text-xs font-medium text-gray uppercase">Artworks</h6>
+          <h6 class="ml-2 text-xs font-medium text-gray uppercase">{{$t('Artworks')}}</h6>
 
           <li v-for="artwork in artworks" :key="artwork">
             <router-link
