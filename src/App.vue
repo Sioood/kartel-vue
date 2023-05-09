@@ -220,7 +220,7 @@ onUnmounted(() => {
               class="text-2xl font-bold after:block after:w-20 after:h-1 after:bg-black"
               :to="item.path"
             >
-              {{ item.name }}
+              {{ $t(item.name) }}
             </RouterLink>
           </li>
         </ul>
@@ -228,8 +228,6 @@ onUnmounted(() => {
         <div class="w-full flex justify-end">
           <AuthCard />
         </div>
-
-        <div></div>
       </div>
     </nav>
     <hr />
