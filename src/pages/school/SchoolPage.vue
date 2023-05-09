@@ -68,12 +68,12 @@ onMounted(async () => {
           :fontSize="1"
         ></UnderlineTitle>
 
-        <label for="" class="w-max flex flex-col items-end md:hidden">
-          <div class="after:block after:w-full after:h-1 after:bg-black">
+        <label for="" class="w-full flex flex-col items-end md:hidden">
+          <div class="w-full after:block after:w-full after:h-1 after:bg-black">
             <select
               v-model="promoSelected"
               @change="selectPromotion(promoSelected)"
-              class="px-2 cursor-pointer"
+              class="w-full px-2 cursor-pointer"
               :class="{ 'text-gray': isNaN(promoSelected) }"
             >
               <option disabled :value="undefined">
