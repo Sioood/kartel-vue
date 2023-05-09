@@ -453,7 +453,7 @@ function removePreprod(url) {
               </ul>
             </div>
 
-            <div class="flex flex-col gap-3 flex-[1_1_20rem]">
+            <div class="w-full flex flex-col gap-3 flex-[1_1_20rem]">
               <details class="group peer">
                 <summary
                   class="group relative flex items-center gap-3 cursor-pointer"
@@ -478,7 +478,7 @@ function removePreprod(url) {
               </details>
 
               <div
-                class="relative max-h-52 peer-open:max-h-full peer-open:after:hidden truncate"
+                class="relative max-h-52 peer-open:max-h-full peer-open:after:hidden overflow-hidden"
                 :class="{
                   ' after:block after:absolute after:bottom-0 after:w-full after:h-1/2 after:bg-gradient-to-t after:from-white after:to-transparent after:pointer-events-none':
                     user?.profile?.cursus,
@@ -486,7 +486,7 @@ function removePreprod(url) {
               >
                 <p
                   v-if="user?.profile?.cursus"
-                  class="text-sm whitespace-pre-line"
+                  class="text-sm whitespace-pre-line [&>*]:whitespace-pre-line"
                   v-html="parsedContent(user?.profile?.cursus)"
                 ></p>
                 <p v-else class="text-gray italic">Non renseigné.</p>
