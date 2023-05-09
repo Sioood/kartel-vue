@@ -147,12 +147,18 @@ onBeforeUnmount(() => {
           <div class="flex flex-wrap items-center text-xl">
             <h3>{{ artwork.type }} de</h3>
             <div v-if="authors" class="flex">
-              <UiLink
-                v-for="author in authors"
+              <div
+                class="flex items-center"
+                v-for="(author, index) in authors"
                 :key="author"
-                :text="author.username || author.nickname"
-                :url="`/artist/${getId(author.url)}`"
-              />
+              >
+                <UiLink
+                  class="[&>a]:px-0"
+                  :text="author.username || author.nickname"
+                  :url="`/artist/${getId(author.url)}`"
+                />
+                <span v-if="!(authors.length <= index + 1)">&</span>
+              </div>
             </div>
             <span>—</span>
             <h3 v-if="artwork.production_date?.split('-')">
