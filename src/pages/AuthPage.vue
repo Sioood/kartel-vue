@@ -38,7 +38,7 @@ let password = ref("");
         <UiInput
           :label="$t('username')"
           :required="true"
-          pattern="\w{3,16}"
+          pattern="\S{3,}"
           inputTitle="Le nom d'utilisateur doit contenir au moins 3 caractères"
           placeholder="Kartel"
           type="text"
@@ -47,7 +47,7 @@ let password = ref("");
         <UiInput
           :label="$t('password')"
           :required="true"
-          pattern="\w{3,16}"
+          pattern="\S{3,}"
           inputTitle="Le mot de passe doit contenir au moins 3 caractères"
           :placeholder="$t('password')"
           type="password"
