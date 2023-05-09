@@ -106,7 +106,7 @@ const router = createRouter({
       name: "artworks",
       component: () => import("../pages/ContentList.vue"),
       meta: {
-        title: "Œuvres - Kartel"
+        title: "Œuvres - Kartel",
       },
     },
     {
@@ -114,7 +114,7 @@ const router = createRouter({
       name: "artwork",
       component: () => import("../pages/artwork/ArtworkPage.vue"),
       meta: {
-        title: "Œuvre - Kartel"
+        title: "Œuvre - Kartel",
       },
     },
     // For visualisation but need to be children of artist and artwork
@@ -137,6 +137,9 @@ const router = createRouter({
         import("../__examples__/__test__/ComponentComposables.vue"),
     },
   ],
+  scrollBehavior(to, from, savedPosition) {
+    return { top: 0 };
+  },
 });
 
 export default router;
