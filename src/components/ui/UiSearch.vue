@@ -46,7 +46,7 @@ watch(
         class="px-2 py-1 box-border w-full text-lg text-black font-bold capitalize focus:bg-gray-100 transition-all duration-500"
       />
       <span class="w-full h-1 bg-black dark:bg-white"></span>
-      <span class="text-xs text-gray-500 uppercase">{{$t('search')}}</span>
+      <span class="text-xs text-gray-500 uppercase">{{ $t("search") }}</span>
     </label>
     <div
       @mousemove="result.disabled = true"
@@ -54,7 +54,7 @@ watch(
         (result.disabled = false),
           result.focus === false ? (result.open = false) : null
       "
-      class="absolute bottom-0 translate-y-full p-4 pb-0 box-content w-full max-h-96 overflow-x-scroll flex-col gap-10 bg-white"
+      class="absolute bottom-0 translate-y-full p-4 pb-0 box-content w-full max-h-96 overflow-y-auto flex-col gap-10 bg-white"
       :class="{
         hidden: result.open === false || hiddenInput() === true,
         flex: result.open === true,
@@ -87,7 +87,9 @@ watch(
             hidden: !artists[0],
           }"
         >
-          <h6 class="ml-2 text-xs font-medium text-gray uppercase">{{$t('Artists')}}</h6>
+          <h6 class="ml-2 text-xs font-medium text-gray uppercase">
+            {{ $t("Artists") }}
+          </h6>
           <li v-for="artist in artists" :key="artist">
             <router-link
               :to="`/artist/${getId(artist.url)}`"
@@ -137,7 +139,9 @@ watch(
             hidden: !artworks[0],
           }"
         >
-          <h6 class="ml-2 text-xs font-medium text-gray uppercase">{{$t('Artworks')}}</h6>
+          <h6 class="ml-2 text-xs font-medium text-gray uppercase">
+            {{ $t("Artworks") }}
+          </h6>
 
           <li v-for="artwork in artworks" :key="artwork">
             <router-link
