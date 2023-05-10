@@ -162,7 +162,7 @@ function removePreprod(url) {
                 :src="
                   user?.profile?.photo
                     ? `${config.media_service}?url=${user.profile.photo}&mode=adapt&w=1000&fmt=jpg`
-                    : '/src/assets/placeholder_user.svg'
+                    : './src/assets/placeholder_user.svg'
                 "
                 :alt="`Photo de ${user.first_name} ${user.last_name}`"
               />

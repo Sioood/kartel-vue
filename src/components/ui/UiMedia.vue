@@ -60,7 +60,7 @@ function type() {
           :src="
             props.url
               ? `${config.media_service}?url=${props.url}&mode=adapt&w=300&fmt=jpg`
-              : '/src/assets/placeholder_media.svg'
+              : './src/assets/placeholder_media.svg'
           "
           :alt="props.title"
         />

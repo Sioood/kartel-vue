@@ -39,7 +39,7 @@ const props = defineProps({
         :src="
           props.picture
             ? `${config.media_service}?url=${props.picture}&mode=adapt&w=300&fmt=jpg`
-            : '/src/assets/placeholder_media.svg'
+            : './src/assets/placeholder_media.svg'
         "
       />
     </div>

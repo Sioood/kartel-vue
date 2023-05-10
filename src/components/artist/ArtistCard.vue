@@ -35,7 +35,7 @@ const fullname = computed(() => {
           :src="
             props.artist?.userData?.profile?.photo
               ? `${config.media_service}?url=${props.artist.userData.profile.photo}&mode=adapt&w=300&fmt=jpg`
-              : '/src/assets/placeholder_user.svg'
+              : './src/assets/placeholder_user.svg'
           "
           :alt="`Photo de ${fullname}`"
         />
