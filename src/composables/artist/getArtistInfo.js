@@ -61,8 +61,6 @@ async function getArtist(id) {
 
     const data = response.data;
 
-    console.log(data);
-
     artist.value = data;
   } catch (err) {
     console.error(err);
@@ -190,10 +188,18 @@ async function getStudent(id) {
 
     const studentData = response.data;
 
+    // return if no student data -> that means that the artist is not a student
+    if (!studentData || studentData.length === 0) {
+      student.value = [];
+      return;
+    }
+
     try {
       const response = await axios.get(studentData[0].promotion);
 
       let promotionData = response.data;
+
+      console.log(promotionData);
 
       studentData[0].promotion = promotionData;
 
