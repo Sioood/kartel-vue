@@ -3,6 +3,8 @@ import config from "../../config";
 
 import { getId } from "@/composables/getId";
 
+import mediaPlaceholder from "@/assets/placeholder_media.svg";
+
 // define props like url of img media and url artwork
 
 // props for now but query artwork id in the future
@@ -39,7 +41,7 @@ const props = defineProps({
         :src="
           props.picture
             ? `${config.media_service}?url=${props.picture}&mode=adapt&w=300&fmt=jpg`
-            : './src/assets/placeholder_media.svg'
+            : mediaPlaceholder
         "
       />
     </div>

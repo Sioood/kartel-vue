@@ -3,6 +3,7 @@ import config from "@/config";
 
 import { computed } from "vue";
 
+import userPlaceholder from "@/assets/placeholder_user.svg";
 import { getId } from "@/composables/getId";
 
 const props = defineProps({
@@ -31,7 +32,7 @@ const fullname = computed(() => {
           :src="
             props.student.userData.profile.photo
               ? `${config.media_service}?url=${props.student.userData.profile.photo}&mode=adapt&w=300&fmt=jpg`
-              : '/src/assets/placeholder_user.svg'
+              : userPlaceholder
           "
           :alt="`Photo de ${fullname}`"
         />

@@ -31,6 +31,8 @@ import UnderlineTitle from "@/components/ui/UnderlineTitle.vue";
 import UiDescription from "@/components/ui/UiDescription.vue";
 import ArtworkCard from "@/components/artwork/ArtworkCard.vue";
 
+import userPlaceholder from "@/assets/placeholder_user.svg";
+
 const router = useRouter();
 
 let artistId = router.currentRoute.value.params.id;
@@ -162,7 +164,7 @@ function removePreprod(url) {
                 :src="
                   user?.profile?.photo
                     ? `${config.media_service}?url=${user.profile.photo}&mode=adapt&w=1000&fmt=jpg`
-                    : './src/assets/placeholder_user.svg'
+                    : userPlaceholder
                 "
                 :alt="`Photo de ${user.first_name} ${user.last_name}`"
               />

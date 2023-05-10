@@ -2,6 +2,8 @@
 // import config from "@/config";
 import config from "@/config";
 
+import mediaPlaceholder from "@/assets/placeholder_media.svg";
+
 const props = defineProps({
   url: {
     required: true,
@@ -60,11 +62,10 @@ function type() {
           :src="
             props.url
               ? `${config.media_service}?url=${props.url}&mode=adapt&w=300&fmt=jpg`
-              : './src/assets/placeholder_media.svg'
+              : mediaPlaceholder
           "
           :alt="props.title"
         />
-        
       </a>
     </div>
     <span class="block w-full h-1 bg-black"></span>
