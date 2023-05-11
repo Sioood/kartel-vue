@@ -1,0 +1,43 @@
+{
+  "url": "http://localhost:8000/v2/production/event/1277",
+  "partners": [
+    {
+      "organization": "http://localhost:8000/v2/people/organization/1",
+      "task": "http://localhost:8000/v2/people/organization-staff/2"
+    }
+  ],
+  "collaborators": [
+    {
+      "url": "http://localhost:8000/v2/production/collaborator/271",
+      "staff": {
+        "user": "http://localhost:8000/v2/people/user/2286"
+      },
+      "task": {
+        "label": "Commissaire d'exposition",
+        "description": "Un commissaire d’exposition, ou parfois un curateur, est la personne qui conçoit intellectuellement une exposition."
+      }
+    }
+  ],
+  "parent_event": ["http://localhost:8000/v2/production/event/914"],
+  "meta_award": [],
+  "meta_event": null,
+  "title": "Panorama 22",
+  "former_title": null,
+  "subtitle": "Les sentinelles",
+  "updated_on": "2022-01-13T19:18:41.094808+01:00",
+  "picture": "http://localhost:8000/media/production/event/2020/07/200707-lfp22-signature_mail_J2x.jpg",
+  "description_short_fr": "Exposition du 15 octobre 2020 au 3 janvier 2021",
+  "description_short_en": "",
+  "description_fr": "Le Fresnoy – Studio national des arts contemporain présente en conclusion d’une année d’échanges, d’expériences, de recherche, plus de 50 œuvres inédites dans les domaines de l’image, du son et de la création numérique, imaginées et réalisées par les jeunes artistes et les artistes professeurs invités.  \r\n\r\nDe tous les événements de l'année, Panorama devrait être celui qui porte le plus authentiquement la signature Fresnoy, résultat de notre mission première, articulant formation, production et diffusion.  \r\n\r\n_Panorama 22_ est placé sous le thème des sentinelles, un mot qui désigne plusieurs significations dont l’une permet d’évoquer la figure de l’artiste, aujourd’hui, pour sa part de vigilance, de voyance, de veille, d’éveil. La sentinelle est à l’avant-garde, à l’avant-poste. De l’aube à la nuit, elle scrute l’horizon, se pose au bord ou de l’autre côté du corps, de la vie, de la mort, elle éclaire l’autre monde, l’autre côté de la frontière, l’outremonde. Les œuvres de Panorama 22 explorent le rapport entre le réel enrêvé et le rêve éveillé, entre le sol et le ciel, entre le monde observé et la vision hallucinée, entre les ténèbres et la lumière. Elles inventent des images de transit, dévoilent des ombres et des abysses, proposent des constellations et des souffles. Elles se tiennent juste là, devant nos yeux écarquillés.  \r\n_Louise Dery_\r\n\r\n[Vidéo d'Alain Fleischer][1]\r\n\r\n\r\n  [1]: https://vimeo.com/540663070",
+  "description_en": "The general theme of _Panorama 22_ is sentinels, a word with several meanings, one of which may serve to evoke the figure of the artist, for their vigilance, vision, alertness and wakefulness. The sentinel is in the vanguard, at the outpost. From dawn to night, she scans the horizon, places herself on the edge—or on the other side—of the body, of life, of death. She lights up the other world, the other side of the frontier, beyond our world. The works in _Panorama 22_ explore the relation between dream-infused reality and waking dreams, between ground and sky, between the world observed and hallucinatory vision, between shadows and light. They invent images of transit, reveal shadows and abysses, offer constellations and energies. They are standing there, just in front of our eyes wide open.  \r\n_Louise Dery_\r\n\r\n\r\n[Alain Fleischer Video][1]\r\n\r\n\r\n  [1]: https://vimeo.com/540663070",
+  "main_event": false,
+  "type": "EXHIB",
+  "starting_date": "2020-10-15T14:00:00+02:00",
+  "ending_date": "2021-02-14T21:00:00+01:00",
+  "place": "http://localhost:8000/v2/diffusion/place/1",
+  "websites": ["http://localhost:8000/v2/common/website/1399"],
+  "installations": ["http://localhost:8000/v2/production/installation/1286"],
+  "films": ["http://localhost:8000/v2/production/film/1333"],
+  "performances": [],
+  "subevents": ["http://localhost:8000/v2/production/event/1353"]
+}

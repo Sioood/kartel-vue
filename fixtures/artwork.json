@@ -33,7 +33,7 @@
     "process": "",
     "websites": [],
     "process_galleries": [],
-    "mediation_galleries": ["http://127.0.0.1:8000/v2/assets/gallery/4139"],
+    "mediation_galleries": ["http://127.0.0.1:8000/v2/assets/gallery/4100"],
     "in_situ_galleries": [
       "http://127.0.0.1:8000/v2/assets/gallery/4139",
       "http://127.0.0.1:8000/v2/assets/gallery/4203"

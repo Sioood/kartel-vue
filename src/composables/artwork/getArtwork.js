@@ -54,7 +54,7 @@ async function getArtwork(id) {
 
     artwork.value = data;
 
-    getAuthors(data.authors);
+    await getAuthors(data.authors);
 
     /**
      * Get the rest of info about the artwork
@@ -285,7 +285,7 @@ async function getDiffusion(diffusion) {
 
     const data = response.data;
 
-    getEvent(data.event);
+    await getEvent(data.event);
   } catch (err) {
     console.error(err);
   }
@@ -314,5 +314,10 @@ export {
   getAuthors,
   getUsername,
   getGalleries,
+  getGenres,
+  getGenre,
+  getDiffusions,
+  getDiffusion,
+  getEvent,
   Media,
 };
