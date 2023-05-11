@@ -31,6 +31,8 @@ import UnderlineTitle from "@/components/ui/UnderlineTitle.vue";
 import UiDescription from "@/components/ui/UiDescription.vue";
 import ArtworkCard from "@/components/artwork/ArtworkCard.vue";
 
+import UiLink from "@/components/ui/UiLink.vue";
+
 import userPlaceholder from "@/assets/placeholder_user.svg";
 
 const router = useRouter();
@@ -232,7 +234,7 @@ function removePreprod(url) {
 
             <ul class="flex flex-col gap-2">
               <li class="" v-for="website in websites" :key="website.id">
-                <a :href="website.link" class="underline">
+                <a :href="website.link" class="underline" target="_blank">
                   {{ website.title_fr || website.title_en }}
                 </a>
               </li>
