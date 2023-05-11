@@ -199,8 +199,6 @@ async function getStudent(id) {
 
       let promotionData = response.data;
 
-      console.log(promotionData);
-
       studentData[0].promotion = promotionData;
 
       student.value = studentData[0];

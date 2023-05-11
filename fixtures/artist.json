@@ -10,7 +10,6 @@
   "facebook_profile": "https://www.facebook.com/selene.lamstane.art",
   "user": "http://127.0.0.1:8000/v2/people/user/999",
   "websites": [
-    "http://127.0.0.1:8000/v2/common/website/1372",
-    "http://127.0.0.1:8000/v2/common/website/1263"
+    "http://127.0.0.1:8000/v2/common/website/1372"
   ]
 }

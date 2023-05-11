@@ -5,6 +5,7 @@ import {
   artist,
   user,
   artworks,
+  websites,
   student,
   candidature,
   initValues,
@@ -23,6 +24,7 @@ import {
 import artistFixture from "~/fixtures/artist.json";
 import userFixture from "~/fixtures/user.json";
 import artworkFixture from "~/fixtures/artwork.json";
+import websiteFixture from "~/fixtures/website.json";
 import studentFixture from "~/fixtures/student.json";
 import promotionFixture from "~/fixtures/promotion.json";
 import applicationFixture from "~/fixtures/studentApplication.json";
@@ -189,7 +191,7 @@ describe("test the composable getArtistInfo", () => {
     const mockResult = studentFixture;
     mockResult[0].promotion = promotionFixture;
 
-    expect(student.value).toEqual(mockResult);
+    expect(student.value).toEqual(mockResult[0]);
 
     /**
      * Test with fail on first request
@@ -265,17 +267,23 @@ describe("test the composable getArtistInfo", () => {
       .mockResolvedValueOnce({ data: artistFixture })
       .mockResolvedValueOnce({ data: userFixture.default })
       .mockResolvedValueOnce({ data: artworkFixture })
+      .mockResolvedValueOnce({ data: websiteFixture })
       .mockResolvedValueOnce({ data: [applicationFixture] })
-      .mockResolvedValueOnce({ data: studentFixture });
+      .mockResolvedValueOnce({ data: studentFixture })
+      .mockResolvedValueOnce({ data: promotionFixture });
 
     await setup(artistFixture.id, true);
 
-    expect(axios.get).toHaveBeenCalledTimes(6);
+    const studentMockResults = studentFixture;
+    studentMockResults[0].promotion = promotionFixture;
+
+    expect(axios.get).toHaveBeenCalledTimes(7);
     expect(artist.value).toEqual(artistFixture);
     expect(user.value).toEqual(userFixture.default);
     expect(artworks.value).toEqual(artworkFixture);
+    expect(websites.value).toEqual([websiteFixture]);
     expect(candidature.value).toEqual(applicationFixture);
-    expect(student.value).toEqual(studentFixture);
+    expect(student.value).toEqual(studentMockResults[0]);
   });
 
   it("Check setup without", async () => {
@@ -293,15 +301,21 @@ describe("test the composable getArtistInfo", () => {
       .mockResolvedValueOnce({ data: artistFixture })
       .mockResolvedValueOnce({ data: userFixture.default })
       .mockResolvedValueOnce({ data: artworkFixture })
-      .mockResolvedValueOnce({ data: studentFixture });
+      .mockResolvedValueOnce({ data: websiteFixture })
+      .mockResolvedValueOnce({ data: studentFixture })
+      .mockResolvedValueOnce({ data: promotionFixture });
 
     await setup(artistFixture.id, false);
 
-    expect(axios.get).toHaveBeenCalledTimes(5);
+    const studentMockResults = studentFixture;
+    studentMockResults[0].promotion = promotionFixture;
+
+    expect(axios.get).toHaveBeenCalledTimes(6);
     expect(artist.value).toEqual(artistFixture);
     expect(user.value).toEqual(userFixture.default);
     expect(artworks.value).toEqual(artworkFixture);
+    expect(websites.value).toEqual([websiteFixture]);
     expect(candidature.value).toEqual({});
-    expect(student.value).toEqual(studentFixture);
+    expect(student.value).toEqual(studentMockResults[0]);
   });
 });
