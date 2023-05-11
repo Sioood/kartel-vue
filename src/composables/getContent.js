@@ -1,4 +1,3 @@
-import config from "@/config";
 import axios from "axios";
 
 import { ref } from "vue";
@@ -200,7 +199,7 @@ class Content {
         }
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
 
       // catch 404 and stop observer -> if the method change from offset to next headers it will be much easier to handle the observer
       if (err.response.status === 404) {

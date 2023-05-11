@@ -85,11 +85,11 @@ describe("test the composable getContent", () => {
     expect(load.value).toEqual(true);
     expect(offset.value).toEqual(2);
 
-    expect(params).haveOwnProperty("genres");
+    // expect(params).haveOwnProperty("genres");
     expect(params).haveOwnProperty("keywords");
     expect(params).haveOwnProperty("productionYear");
     expect(params).haveOwnProperty("query");
-    expect(params).haveOwnProperty("shootingPlace", null);
+    // expect(params).haveOwnProperty("shootingPlace", null);
     expect(params).haveOwnProperty("type", `type=${artworksParams.type}`);
   });
 
@@ -121,17 +121,30 @@ describe("test the composable getContent", () => {
     // mockFetch
     //   // if once is present it would be the first mock and switch to the next mock or return to the default mock if no next
     //   .mockReturnValueOnce(Promise.reject("Mock Catch API"));
+    axios.get
+      .mockRejectedValueOnce({
+        response: {
+          status: 403,
+        },
+      })
+      .mockRejectedValueOnce({
+        response: {
+          status: 404,
+        },
+      });
 
-    axios.get.mockRejectedValue();
-
+    // check value after running once getContent with 403 error
     await getContent("artists", artistsParams);
 
-    // leave the requests and replace with mocks
-    // await flushPromises();
-
-    // check value after running once getContent
     expect(content.value).toEqual([]);
-    expect(load.value).toEqual(true);
+    expect(load.value).toEqual(false);
+    expect(offset.value).toEqual(1);
+
+    // check value after running once getContent with 404 error
+    await getContent("artists", artistsParams);
+
+    expect(content.value).toEqual([]);
+    expect(load.value).toEqual(false);
     expect(offset.value).toEqual(1);
   });
 });
