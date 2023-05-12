@@ -48,10 +48,8 @@ async function login(username, password, router) {
     const response = await axios.post("rest-auth/login/", {
       ...body,
     });
-
     const data = response.data;
 
-    console.log(response);
 
     if (response.status === 200 && data?.token) {
       // https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies secure way
@@ -79,13 +77,10 @@ async function login(username, password, router) {
 function logout(router) {
   localStorage.removeItem("token");
   localStorage.removeItem("user");
-  console.log(localStorage);
-  fromStorageToRef();
 
-  user.value.user = JSON.parse(localStorage.getItem("user")) || "";
-  user.value.token = localStorage.getItem("token") || "";
+  fromStorageToRef();
 
   router.go(0);
 }
 
-export { message, user, login, logout };
+export { message, user, login, logout, fromStorageToRef };
