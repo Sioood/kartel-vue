@@ -3,7 +3,7 @@ layout: home
 
 hero:
   name: Kartel
-  text: Référencement des étudiants, artistes et oeuvres passés par le Fresnoy.
+  text: Référencement des étudiants, artistes et œuvres passés par le Fresnoy.
   tagline: Documentation de l'application... Kartel intègre aussi le système de candidature pour les futures promotions.
   image:
     src: https://kartel.lefresnoy.net/images/logo.png
@@ -24,8 +24,8 @@ features:
     title: Artistes
     details: Archivage des Artistes.
   - icon: 🖼️
-    title: Oeuvres
-    details: Archivage des oeuvres.
+    title: Œuvres
+    details: Archivage des œuvres.
   - icon: 📜
     title: Candidatures
     details: Système de candidature pour pouvoir intégrer le cursus.

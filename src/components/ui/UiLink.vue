@@ -22,7 +22,7 @@ const props = defineProps({
     </RouterLink>
   </div>
 
-  <a v-else :href="props.url">{{ props.text }}</a>
+  <a v-else :href="props.url" target="_blank">{{ props.text }}</a>
 </template>
 
 <style scoped>

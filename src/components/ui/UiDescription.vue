@@ -1,25 +1,37 @@
 <script setup>
 import { ref } from "vue";
 
+import { marked } from "marked";
+
 const props = defineProps({
   // required true
   desc_fr: String,
   desc_en: String,
 });
 
-// set the description to display first
 let bio = ref({
   lang: !props.desc_fr && props.desc_en ? "en" : "fr",
   data: !props.desc_fr && props.desc_en ? props.desc_en : props.desc_fr,
 });
+
+/**
+ * parsed raw description from markdown or html (or both) and parse it
+ * @param {string} content - desc from props via bio.data
+ *
+ * @todo use a sanatize function ? Sanatizer it's another dependency
+ */
+function parsedContent(content) {
+  return marked(content);
+}
 </script>
 
 <template>
   <div class="w-full flex flex-col items-end">
     <div class="p-4 w-full bg-gray-extralightest dark:bg-black-light">
       <p
-        class="text-xs text-gray dark:text-gray-extralight"
-        v-html="bio.data"
+        v-if="bio?.data"
+        class="text-xs text-gray dark:text-gray-extralight whitespace-pre-line"
+        v-html="parsedContent(bio.data)"
       ></p>
     </div>
     <div class="w-full h-1 bg-black dark:bg-white"></div>

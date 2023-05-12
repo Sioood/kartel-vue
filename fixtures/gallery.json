@@ -1,0 +1,9 @@
+{
+  "id": 1,
+  "url": "http://localhost:8000/v2/assets/gallery/1",
+  "label": "Exposition de sculptures",
+  "description": "Photos des sculptures exposées à la galerie d'art",
+  "media": [
+    "http://localhost:8000/v2/assets/medium/1"
+  ]
+}

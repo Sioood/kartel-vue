@@ -16,6 +16,18 @@ const router = createRouter({
     },
 
     /**
+     *
+     *  AUTH
+     *
+     */
+
+    {
+      path: "/auth",
+      name: "auth",
+      component: () => import("../pages/AuthPage.vue"),
+    },
+
+    /**
     
       Routes
     
@@ -74,6 +86,14 @@ const router = createRouter({
       ],
     },
     {
+      path: "/artists",
+      name: "artists",
+      component: () => import("../pages/ContentList.vue"),
+      meta: {
+        title: "Artistes - Kartel",
+      },
+    },
+    {
       path: "/artist/:id",
       name: "artist",
       component: () => import("../pages/ArtistProfil.vue"),
@@ -84,9 +104,9 @@ const router = createRouter({
     {
       path: "/artworks",
       name: "artworks",
-      component: () => import("../pages/artwork/ArtworksPage.vue"),
+      component: () => import("../pages/ContentList.vue"),
       meta: {
-        title: "Oeuvres - Kartel"
+        title: "Œuvres - Kartel",
       },
     },
     {
@@ -94,7 +114,7 @@ const router = createRouter({
       name: "artwork",
       component: () => import("../pages/artwork/ArtworkPage.vue"),
       meta: {
-        title: "Oeuvre - Kartel"
+        title: "Œuvre - Kartel",
       },
     },
     // For visualisation but need to be children of artist and artwork
@@ -117,6 +137,9 @@ const router = createRouter({
         import("../__examples__/__test__/ComponentComposables.vue"),
     },
   ],
+  scrollBehavior(to, from, savedPosition) {
+    return { top: 0 };
+  },
 });
 
 export default router;

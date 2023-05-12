@@ -10,7 +10,8 @@
     "out",
     "src/__examples__",
     "src/router",
-    "**config.js"
+    "**config.js",
+    "**config.dev.js"
   ],
   "reporter": ["lcov", "text-summary"]
 }

@@ -16,6 +16,11 @@ body {
   width: 7px;
 }
 
+/* ::-webkit-scrollbar:hover {
+  width: 10px;
+  margin: 0px;
+} */
+
 /* Track */
 ::-webkit-scrollbar-track {
   background: transparent;
@@ -25,6 +30,12 @@ body {
 ::-webkit-scrollbar-thumb {
   background: #888;
   border: solid white 3px;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  border: solid white 1px;
+
 }
 
 /* Handle on hover */

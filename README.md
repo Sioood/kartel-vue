@@ -27,7 +27,7 @@ npm install
 ### Run the documentation
 
 ```sh
-npm run docs:devs
+npm run docs:dev
 ```
 
 go to your localhost which run your documentation and go to _getting started_ and follow the rest of the installation and how to run the project.

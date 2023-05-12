@@ -3,8 +3,11 @@ import { ref, onMounted, onUnmounted, watch } from "vue";
 import { RouterLink, RouterView } from "vue-router";
 import { useRouter } from "vue-router";
 
+import { load } from "@/composables/interceptors";
+
 import UiSearch from "@/components/ui/UiSearch.vue";
 import UiLink from "@/components/ui/UiLink.vue";
+import AuthCard from "@/components/auth/AuthCard.vue";
 
 const router = useRouter();
 
@@ -19,12 +22,9 @@ const router = useRouter();
 let navigation = ref({
   open: false,
   children: [
-    { name: "School", path: "/school/promotion/4" },
-    { name: "Artist", path: "/artist/710" },
+    { name: "School", path: "/school/promotion/28" },
+    { name: "Artists", path: "/artists" },
     { name: "Artworks", path: "/artworks" },
-    // { name: "Artwork 1", path: "/artwork/1" },
-    // { name: "Média", path: "/media/" },
-    // { name: "Student profil", path: "/school/artist/447?student=13" },
   ],
 });
 
@@ -43,8 +43,6 @@ function switchTheme(mode) {
 
     mode === "dark" ? (theme.value = "🌒") : (theme.value = "🌖");
   }
-
-  
 
   if (mode === "toggle") {
     localStorage.theme === "dark"
@@ -92,6 +90,14 @@ onUnmounted(() => {
 </script>
 
 <template>
+  <!-- loader -->
+  <span
+    class="z-[9999] fixed top-0 left-0 block w-full h-1 bg-black origin-left"
+    :class="{ hidden: !load.status && load.progress === 0 }"
+    :data-progress="load.progress"
+    :style="{ transform: `scaleX(${load.progress / 100 + 1 / 100})` }"
+  ></span>
+
   <!-- Make a nav component like a burger menu -->
   <header class="z-30 w-full fixed top-0">
     <!-- <nav
@@ -128,20 +134,22 @@ onUnmounted(() => {
         />
 
         <li v-for="(item, index) in navigation.children" :key="index">
-          <UiLink :url="item.path" :text="item.name" data-test="nav-link" />
+          <UiLink :url="item.path" :text="$t(item.name)" data-test="nav-link" />
         </li>
         <!-- </div> -->
       </ul>
 
       <UiSearch v-if="router.currentRoute.value.path !== '/'" />
 
-      <button
+      <AuthCard />
+
+      <!-- <button
         @click="switchTheme('toggle')"
         class="w-12 h-12 hover:bg-gray-extralightest"
         data-test="toggle-theme"
       >
         {{ theme }}
-      </button>
+      </button> -->
     </nav>
 
     <nav
@@ -200,6 +208,7 @@ onUnmounted(() => {
         <div class="w-full flex justify-end">
           <UiSearch />
         </div>
+
         <ul class="flex flex-col justify-center gap-2">
           <li v-for="(item, index) in navigation.children" :key="index">
             <RouterLink
@@ -211,17 +220,20 @@ onUnmounted(() => {
               class="text-2xl font-bold after:block after:w-20 after:h-1 after:bg-black"
               :to="item.path"
             >
-              {{ item.name }}
+              {{ $t(item.name) }}
             </RouterLink>
           </li>
         </ul>
-        <div></div>
+
+        <div class="w-full flex justify-end">
+          <AuthCard />
+        </div>
       </div>
     </nav>
     <hr />
   </header>
 
-  <div class="mt-12 lg:mt-16 w-full flex gap-8">
+  <div class="mt-12 lg:mt-20 w-full flex gap-8">
     <RouterLink class="sticky top-0 hidden lg:block" to="/">
       <img
         class="m-4 sticky top-20"
@@ -232,7 +244,8 @@ onUnmounted(() => {
     </RouterLink>
 
     <!-- key detect changement and reload component if is the same route with a different id (component is already mounted) -->
-    <RouterView :key="$route.path" />
+    <RouterView />
+    <!-- <RouterView :key="$route.path" /> -->
   </div>
 </template>
 

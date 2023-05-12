@@ -4,7 +4,7 @@ import { useRouter } from "vue-router";
 import { getId } from "@/composables/getId";
 
 import { useConfigApi } from "../../stores/configApi";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 
 /**
 
@@ -12,6 +12,7 @@ import { onMounted, ref } from "vue";
 
 **/
 import UnderlineTitle from "@/components/ui/UnderlineTitle.vue";
+import PromotionStudents from "@/components/school/PromotionStudents.vue";
 
 const router = useRouter();
 
@@ -20,23 +21,41 @@ const storeApi = useConfigApi();
 let promoId = ref();
 let promoSelected = ref(promoId);
 
+watch(
+  () => router.currentRoute.value.params.id,
+  () => {
+    const route = router.currentRoute.value.fullPath;
+
+    if (route.includes("school/promotion")) {
+      promoId.value = router.currentRoute.value.params.id;
+
+      storeApi.getSelectedPromo(promoId.value);
+    }
+  }
+);
+
 function selectPromotion(id) {
   router.push(`/school/promotion/${id}`);
 }
 
-onMounted(() => {
-  promoId.value = router.currentRoute.value.params.id;;
+onMounted(async () => {
+  promoId.value = router.currentRoute.value.params.id;
 
   if (!storeApi.promotions[0]) {
-    storeApi.getPromotions();
+    await storeApi.getPromotions();
+
+    // get the second most recent promotion (avoid the recent because sometimes it's the empty one)
+    router.push(`/school/promotion/${getId(storeApi.promotions[1].url)}`);
   }
+
+  storeApi.getSelectedPromo(promoId.value);
 });
 </script>
 
 <!-- Rename to be Student / Artist view -> Promo list only for student or hidden with button for artist -->
 <template>
   <main
-    class="h-screen md:pr-20 pb-10 w-full flex flex-col md:flex-row md:divide-x divide-y md:divide-y-0"
+    class="md:pr-20 w-full h-[91svh] flex flex-col md:flex-row md:divide-x divide-y md:divide-y-0"
   >
     <div class="md:sticky top-0 py-2 px-2 flex flex-col justify-between gap-4">
       <div class="p-2 flex flex-col gap-3">
@@ -49,12 +68,12 @@ onMounted(() => {
           :fontSize="1"
         ></UnderlineTitle>
 
-        <label for="" class="w-max flex flex-col items-end md:hidden">
-          <div class="after:block after:w-full after:h-1 after:bg-black">
+        <label for="" class="w-full flex flex-col items-end md:hidden">
+          <div class="w-full after:block after:w-full after:h-1 after:bg-black">
             <select
               v-model="promoSelected"
               @change="selectPromotion(promoSelected)"
-              class="px-2 cursor-pointer"
+              class="w-full px-2 cursor-pointer"
               :class="{ 'text-gray': isNaN(promoSelected) }"
             >
               <option disabled :value="undefined">
@@ -104,7 +123,9 @@ onMounted(() => {
       </ul>
     </div>
     <!-- Key reload everytime a changement occur -->
-    <router-view v-if="promoId" :promoId="promoId" />
+    <!-- <router-view v-if="promoId" :promoId="promoId" /> -->
+    <PromotionStudents />
+    <!-- {{ storeApi.promotion.students }} -->
   </main>
 </template>
 

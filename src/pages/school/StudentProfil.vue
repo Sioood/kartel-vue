@@ -111,13 +111,13 @@ onMounted(() => {
           :desc_en="artist.bio_en"
         />
 
-        <!-- Can be component to, props Title (Oeuvres or Média) -->
+        <!-- Can be component to, props Title (Œuvres or Média) -->
         <div>
           <div
             class="mb-2 w-full after:block after:w-full after:h-1 after:bg-black after:dark:bg-white"
           >
             <div class="flex items-end justify-between">
-              <h2 class="p-2 text-2xl font-bold uppercase">Oeuvres</h2>
+              <h2 class="p-2 text-2xl font-bold uppercase">Œuvres</h2>
               <h6 class="text-xs text-gray">Sélectionner</h6>
             </div>
           </div>

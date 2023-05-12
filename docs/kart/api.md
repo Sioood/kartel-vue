@@ -38,6 +38,7 @@ Vary: Accept
     "school/student-application-setup": "https://api.lefresnoy.net/v2/school/student-application-setup",
     "school/student-search": "https://api.lefresnoy.net/v2/school/student-search",
     "production/artwork": "https://api.lefresnoy.net/v2/production/artwork",
+    "production/artwork-keywords": "https://api.lefresnoy.net/v2/production/artwork-keywords",
     "production/artwork-search": "https://api.lefresnoy.net/v2/production/artwork-search",
     "production/film": "https://api.lefresnoy.net/v2/production/film",
     "production/film-keywords": "https://api.lefresnoy.net/v2/production/film-keywords",
@@ -62,45 +63,71 @@ Vary: Accept
 }
 ```
 
+## Authentification
+
+Les requêtes qui ont la possibilité d'une authentification seront munies de:
+::: tip
+authentification: true,
+required: false.
+:::
+
+::: tip
+Requête protégée par un JSON WEB TOKEN. <br/>
+Nécessite de placer le token dans un headers "Authorization" et de son champ "JWT {token}" (Remplacer {token} par le vrai token JWT)
+:::
+
+```
+method: 'GET',
+headers: {
+  'Content-Type': 'application/json'
+  'Authorization': 'JWT {token}'
+
+},
+```
+
 ## People
 
 ## User
 
 ### Input request
 
-```GET
+::: tip
+authentification: true,
+required: false.
+:::
+
+```
 https://api.lefresnoy.net/v2/people/user
 ```
 
-### parameters
+### Parameters
 
 ::: tip
 Pour constuire des paramètres de recherche il faut fonctionner de la manière suivante :<br/>
-- La séparation entre le chemin et les paramètres s'effectue par un *?*, le premier paramètre sera toujours précédé d'un "?".
-- Pour ajouter d'autres paramètres il faudra les séparer d'une *&*.
-- Le paramètre sera suivi d'un *=* qui sera lui même suivi de la valeur voulue pour ce paramètre.
+
+- La séparation entre le chemin et les paramètres s'effectue par un _?_, le premier paramètre sera toujours précédé d'un "?".
+- Pour ajouter d'autres paramètres il faudra les séparer d'une _&_.
+- Le paramètre sera suivi d'un _=_ qui sera lui même suivi de la valeur voulue pour ce paramètre.
 
 EX: http://api.lefresnoy.net/v2/school/artwork-search?q=10:10&type=installation
 
-- ?search=10:10 -> premier paramètre donc précédé d'un *?*.
-- &type=installation -> deuxième paramètre donc précédé d'une *&*.
+- ?search=10:10 -> premier paramètre donc précédé d'un _?_.
+- &type=installation -> deuxième paramètre donc précédé d'une _&_.
 
 <br/><br/>
 Remplacer ce qui se trouve entre accolades par la donnée voulue.
 Exemple : _{username}_ -> selestane
 :::
 
-```
-?search={username}
-```
+| **Parameter** | **Type** | **Description**  | **Example**       |
+| ------------- | -------- | ---------------- | ----------------- |
+| /:id          | Number   | The id of a user | /v2/people/user/1 |
 
-### Example
+| **Query** | **Type** | **Description** | **Example**                      |
+| --------- | -------- | --------------- | -------------------------------- |
+| search    | String   | A search text   | /v2/people/user?search=selestane |
 
-```GET
-https://api.lefresnoy.net/v2/people/user?search=selestane
-```
-
-### Expected output
+### Response
 
 ```json
 // 🟢 200 - Result
@@ -112,13 +139,57 @@ https://api.lefresnoy.net/v2/people/user?search=selestane
     "first_name": "Selene",
     "last_name": "Lamstane",
     "profile": {
-            "id": 23,
-            "photo": "http://api.lefresnoy.net/media/people/fresnoyprofile/selestane.jpg",
-            "nationality": "FRA",
-            "is_artist": true,
-            "is_staff": false,
-            "is_student": true
-        }
+      "id": 23,
+      "photo": "http://api.lefresnoy.net/media/people/fresnoyprofile/selestane.jpg",
+      "nationality": "FRA",
+      "is_artist": true,
+      "is_staff": false,
+      "is_student": true
+    }
+  }
+]
+```
+
+### Authentified response
+
+```json
+// 🟢 200 - Result
+[
+  {
+    "id": 1,
+    "is_superuser": false,
+    "url": "http://localhost:8000/v2/people/user/1",
+    "username": "selestane",
+    "first_name": "Selene",
+    "last_name": "Lamstane",
+    "email": "selestane@kartel.net",
+    "profile": {
+      "id": 1,
+      "photo": null,
+      "gender": "female",
+      "cursus": "",
+      "nationality": "FR",
+      "birthdate": "24/03/2004",
+      "birthplace": "Tourcoing",
+      "birthplace_country": "France",
+      "mother_tongue": "Français",
+      "other_language": "Anglais",
+      "homeland_country": "FR",
+      "homeland_address": "123 Rue du Fresnoy",
+      "homeland_zipcode": "59200",
+      "homeland_town": "Tourcoing",
+      "homeland_phone": "06 59 84 23 97",
+      "residence_phone": "06 59 84 23 97",
+      "residence_country": "France",
+      "residence_zipcode": "59200",
+      "residence_address": "123 Rue du Fresnoy",
+      "residence_town": "Tourcoing",
+      "social_insurance_number": "",
+      "family_status": "Célibataire",
+      "is_artist": true,
+      "is_staff": false,
+      "is_student": false
+    }
   }
 ]
 ```
@@ -129,29 +200,26 @@ https://api.lefresnoy.net/v2/people/user?search=selestane
 
 ### Input request
 
-::: warning
-Requête protégée par un JSON WEB TOKEN. <br/>
-Nécessite de placer le token dans un headers "Authorization" et de son champ "JWT {token}" (Remplacer {token} par le vrai token JWT)
+::: tip
+authentification: true,
+required: true.
 :::
 
-```GET
-method: 'GET',
-headers: {
-  'Content-Type': 'application/json'
-  'Authorization': 'JWT {token}'
-
-},
-
+```
 https://api.lefresnoy.net/v2/people/userprofile
 ```
 
-### parameters
+### Parameters
 
-::: danger
-parameters possible à mettre à jour.
-:::
+| **Parameter** | **Type** | **Description**         | **Example**              |
+| ------------- | -------- | ----------------------- | ------------------------ |
+| /:id          | Number   | The id of a userprofile | /v2/people/userprofile/1 |
 
-### Expected output
+| **Query** | **Type** | **Description** | **Example**                             |
+| --------- | -------- | --------------- | --------------------------------------- |
+| search    | String   | A search text   | /v2/people/userprofile?search=selestane |
+
+### Response
 
 ```json
 // 🟢 200 - Result
@@ -161,7 +229,7 @@ parameters possible à mettre à jour.
   "photo": null,
   "gender": "female",
   "cursus": "",
-  "nationality": "Française",
+  "nationality": "FR",
   "birthdate": "24/03/2004",
   "birthplace": "Tourcoing",
   "birthplace_country": "France",
@@ -189,49 +257,52 @@ parameters possible à mettre à jour.
 
 ### Input request
 
-```GET
+```
 https://api.lefresnoy.net/v2/people/artist
 ```
 
-### parameters
+### Parameters
 
-::: info
-Paramètre de recherche basé sur l'username du profil user. Pas très pratique.
-:::
+| **Parameter** | **Type** | **Description**     | **Example**         |
+| ------------- | -------- | ------------------- | ------------------- |
+| /:id          | Number   | The id of an artist | /v2/people/artist/1 |
 
-```
-?search={username}
-page_size={Number}
-page={Number}
-```
+| **Query**                                   | **Type** | **Description**                                   | **Example**                                                          |
+| ------------------------------------------- | -------- | ------------------------------------------------- | -------------------------------------------------------------------- |
+| search                                      | String   | A username of an artist based on an user          | /v2/people/artist?search=selestane                                   |
+| page_size                                   | Number   | The length result of the page                     | /v2/people/artist?page_size=10                                       |
+| page                                        | Number   | The offset result of the page                     | /v2/people/artist?page=3                                             |
+| artworks\_\_isnull                          | Boolean  | Results based on artist have artworks or not      | /v2/people/artist?artworks\_\_isnull=false                           |
+| student\_\_isnull                           | Boolean  | Results based on artist is a student or not       | /v2/people/artist?student\_\_isnull=false                            |
+| user\_\_profile\_\_nationality\_\_icontains | String   | Nationality of an artist based on his userprofile | /v2/people/artist?user\_\_profile\_\_nationality\_\_icontains=FR+FRA |
 
-### Example
-
-```GET
-https://api.lefresnoy.net/v2/people/artist?search=selestane
-```
-
-```GET
-https://api.lefresnoy.net/v2/people/artist?page=2&page_size=20
-```
-
-### Expected output
+### Response
 
 ```json
 // 🟢 200 - Result
 [
   {
     "id": 1,
-    "url": "https://api.lefresnoy.net/v2/people/artist/1",
+    "url": "http://localhost:8000/v2/people/artist/1",
     "nickname": "selestane",
     "bio_short_fr": "",
     "bio_short_en": "",
     "bio_fr": "",
     "bio_en": "",
-    "twitter_account": "selestane",
-    "facebook_profile": "selestane",
-    "user": "https://api.lefresnoy.net/v2/people/user/1",
-    "websites": ["https://api.lefresnoy.net/v2/common/website/1"]
+    "twitter_account": "Selestane",
+    "facebook_profile": "Selestane",
+    "user": "http://localhost:8000/v2/people/user/1",
+    "websites": ["http://localhost:8000/v2/common/website/241"],
+    "artworks": [
+      {
+        "url": "http://localhost:8000/v2/production/artwork/388",
+        "title": "1"
+      },
+      {
+        "url": "http://localhost:8000/v2/production/artwork/334",
+        "title": "2"
+      }
+    ]
   }
 ]
 ```
@@ -240,27 +311,21 @@ https://api.lefresnoy.net/v2/people/artist?page=2&page_size=20
 
 ### Input request
 
-```GET
+```
 https://api.lefresnoy.net/v2/people/staff
 ```
 
-### parameters
+### Parameters
 
-::: info
-Paramètre de recherche basé sur l'username du profil user. Pas très pratique.
-:::
+| **Parameter** | **Type** | **Description**   | **Example**        |
+| ------------- | -------- | ----------------- | ------------------ |
+| /:id          | Number   | The id of a staff | /v2/people/staff/1 |
 
-```
-?search={username}
-```
+| **Query** | **Type** | **Description**                        | **Example**                       |
+| --------- | -------- | -------------------------------------- | --------------------------------- |
+| search    | String   | A search string based on user username | /v2/people/staff?search=selestane |
 
-### Example
-
-```GET
-https://api.lefresnoy.net/v2/people/staff?search=selestane
-```
-
-### Expected output
+### Response
 
 ```json
 // 🟢 200 - Result
@@ -289,11 +354,17 @@ https://api.lefresnoy.net/v2/people/staff?search=selestane
 
 ### Input request
 
-```GET
+```
 https://api.lefresnoy.net/v2/people/organization
 ```
 
-### Expected output
+### Parameters
+
+| **Parameter** | **Type** | **Description**           | **Example**               |
+| ------------- | -------- | ------------------------- | ------------------------- |
+| /:id          | Number   | The id of an organization | /v2/people/organization/1 |
+
+### Response
 
 ```json
 // 🟢 200 - Result
@@ -314,11 +385,17 @@ https://api.lefresnoy.net/v2/people/organization
 
 ### Input request
 
-```GET
+```
 https://api.lefresnoy.net/v2/people/organization-staff
 ```
 
-### Expected output
+### Parameters
+
+| **Parameter** | **Type** | **Description**                 | **Example**                     |
+| ------------- | -------- | ------------------------------- | ------------------------------- |
+| /:id          | Number   | The id of an organization-staff | /v2/people/organization-staff/1 |
+
+### Response
 
 ```json
 // 🟢 200 - Result
@@ -337,11 +414,17 @@ https://api.lefresnoy.net/v2/people/organization-staff
 
 ### Input request
 
-```GET
+```
 https://api.lefresnoy.net/v2/school/promotion
 ```
 
-### Expected output
+### Parameters
+
+| **Parameter** | **Type** | **Description**       | **Example**             |
+| ------------- | -------- | --------------------- | ----------------------- |
+| /:id          | Number   | The id of a promotion | /v2/school/promotion/26 |
+
+### Response
 
 ```json
 // 🟢 200 - Result
@@ -365,24 +448,24 @@ https://api.lefresnoy.net/v2/school/promotion
 
 ### Input request
 
-```GET
+```
 https://api.lefresnoy.net/v2/school/student
 ```
 
-### parameters
+### Parameters
 
-::: info
-Les paramètres de recherche se basent sur des id's par forcément connus au moment de la requête.
-:::
+| **Parameter** | **Type** | **Description**     | **Example**          |
+| ------------- | -------- | ------------------- | -------------------- |
+| /:id          | Number   | The id of a student | /v2/school/student/1 |
 
-```
-?artist={id}
-&ordering={user__last_name or -user__last_name}
-&promotion={id}
-&user={id}
-```
+| **Query** | **Type** | **Description**                                            | **Example**                                   |
+| --------- | -------- | ---------------------------------------------------------- | --------------------------------------------- |
+| artist    | Number   | An id based on his artist profile                          | /v2/school/student?artist=1                   |
+| ordering  | String   | Order results with user\_\_last_name or -user\_\_last_name | /v2/school/student?ordering=user\_\_last_name |
+| promotion | Number   | An id based on a promotion                                 | /v2/school/student?promotion=26               |
+| user      | Number   | An id based of his user profile                            | /v2/school/student?user=1                     |
 
-### Expected output
+### Response
 
 ::: warning
 
@@ -410,33 +493,83 @@ Un utilisateur peut avoir l'id "2" d'_x_ et le "333" d'_user_.
 
 ### Input request
 
-```GET
+::: tip
+authentification: true,
+required: true.
+:::
+
+```
 https://api.lefresnoy.net/v2/school/student-application
 ```
 
-### parameters
+### Parameters
 
-```
-?application_completed={true or false}
-&application_complete=&selected_for_interview={true or false}
-&remote_interview={true or false}
-&wait_listed_for_interview={true or false}
-&selected={true or false}
-&unselected={true or false}
-&campaign__is_current_setup={true or false}
-&wait_listed={true or false}
-```
+| **Parameter** | **Type** | **Description**                 | **Example**                      |
+| ------------- | -------- | ------------------------------- | -------------------------------- |
+| /:id          | Number   | The id of a student-application | /v2/school/student-application/1 |
 
-### Expected output
+| **Query**                    | **Type** | **Description**                                    | **Example**                                           |
+| ---------------------------- | -------- | -------------------------------------------------- | ----------------------------------------------------- |
+| search                       | String   | A search string based on a user username           | /v2/school/student?search=selestane                   |
+| application_completed        | Boolean  | If the application is fully completed              | /v2/school/student?application_completed=true         |
+| selected_for_interview       | Boolean  | If the applicant got selected for an interview     | /v2/school/student?selected_for_interview=true        |
+| remote_interview             | Boolean  | If the interview is in remote                      | /v2/school/student?remote_interview=false             |
+| wait_listed_for_interview    | Boolean  | If the applicant is in a waitlist for an interview | /v2/school/student?wait_listed_for_interview=true     |
+| selected                     | Boolean  | If the applicant is selected                       | /v2/school/student?selected=true                      |
+| unselected                   | Boolean  | If the applicant is unselected                     | /v2/school/student?unselected=true                    |
+| campaign\_\_is_current_setup | Boolean  | If the applicant is in the current campaign        | /v2/school/student?ucampaign\_\_is_current_setup=true |
+| wait_listed                  | Boolean  | If the applicant is in a waitlist                  | /v2/school/student?wait_listed=true                   |
+
+### Response
 
 ```json
 // 🟢 200 - Result
 [
   {
     "id": 1,
-    "url": "https://api.lefresnoy.net/v2/school/student-application/1"
+    "url": "http://localhost:8000/v2/school/student-application/1",
+    "campaign": null,
+    "artist": "http://localhost:8000/v2/people/artist/11",
+    "current_year_application_count": "2018-379",
+    "identity_card": null,
+    "INE": null,
+    "first_time": true,
+    "last_applications_years": "",
+    "remote_interview": true,
+    "remote_interview_type": "skype",
+    "remote_interview_info": "France",
+    "master_degree": "true",
+    "experience_justification": null,
+    "cursus_justifications": null,
+    "curriculum_vitae": "http://localhost:8000/media/school/studentapplication/cv.pdf",
+    "justification_letter": "http://localhost:8000/media/school/studentapplication/letter.pdf",
+    "binomial_application": false,
+    "binomial_application_with": "",
+    "considered_project_1": "http://localhost:8000/media/school/studentapplication/project1.pdf",
+    "artistic_referencies_project_1": "http://localhost:8000/media/school/studentapplication/references1.pdf",
+    "considered_project_2": "http://localhost:8000/media/school/studentapplication/project1.pdf",
+    "artistic_referencies_project_2": "http://localhost:8000/media/school/studentapplication/references2.pdf",
+    "doctorate_interest": false,
+    "presentation_video": "https://player.vimeo.com/video/1",
+    "presentation_video_details": "Vidéo expérimentale",
+    "presentation_video_password": "",
+    "free_document": "http://localhost:8000/media/school/studentapplication/document.pdf",
+    "remark": "J'ai connu le fresnoy à travers sa communication",
+    "application_completed": true,
+    "application_complete": true,
+    "wait_listed_for_interview": false,
+    "position_in_interview_waitlist": null,
+    "selected_for_interview": true,
+    "interview_date": null,
+    "selected": true,
+    "unselected": false,
+    "wait_listed": false,
+    "position_in_waitlist": null,
+    "observation": "{}",
+    "created_on": "2018-04-26T02:05:43.385451+02:00",
+    "updated_on": "2018-10-09T07:59:51.367180+02:00"
   }
-]
+] 
 ```
 
 ---
@@ -445,7 +578,8 @@ https://api.lefresnoy.net/v2/school/student-application
 
 ### Input request
 
-```POST
+```
+POST
 https://api.lefresnoy.net/v2/school/student-application/user_register
 ```
 
@@ -460,7 +594,7 @@ body
 }
 ```
 
-### Expected output
+### Response
 
 ```json
 // 🟢 200 - Result
@@ -473,7 +607,8 @@ body
 
 ### Input request
 
-```POST
+```
+POST
 https://api.lefresnoy.net/v2/school/student-application/user_resend_activation_email
 ```
 
@@ -488,7 +623,7 @@ body
 }
 ```
 
-### Expected output
+### Response
 
 ```json
 // 🟢 200 - Result
@@ -501,25 +636,12 @@ body
 
 ### Input request
 
-```GET
-https://api.lefresnoy.net/v2/school/student-search
+:::warning
+Pas à jour
+:::
+
 ```
-
-Student Autocomplete Search List
-
-### Expected output
-
-```json
-// 🟢 200 - Result
-[
-  {
-    "text": "",
-    "firstname": "Selene",
-    "lastname": "Lamstane",
-    "promotion": "Marguerite Duras (2021-2023)",
-    "content_auto": ""
-  }
-]
+https://api.lefresnoy.net/v2/school/student-search
 ```
 
 ## Production
@@ -528,24 +650,37 @@ Student Autocomplete Search List
 
 ### Input request
 
-```GET
+```
 https://api.lefresnoy.net/v2/production/artwork
 ```
 
 ### Parameters
 
-Rechercher des artworks selon ses ou son auteur.
+:::tip
+Plus de paramètres peuvent être ajouter au fur et à mesure de l'évolution des besoins de filtre et de recherche
 
-```
-authors={artist_id}
-```
+Si _production_year_ n'est pas précisé, c'est une liste de tous les artworks qui en résulte.
+_page_size_ et _page_ ne pas sont obligatoires
+:::
+
+| **Parameter** | **Type** | **Description**                 | **Example**              |
+| ------------- | -------- | ------------------------------- | ------------------------ |
+| /:id          | Number   | The id of a student-application | /v2/production/artwork/1 |
+
+| **Query**       | **Type** | **Description**                                    | **Example**                                 |
+| --------------- | -------- | -------------------------------------------------- | ------------------------------------------- |
+| page_size       | Number   | The length result of the page                      | /v2/production/artwork?page_size=10         |
+| page            | Number   | The offset result of the page                      | /v2/production/artwork?page=3               |
+| keywords        | String   | A tag keyword                                      | /v2/production/artwork?keyword=amour        |
+| production_year | Number   | The production year of an artwork                  | /v2/production/artwork?production_year=2020 |
+| type            | Number   | The artwork type [film, installation, performance] | /v2/production/artwork?type=film            |
 
 ### List and filters
 
 ### Headers
 
 :::warning
-Il faut récupérer les headers avec ''
+Il faut récupérer les headers avec ?
 :::
 
 _next_ et _previous_ servent d'offset et de repère pour de futures requêtes en fonction de la page actuelle.
@@ -559,28 +694,13 @@ headers:{
 }
 ```
 
-### Parameters
-
-:::tip
-Plus de paramètres peuvent être ajouter au fur et à mesure de l'évolution des besoins de filtre et de recherche
-:::
-
-Si _production_year_ n'est pas précisé, c'est une liste de tous les artworks qui en résulte.
-_page_size_ et _page_ sont obligatoires
-
-```
-?production_year={year}
-page_size={Number}
-page={Number}
-```
-
 ### Example
 
-```GET
+```
 http://api.lefresnoy.net/v2/production/artwork?production_year=2022&page_size=3&page=5
 ```
 
-### Expected output
+### Response
 
 ```json
 // 🟢 200 - Result
@@ -635,13 +755,35 @@ http://api.lefresnoy.net/v2/production/artwork?production_year=2022&page_size=3&
 
 <br/><br/>
 
+```
+https://api.lefresnoy.net/v2/production/artwork-keywords
+```
+
+### Response
+
+```json
+// 🟢 200 - Result
+|
+[
+  {
+        "id": 1,
+        "name": "Amour",
+        "slug": "Amour"
+    },
+]
+```
+
+---
+
+<br/><br/>
+
 ### Input request
 
-```GET
+```
 https://api.lefresnoy.net/v2/production/film
 ```
 
-### Expected output
+### Response
 
 ```json
 // 🟢 200 - Result
@@ -701,11 +843,11 @@ https://api.lefresnoy.net/v2/production/film
 
 ### Input request
 
-```GET
+```
 https://api.lefresnoy.net/v2/production/film-keywords
 ```
 
-### Expected output
+### Response
 
 ```json
 // 🟢 200 - Result
@@ -724,11 +866,11 @@ https://api.lefresnoy.net/v2/production/film-keywords
 
 ### Input request
 
-```GET
+```
 https://api.lefresnoy.net/v2/production/event
 ```
 
-### Expected output
+### Response
 
 ```json
 // 🟢 200 - Result
@@ -769,23 +911,17 @@ https://api.lefresnoy.net/v2/production/event
 
 ### Input request
 
-```GET
+```
 https://api.lefresnoy.net/v2/production/itinerary
 ```
 
 ### Parameters
 
-```
-?event={id}
-```
+| **Query** | **Type** | **Description** | **Example**                      |
+| --------- | -------- | --------------- | -------------------------------- |
+| event     | Number   | An event id     | /v2/production/itinerary?event=1 |
 
-### Example
-
-```
-https://api.lefresnoy.net/v2/production/itinerary?event=1
-```
-
-### Expected output
+### Response
 
 ```json
 // 🟢 200 - Result
@@ -810,11 +946,11 @@ https://api.lefresnoy.net/v2/production/itinerary?event=1
 
 ### Input request
 
-```GET
+```
 https://api.lefresnoy.net/v2/production/film-genre
 ```
 
-### Expected output
+### Response
 
 ```json
 // 🟢 200 - Result
@@ -832,11 +968,11 @@ https://api.lefresnoy.net/v2/production/film-genre
 
 ### Input request
 
-```GET
+```
 https://api.lefresnoy.net/v2/production/installation
 ```
 
-### Expected output
+### Response
 
 ```json
 // 🟢 200 - Result
@@ -892,11 +1028,11 @@ https://api.lefresnoy.net/v2/production/installation
 
 ### Input request
 
-```GET
+```
 https://api.lefresnoy.net/v2/production/installation-genre
 ```
 
-### Expected output
+### Response
 
 ```json
 // 🟢 200 - Result
@@ -914,11 +1050,11 @@ https://api.lefresnoy.net/v2/production/installation-genre
 
 ### Input request
 
-```GET
+```
 https://api.lefresnoy.net/v2/production/performance
 ```
 
-### Expected output
+### Response
 
 ```json
 // 🟢 200 - Result
@@ -979,11 +1115,11 @@ https://api.lefresnoy.net/v2/production/performance
 
 ### Input request
 
-```GET
+```
 http://api.lefresnoy.net/v2/production/task
 ```
 
-### Expected output
+### Response
 
 ```json
 // 🟢 200 - Result
@@ -1003,11 +1139,11 @@ http://api.lefresnoy.net/v2/production/task
 
 ### Input request
 
-```GET
+```
 https://api.lefresnoy.net/v2/production/collaborator
 ```
 
-### Expected output
+### Response
 
 ```json
 // 🟢 200 - Result
@@ -1031,11 +1167,11 @@ https://api.lefresnoy.net/v2/production/collaborator
 
 ### Input request
 
-```GET
+```
 https://api.lefresnoy.net/v2/production/collaborator
 ```
 
-### Expected output
+### Response
 
 ```json
 // 🟢 200 - Result
@@ -1051,11 +1187,11 @@ https://api.lefresnoy.net/v2/production/collaborator
 
 ### Input request
 
-```GET
+```
 https://api.lefresnoy.net/v2/diffusion/place
 ```
 
-### Expected output
+### Response
 
 ```json
 // 🟢 200 - Result
@@ -1081,11 +1217,11 @@ https://api.lefresnoy.net/v2/diffusion/place
 
 ### Input request
 
-```GET
+```
 https://api.lefresnoy.net/v2/diffusion/meta-award
 ```
 
-### Expected output
+### Response
 
 ```json
 // 🟢 200 - Result
@@ -1110,11 +1246,11 @@ https://api.lefresnoy.net/v2/diffusion/meta-award
 
 ### Input request
 
-```GET
+```
 https://api.lefresnoy.net/v2/diffusion/award
 ```
 
-### Expected output
+### Response
 
 ```json
 // 🟢 200 - Result
@@ -1141,11 +1277,11 @@ https://api.lefresnoy.net/v2/diffusion/award
 
 ### Input request
 
-```GET
+```
 https://api.lefresnoy.net/v2/diffusion/meta-event
 ```
 
-### Expected output
+### Response
 
 ```json
 // 🟢 200 - Result
@@ -1165,11 +1301,11 @@ https://api.lefresnoy.net/v2/diffusion/meta-event
 
 ### Input request
 
-```GET
+```
 https://api.lefresnoy.net/v2/diffusion/diffusion
 ```
 
-### Expected output
+### Response
 
 ```json
 // 🟢 200 - Result
@@ -1188,11 +1324,11 @@ https://api.lefresnoy.net/v2/diffusion/diffusion
 
 ### Input request
 
-```GET
+```
 https://api.lefresnoy.net/v2/common/beacon
 ```
 
-### Expected output
+### Response
 
 ```json
 // 🟢 200 - Result
@@ -1215,11 +1351,11 @@ https://api.lefresnoy.net/v2/common/beacon
 
 ### Input request
 
-```GET
+```
 https://api.lefresnoy.net/v2/common/website
 ```
 
-### Expected output
+### Response
 
 ```json
 // 🟢 200 - Result
@@ -1239,11 +1375,11 @@ https://api.lefresnoy.net/v2/common/website
 
 ### Input request
 
-```GET
+```
 https://api.lefresnoy.net/v2/assets/gallery
 ```
 
-### Expected output
+### Response
 
 ```json
 // 🟢 200 - Result
@@ -1267,11 +1403,11 @@ https://api.lefresnoy.net/v2/assets/gallery
 
 ### Input request
 
-```GET
+```
 https://api.lefresnoy.net/v2/assets/medium
 ```
 
-### Expected output
+### Response
 
 :::warning
 Pas de réponse. <br/>
@@ -1288,27 +1424,24 @@ Besoin de préciser l'assets voulu dans l'url de la requête.
 
 ### Input request
 
-```GET
+```
 http://api.lefresnoy.net/v2/production/artwork-search
 ```
 
 ### Parameters
 
-```GET
-?q={String}
-type={String(film,installation...)}
-genres={String(photographie, fiction, documentaire...)}
-keywords={String}
-shooting_place={String(Paris, Marseille, Tourcoing...)}
-```
+| **Query**       | **Type** | **Description**                                    | **Example**                                        |
+| --------------- | -------- | -------------------------------------------------- | -------------------------------------------------- |
+| q               | String   | A string search query based on artwork title       | /v2/production/artwork-search?q=10:10              |
+| page_size       | Number   | The length result of the page                      | /v2/production/artwork-search?page_size=10         |
+| page            | Number   | The offset result of the page                      | /v2/production/artwork-search?page=3               |
+| keywords        | String   | A tag keyword                                      | /v2/production/artwork-search?keyword=amour        |
+| production_year | Number   | The production year of an artwork                  | /v2/production/artwork-search?production_year=2020 |
+| type            | Number   | The artwork type [film, installation, performance] | /v2/production/artwork-search?type=film            |
+| genres          | String   | A genre (only for film type)                       | /v2/production/artwork-search?genres=documentaire  |
+| shooting_place  | String   | A shooting_place (only for film type)              | /v2/production/artwork-search?shooting_place=paris |
 
-### Example
-
-```GET
-http://api.lefresnoy.net/v2/school/artwork-search?q=10:10
-```
-
-### Expected output
+### Response
 
 ```json
 // 🟢 200 - Result
@@ -1367,23 +1500,17 @@ http://api.lefresnoy.net/v2/school/artwork-search?q=10:10
 
 ### Input request
 
-```GET
+```
 http://api.lefresnoy.net/v2/school/student-search
 ```
 
 ### Parameters
 
-```GET
-?q={something}
-```
+| **Query** | **Type** | **Description**                              | **Example**                               |
+| --------- | -------- | -------------------------------------------- | ----------------------------------------- |
+| q         | String   | A string search query based on user username | /v2/production/student-search?q=selestane |
 
-### Example
-
-```GET
-http://api.lefresnoy.net/v2/school/student-search?q=selestane
-```
-
-### Expected output
+### Response
 
 ```json
 // 🟢 200 - Result
@@ -1407,7 +1534,7 @@ http://api.lefresnoy.net/v2/school/student-search?q=selestane
 
 ### Input request
 
-```GET
+```
 http://api.lefresnoy.net/v2/people/artist-search
 ```
 
@@ -1420,18 +1547,12 @@ Les Country code ont iso 2 et 3 lettres. La recherche d'un peut exclure l'autre 
 Pour l'instant il faut donc combiner les 2 dans la recherche : nationality=FR{operator or (!need to update)}FRA.
 :::
 
-```GET
-?q={something}
-&nationality={Country Code iso2,3}
-```
+| **Query**   | **Type** | **Description**                              | **Example**                              |
+| ----------- | -------- | -------------------------------------------- | ---------------------------------------- |
+| q           | String   | A string search query based on user username | /v2/production/artist-search?q=selestane |
+| nationality | String   | A nationality based on userprofile           | /v2/production/artist-search?q=FR+FRA    |
 
-### Example
-
-```GET
-http://api.lefresnoy.net/v2/people/artist-search?q=selestane&nationality=FR{operator or (!need to update)}FRA
-```
-
-### Expected output
+### Response
 
 ```json
 // 🟢 200 - Result

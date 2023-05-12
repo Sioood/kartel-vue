@@ -1,0 +1,7 @@
+{
+  "url": "http://localhost:8000/v2/diffusion/diffusion/1",
+  "first": null,
+  "on_competition": false,
+  "event": "http://localhost:8000/v2/production/event/1",
+  "artwork": "http://localhost:8000/v2/production/artwork/1"
+}
